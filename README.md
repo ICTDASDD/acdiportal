@@ -1,4 +1,4 @@
-<p align="center"><a href="https://www.acdicoop.com/" target="_blank"><img src="https://www.acdicoop.com/img/webapp_logo.png" width="400"></a></p>
+<p align="center"><a href="https://www.acdicoop.com/" target="_blank"><img src="https://www.acdicoop.com/img/webapp_logo.png" width="400" height="199"></a></p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
