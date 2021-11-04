@@ -7,56 +7,33 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About ACDIMPC PORTAL
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The WebApp will act as the Container or Core of all the application within the cooperative. It will allow us to centralize data, design consistently, increase security, monitor and implement user roles, and make best use of implementations. Generally, all applications developed under this platform will be labeled as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- WebApp - the core system, it unifies all the apps within the cooperative.
+- Department App or Top Management App - the system that focuses on department specific function (tasking, monitoring, etc).
+- Interconnected App - system that are co-related to other department, individual or other system.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## APP SCOPING
 
-## Learning Laravel
+- It is important to identify the category into which each application will fall before developing or upgrading it.
+- Implementing an effective Sofware Paradigm is a must.
+- Development full/complete documentation. Recommend to use third party platform for all project monitoring.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Development Prioritization
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The developer should develop the WebApp before developing other systems. As a result, future development can adapt to the app's pattern or template. WebApp will also function as both core and container for all upcoming development within the cooperative.
 
-## Laravel Sponsors
+After The development of the WebApp, Departamental and Top Management App should follow. By doing so, developers can create platforms that have unique functionality compared to other departments.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+And finally after developing the WebApp and Identified which department will be using it tru Department App we can now start the development of Interconnected App (ex: AHRIS, DMS, DSB, etc.)
 
-### Premium Partners
+## App Development
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+Obtaining a Technical Working Group is necessary before beginning the development. Phasing and scoping should be strictly followed.
 
-## Contributing
+One project at a time. The developer can then concentrate on developing the target application with the quality output we expect.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Front-end and Back-end Developer should be identified.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
