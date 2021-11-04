@@ -37,3 +37,11 @@ One project at a time. The developer can then concentrate on developing the targ
 
 Front-end and Back-end Developer should be identified.
 
+## Targeted App
+
+- ACDI MPC EMP_Portal
+- AHRIS
+- Dynamic Survey Builder (Uploaded on other server)
+- ICTD Monitoring (Daily Backup Monitoring - ONHOLD)
+- DMS ONHOLD)
+- ONLINE VOTING SYSTEM (SAGA22 PRIORITY)
