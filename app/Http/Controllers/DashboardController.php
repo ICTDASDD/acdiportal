@@ -19,13 +19,13 @@ class DashboardController extends Controller
 
 
             // AHRIS admin
-            if(Auth::user()->hasRole('admin-ahris')){
+            if(Auth::user()->hasRole('ahris-admin')){
                 return view('ahris.admin.monitoring',['title' => 'Monitoring', 'activeparents' => 'Dashboard']);
             }
 
             
             // AHRIS access manager
-            if(Auth::user()->hasRole('admin-access')){
+            if(Auth::user()->hasRole('ahris-access')){
                 return view('ahris.access.monitoring',['title' => 'Monitoring', 'activeparents' => 'Dashboard']);
             }
 

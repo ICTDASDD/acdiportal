@@ -58,8 +58,8 @@
               </p>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-              <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
-              <a class="dropdown-item" href="{{route('settings')}}">Settings</a>
+              <a class="dropdown-item" href="{{route('AhrisAccessProfile')}}">Profile</a>
+              <a class="dropdown-item" href="{{route('AhrisAccessSettings')}}">Settings</a>
               <div class="dropdown-divider"></div>
 
 

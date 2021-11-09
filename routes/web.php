@@ -1,6 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AhrisAdminController;
+use App\Http\Controllers\AhrisAccessController;
+use App\Http\Controllers\dsbAdminController;
+use App\Http\Controllers\dsbCreatorController;
+use App\Http\Controllers\dsbReportController;
+use App\Http\Controllers\DivHeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,30 +48,42 @@ Route::group(['middleware' => ['auth', 'role:superadministrator']], function() {
     Route::get('spadmin/ahris', 'App\Http\Controllers\DashboardController@ahris')->name('superadmin.ahris');
 });
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////// ------- AHRIS ------- ////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //auth route for ahris admin
-Route::group(['middleware' => ['auth', 'role:admin-ahris']], function() {
-    Route::get('ahris/admin/profile', 'App\Http\Controllers\AhrisAdminController@profile')->name('ahris/admin/profile');
-    Route::get('ahris/admin/settings', 'App\Http\Controllers\AhrisAdminController@settings')->name('ahris/admin/settings');
-    Route::get('ahris/admin/reports', 'App\Http\Controllers\AhrisAdminController@reports')->name('ahris/admin/reports');
-    Route::get('ahris/admin/freedomwall', 'App\Http\Controllers\AhrisAdminController@wall')->name('ahris/admin/freedomwall');
-    Route::get('ahris/admin/users', 'App\Http\Controllers\AhrisAdminController@activeusers')->name('ahris/admin/users');
-    Route::get('ahris/admin/adduser', 'App\Http\Controllers\AhrisAdminController@adduser')->name('ahris/admin/adduser');
-    Route::get('ahris/admin/accessrequest', 'App\Http\Controllers\AhrisAdminController@accessrequest')->name('ahris/admin/accessrequest');
+Route::group(['middleware' => ['auth', 'role:ahris-admin']], function() {
+    Route::get('ahris/adm/profile', [AhrisAdminController::class, 'profile'])->name('AhrisAdminProfile');
+    Route::get('ahris/adm/settings', [AhrisAdminController::class, 'settings'])->name('AhrisAdminSettings');
+    Route::get('ahris/adm/reports', [AhrisAdminController::class, 'reports'])->name('AhrisAdminReports');
+    Route::get('ahris/adm/freedomwall', [AhrisAdminController::class, 'wall'])->name('AhrisAdminFreedomwall');
+    Route::get('ahris/adm/users', [AhrisAdminController::class, 'activeusers'])->name('AhrisAdminUsers');
+    Route::get('ahris/adm/adduser', [AhrisAdminController::class, 'adduser'])->name('AhrisAdminAdduser');
+    Route::get('ahris/adm/accessrequest', [AhrisAdminController::class, 'accessrequest'])->name('AhrisAdminAccessrequest');
     
 });
 
 
 //auth route for ahris access
-Route::group(['middleware' => ['auth', 'role:admin-access']], function() {
-    Route::get('/profile', 'App\Http\Controllers\AhrisAccessController@profile')->name('profile');
-    Route::get('/settings', 'App\Http\Controllers\AhrisAccessController@settings')->name('settings');
-    Route::get('/reports', 'App\Http\Controllers\AhrisAccessController@reports')->name('reports');
-    Route::get('/freedomwall', 'App\Http\Controllers\AhrisAccessController@wall')->name('freedomwall');
-    Route::get('/users', 'App\Http\Controllers\AhrisAccessController@activeusers')->name('users');
-    Route::get('/adduser', 'App\Http\Controllers\AhrisAccessController@adduser')->name('adduser');
-    Route::get('/accessrequest', 'App\Http\Controllers\AhrisAccessController@accessrequest')->name('accessrequest');
-    
+Route::group(['middleware' => ['auth', 'role:ahris-access']], function() {
+    Route::get('ahris/acc/profile', [AhrisAccessController::class,'profile'])->name('AhrisAccessProfile');
+    Route::get('ahris/acc/settings', [AhrisAccessController::class,'settings'])->name('AhrisAccessSettings');
+    Route::get('ahris/acc/reports', [AhrisAccessController::class,'reports'])->name('AhrisAccessReports');
+    Route::get('ahris/acc/freedomwall', [AhrisAccessController::class,'wall'])->name('AhrisAccessFreedomwall');
+    Route::get('ahris/acc/users', [AhrisAccessController::class,'activeusers'])->name('AhrisAccessUsers');
+    Route::get('ahris/acc/adduser', [AhrisAccessController::class,'adduser'])->name('AhrisAccessAdduser');
+    Route::get('ahris/acc/accessrequest', [AhrisAccessController::class,'accessrequest'])->name('AhrisAccessAccessrequest');
+    //Route::get('ahris/access/finddata', [AhrisAccessController::class,'finddata'])->name('ahris/access/finddata');;
+    //Route::get('ahris/access/join', [AhrisAccessController::class,'join'])->name('ahris/access/join');;
+
 });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////// ------- AHRIS  END ------- ///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

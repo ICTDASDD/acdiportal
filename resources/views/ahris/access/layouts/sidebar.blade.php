@@ -25,13 +25,13 @@ ACDIMPC HRIS
   <div class="collapse {{ $activeparents == 'Profile' ? ' show' : '' }}" id="collapseExample">
     <ul class="nav">
       <li class="nav-item {{ $title == 'Admin Profile' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('profile')}}">
+        <a class="nav-link" href="{{route('AhrisAccessProfile')}}">
           <span class="sidebar-mini"> MP </span>
           <span class="sidebar-normal"> My Profile </span>
         </a>
       </li>
       <li class="nav-item {{ $title == 'Admin Settings' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('settings')}}">
+        <a class="nav-link" href="{{route('AhrisAccessSettings')}}">
           <span class="sidebar-mini"> S </span>
           <span class="sidebar-normal"> Settings </span>
         </a>
@@ -59,7 +59,7 @@ ACDIMPC HRIS
           </a>
         </li>
         <li class="nav-item {{ $title == 'Reports' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('reports')}}">
+          <a class="nav-link" href="{{route('AhrisAccessReports')}}">
             <span class="sidebar-mini"><i class="material-icons">
                 receipt_long
             </i></span>
@@ -67,7 +67,7 @@ ACDIMPC HRIS
           </a>
         </li>
         <li class="nav-item {{ $title == 'Freedom Wall' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('freedomwall')}}">
+          <a class="nav-link" href="{{route('AhrisAccessFreedomwall')}}">
             <span class="sidebar-mini"><i class="material-icons">
                 question_answer
             </i></span>
@@ -89,7 +89,7 @@ ACDIMPC HRIS
   <div class="collapse {{ $activeparents == 'User' ? ' show' : '' }}" id="formsExamples">
     <ul class="nav">
         <li class="nav-item {{ $title == 'Active User' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('users')}}">
+        <a class="nav-link" href="{{route('AhrisAccessUsers')}}">
             <span class="sidebar-mini"><i class="material-icons">
                manage_accounts
             </i></span>
@@ -97,7 +97,7 @@ ACDIMPC HRIS
         </a>
       </li>
       <li class="nav-item {{ $title == 'Add User' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('adduser')}}">
+        <a class="nav-link" href="{{route('AhrisAccessAdduser')}}">
             <span class="sidebar-mini"><i class="material-icons">
                 person_add
              </i></span>
@@ -105,7 +105,7 @@ ACDIMPC HRIS
         </a>
       </li>
       <li class="nav-item {{ $title == 'Access Request' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('accessrequest')}}">
+        <a class="nav-link" href="{{route('AhrisAccessAccessrequest')}}">
             <span class="sidebar-mini"><i class="material-icons">
                 person_pin
              </i></span>
