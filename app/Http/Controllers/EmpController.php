@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
+
+
 
 class EmpController extends Controller
 {
@@ -19,11 +23,15 @@ class EmpController extends Controller
         }
 
         //Dashboard nav
-        public function reports(){
-            return view('emp.reports',['title' => 'Reports', 'activeparents' => 'Dashboard']);
+        public function benefits(){
+            return view('emp.benefits',['title' => 'Benefits Monitoring', 'activeparents' => 'Monitoring']);
         }
+        public function leavecredential(){
+            return view('emp.leavecredential',['title' => 'Leave Credential', 'activeparents' => 'Monitoring']);
+        }
+
         public function wall(){
-            return view('emp.wall',['title' => 'Freedom Wall', 'activeparents' => 'Dashboard']);
+            return view('emp.wall',['title' => 'Freedom Wall', 'activeparents' => 'Monitoring']);
         }
         //------------- Super Admin Navigation End-----------------//
 

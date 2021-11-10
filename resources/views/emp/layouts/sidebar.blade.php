@@ -43,15 +43,13 @@ ACDIMPC HRIS
 <ul class="nav">
 
   <li class="nav-item {{ $activeparents == 'Dashboard' ? ' active' : '' }}">
-    <a class="nav-link" data-toggle="collapse" href="#dashboardMenu">
+    <a class="nav-link"  href="{{route('dashboard')}}">
       <i class="material-icons">dashboard</i>
       <p> Dashboard
-        <b class="caret"></b>
       </p>
     </a>
   </li>
 
-  
   <li class="nav-item {{ $activeparents == 'Monitoring' ? ' active' : '' }}">
     <a class="nav-link" data-toggle="collapse" href="#dashboardMenu">
       <i class="material-icons">dashboard</i>
@@ -61,7 +59,7 @@ ACDIMPC HRIS
     </a>
     <div class="collapse {{ $activeparents == 'Monitoring' ? ' show' : '' }}" id="dashboardMenu">
       <ul class="nav">        
-        <li class="nav-item {{ $title == 'Benefits' ? ' active' : '' }}">
+        <li class="nav-item {{ $title == 'Benefits Monitoring' ? ' active' : '' }}">
           <a class="nav-link" href="{{route('EmpBenefits')}}">
             <span class="sidebar-mini"><i class="material-icons">
                 receipt_long
@@ -69,12 +67,20 @@ ACDIMPC HRIS
             <span class="sidebar-normal"> Benefits Monitoring </span>
           </a>
         </li>
-        <li class="nav-item {{ $title == 'Leave Monitoring' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('EmpFreedomwall')}}">
+        <li class="nav-item {{ $title == 'Leave Credential' ? ' active' : '' }}">
+          <a class="nav-link" href="{{route('EmpLeaveCredential')}}">
             <span class="sidebar-mini"><i class="material-icons">
                 question_answer
             </i></span>
             <span class="sidebar-normal"> Leave Monitoring </span>
+          </a>
+        </li>
+        <li class="nav-item {{ $title == 'Freedom Wall' ? ' active' : '' }}">
+          <a class="nav-link" href="{{route('EmpWall')}}">
+            <span class="sidebar-mini"><i class="material-icons">
+                question_answer
+            </i></span>
+            <span class="sidebar-normal"> Freedom Wall </span>
           </a>
         </li>
       </ul>
