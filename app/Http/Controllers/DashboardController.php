@@ -29,6 +29,16 @@ class DashboardController extends Controller
                 return view('ahris.access.monitoring',['title' => 'Monitoring', 'activeparents' => 'Dashboard']);
             }
 
+            // Online Voting System ICTD-Admin
+            elseif(Auth::user()->hasRole('ictd-admin')){
+                return view('ovs.admin.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
+            }
+
+            // Online Voting System ICTD-Admin
+            elseif(Auth::user()->hasRole('elecom-admin')){
+                return view('ovs.elecom.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
+            }
+
             // EMP
             elseif(Auth::user()->hasRole('emp')){
                 return view('emp.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
