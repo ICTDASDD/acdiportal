@@ -30,7 +30,7 @@
                   <!--        Here you can write extra buttons/actions for the toolbar              -->
                 </div>
                 <div class="material-datatables">
-                  <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                  <table id="candidateTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                     <thead>
                       <tr>
                         <th style="text-align: center">Picture</th>
@@ -54,7 +54,7 @@
                     </tfoot>
 
                     <tbody>
-
+<!--
                       <tr>
                         <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate1.jpg')}}" style="max-width: 50px;"/></td>
                         <td style="text-align: center">BGEN Candidate N. One (RET)</td>                            
@@ -255,7 +255,7 @@
                           </a>
                         </td>
                       </tr>
-
+                    -->
                     </tbody>
 
                     
@@ -267,12 +267,12 @@
               </div>
               <!-- end content-->
             </div>
-            <button class="btn btn-success btn-round" data-toggle="modal" data-target="#AddCandidate">
+            <button id="addCandidate" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalCandidate">
               <i class="material-icons">add</i> Add Candidate
             </button>
 
 
-            <div class="modal fade" id="AddCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">              
+            <div class="modal fade" id="modalCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalCandidate" aria-hidden="true">              
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -281,50 +281,76 @@
                       <i class="material-icons">clear</i>
                     </button>
                   </div>
-                  <div class="modal-body">
-                    <form method="#" action="#">
+                  
+                  <form class="cmxform block-form block-form-default" id="candidateForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
 
+                  <div class="modal-body">
+
+                      <input type="hidden" name="candidateID" id="candidateID" value="" />
+                    
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 mx-auto">
-                          <select class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" title="Candidating for">
-                            <option value="" class="text-success">Board of Director</option>
-                            <option value="" class="text-info">Committee</option>
+                          <select id="candidateFor" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" title="Candidating for">
+                            <option value="Board of Director" class="text-success">Board of Director</option>
+                            <option value="Committee" class="text-info">Committee</option>
                           </select>
                         </div>
                       </div>
                       
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <input class="form-control" type="text" name="Fullname" placeholder="Full name of Candidate (ex. Surname, Given Name M.I)" required="true" />
-                            </div>
-                          </div>
-                          <label class="col-sm-3 label-on-right">
-                          </label>
-                      </div>
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="form-group">
-                            <input class="form-control" type="text" name="info1" placeholder="Information 1" required="true" />
+                            <input id="lastName" class="form-control" type="text" name="lastName" placeholder="Last Name of Candidate" required="true" />
                           </div>
                         </div>
                         <label class="col-sm-3 label-on-right">
                         </label>
-                    </div>
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <input class="form-control" type="text" name="info2" placeholder="Information 2" required="true" />
-                        </div>
                       </div>
-                      <label class="col-sm-3 label-on-right">
-                      </label>
-                  </div>
+                      
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <input id="firstName" class="form-control" type="text" name="firstName" placeholder="First Name of Candidate" required="true" />
+                          </div>
+                        </div>
+                        <label class="col-sm-3 label-on-right">
+                        </label>
+                      </div>
 
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <input id="middleName" class="form-control" type="text" name="middleName" placeholder="Middle Name of Candidate" required="true" />
+                          </div>
+                        </div>
+                        <label class="col-sm-3 label-on-right">
+                        </label>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <input id="info1" class="form-control" type="text" name="info1" placeholder="Information 1" required="true" />
+                          </div>
+                        </div>
+                        <label class="col-sm-3 label-on-right">
+                        </label>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <input id="info2" class="form-control" type="text" name="info2" placeholder="Information 2" required="true" />
+                          </div>
+                        </div>
+                        <label class="col-sm-3 label-on-right">
+                        </label>
+                      </div>
 
                       <div class="row">
                         
                       </div>
+
                       <div class="card-body col-lg-5 mx-auto">
                         <div class="fileinput text-center fileinput-new" data-provides="fileinput">
                           <div class="fileinput-new thumbnail img-circle">
@@ -342,14 +368,17 @@
                           </div>
                         </div>
                       </div> 
-                                            
-                    </form>
+                                  
                     
                   </div>
                   <div class="modal-footer">
-                    <button class="btn btn-success">  Submit </button> &nbsp;
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button id="btnSaveCandidate" type="submit" class="col btn btn-round btn-success d-block">  Save </button> 
+                    <button id="btnUpdateCandidate" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
+                    <button id="btnRemoveCandidate" type="button" class="col btn btn-round  btn-danger d-none removeCandidate">Remove</button>
+                    <button type="button" class="col btn btn-round btn-secondary" data-dismiss="modal">Cancel</button>
                   </div>
+                            
+                </form>
                 </div>
               </div>
             </div>
@@ -398,5 +427,326 @@
 @section('pageplugin')
 @include('ovs.admin.layouts.plugins.datatables')
 @parent
+<script>
+$(document).ready(function() {
+  var candidateTable = $('#candidateTable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ route('candidate.list') }}",
+    columns: [
+        {
+          'data': null,
+          'render': function (data) {
+              var x = "";
+              x = data.profilePicture;
+              var link = "{{ asset('material/img/candidate/')}}";
+
+              x = "<center><img src='"+ link + "/" + data.profilePicture + "' style='max-width: 50px;'/></center>";
+              return x;
+          }
+        },
+        {
+          data: 'fullName',
+          name: 'fullName'
+        },
+        {
+          data: 'information1',
+          name: 'information1'
+        },
+        {
+          data: 'information2',
+          name: 'information2'
+        }, 
+        {
+          data: 'candidateFor',
+          name: 'candidateFor'
+        },
+        {
+          'data': null,
+          'render': function (data) {
+              var x = "";
+              x = 
+                      "<button class='btn btn-success btn-sm editCandidate' value='" + data.candidateID + "'> " +
+                      "  Edit " +
+                      "</button> " ;
+                  
+              return "<center>"+ x + "</center>";
+          }
+        },
+    ]
+  });
+
+  $('#candidateTable').on('click','.editCandidate',function(){
+    var candidateID = this.value;
+
+    $.ajax({
+        type: "GET",
+        url: "{{ route('candidate.edit') }}",
+        data: { candidateID : candidateID },
+        contentType: "application/json; charset=utf-8",
+        beforeSend:  function() {
+            swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+        },
+        error: function (jqXHR, exception) {
+            swal.close();
+            
+            console.log(jqXHR.responseText);
+            swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        },
+        success: function (data) {
+          swal.close();
+
+          if(data.candidateID)
+          {
+            $('#candidateID').val(data.candidateID);
+            $('#candidateFor').val(data.candidateFor);
+            $('#lastName').val(data.lastName);
+            $('#firstName').val(data.firstName);
+            $('#middleName').val(data.middleName);
+            $('#info1').val(data.information1);
+            $('#info2').val(data.information2);
+            
+            $('#btnSaveCandidate').removeClass('d-block').addClass('d-none');
+            $('#btnUpdateCandidate').removeClass('d-none').addClass('d-block');
+            $('#btnRemoveCandidate').removeClass('d-none').addClass('d-block');
+
+            $('#modalCandidate').modal('show');
+          } 
+          else 
+          {
+            swal({ title: "Unable to Edit", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          }
+        }
+    });   
+  });
+
+  
+  $(document).on("click", "#addCandidate", function (e) {
+      $('#candidateID').val("0");
+        
+      $('#candidateFor').val("");
+      $('#lastName').val("");
+      $('#firstName').val("");
+      $('#middleName').val("");
+      $('#info1').val("");
+      $('#info2').val("");
+            
+      $('#btnSaveCandidate').removeClass('d-none').addClass('d-block');
+      $('#btnUpdateCandidate').removeClass('d-block').addClass('d-none');
+      $('#btnRemoveCandidate').removeClass('d-block').addClass('d-none');
+      
+  });
+  
+  $(document).on("click", "#btnSaveCandidate", function (e) {
+    
+      $('#candidateForm').attr('action', 'Saving');
+      validateCandidateForm();
+  });
+  
+  $(document).on("click", "#btnUpdateCandidate", function (e) {
+      $('#candidateForm').attr('action', 'Updating');
+      validateCandidateForm();
+  });
+
+  $("#candidateForm").on("click", ".removeCandidate", function (e) {
+      swal({
+          title: 'Remove Candidate!',
+          text: "Are you sure?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirm'
+      }).then((result) => {
+          if (result.value) {
+            var candidateID = $("#candidateID").val();
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ route('candidate.delete') }}",
+                data: { candidateID : candidateID},
+                contentType: "application/json; charset=utf-8",
+                beforeSend:  function() {
+                    swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                },
+                error: function (jqXHR, exception) {
+                    swal.close();
+
+                    console.log(jqXHR.responseText);
+                    swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                },
+                success: function (data) {
+                    swal.close();
+
+                    if(!data.success)
+                    {
+                      swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                    } 
+                    else 
+                    {
+                      swal({ title:"Successfully Remove!", text: "You remove candidate!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                      var candidateTable = $('#candidateTable').DataTable();
+                      candidateTable.ajax.reload();  
+
+                      $('#modalCandidate').modal('hide');
+                    }
+                }
+            });   
+          } 
+      });
+  });
+
+  $("#candidateForm").bind("invalid-form.validate", function () {
+      // Do something useful e.g. display the Validation Summary in a popup dialog
+  });
+
+  $('#candidateForm').submit(function (evt) {
+      evt.preventDefault(); //prevents the default action
+  });
+});
+
+function validateCandidateForm(action)
+{
+$("#candidateForm").validate({
+  ignore: 'input[type=hidden]',
+  rules:{    
+      'candidateFor':{
+          required: true
+      },   
+      'lastName':{
+          required: true
+      },   
+      'firstName':{
+          required: true
+      },   
+      'middleName':{
+          required: true
+      },   
+      'info1':{
+          required: true
+      },   
+      'info2':{
+          required: true
+      },       
+  },
+  submitHandler: function(form){
+    var candidateID = $("#candidateID").val();
+    var candidateFor = $("#candidateFor").val();
+    var lastName = $("#lastName").val();
+    var firstName = $("#firstName").val();
+    var middleName = $("#middleName").val();
+    var info1 = $("#info1").val();
+    var info2 = $("#info2").val();
+
+    if("Saving" ==  $('#candidateForm').attr('action'))
+    {
+         
+      $.ajax({
+          type: "GET",
+          url: "{{ route('candidate.add') }}",
+          data: { 
+            candidateFor : candidateFor,
+            lastName : lastName,
+            firstName  : firstName,
+            middleName  : middleName,
+            information1  : info1,
+            information2  : info2,
+          },
+          contentType: "application/json; charset=utf-8",
+          beforeSend:  function() {
+              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+          },
+          error: function (jqXHR, exception) {
+              swal.close();
+              
+              console.log(jqXHR.responseText);
+              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          },
+          success: function (data) {
+              swal.close();
+
+              if(data.errors)
+              {
+                var errorMessage= "";
+                $.each(data.errors, function(key, value) {
+                  errorMessage = errorMessage + value + "\n";
+                });
+
+                swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+              } 
+              else 
+              {
+                swal({ title:"Successfully Saved!", text: "You add new candidate!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                var candidateTable = $('#candidateTable').DataTable();
+                candidateTable.ajax.reload();  
+
+                $('#modalCandidate').modal('hide');
+              }
+          }
+      });    
+    } 
+    else 
+    {
+       
+      $.ajax({
+          type: "GET",
+          url: "{{ route('candidate.update') }}",
+          data: { 
+            candidateID : candidateID,
+            candidateFor : candidateFor,
+            lastName : lastName,
+            firstName  : firstName,
+            middleName  : middleName,
+            information1  : info1,
+            information2  : info2,
+          },
+          contentType: "application/json; charset=utf-8",
+          beforeSend:  function() {
+              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+          },
+          error: function (jqXHR, exception) {
+              swal.close();
+
+              console.log(jqXHR.responseText);
+              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          },
+          success: function (data) {
+              swal.close();
+
+              if(data.errors)
+              {
+                var errorMessage= "";
+                $.each(data.errors, function(key, value) {
+                  errorMessage = errorMessage + value + "\n";
+                });
+
+                swal({ title:"Unable to Update!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+              } 
+              else 
+              {
+                swal({ title:"Successfully Update!", text: "You update candidate!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                var candidateTable = $('#candidateTable').DataTable();
+                candidateTable.ajax.reload();  
+
+                $('#modalCandidate').modal('hide');
+              }
+          }
+      });  
+    }
+    /*
+    var candidateTable = $('#candidateTable').DataTable();
+    candidateTable.ajax.reload();  
+
+    $('#modalCandidate').modal('hide');
+    */
+    return false;
+  }
+});
+}
+</script>
 @endsection
+
 <!--   Script Plugins -->
