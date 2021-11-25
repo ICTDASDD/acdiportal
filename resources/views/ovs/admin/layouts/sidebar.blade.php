@@ -170,7 +170,15 @@ ACDIMPC OVS
               </i></span>
             <span class="sidebar-normal"> Entry Blocking </span>
           </a>
-        </li>   
+        </li>
+        <li class="nav-item {{ $title == 'Voting Configuration' ? ' active' : '' }}">
+          <a class="nav-link" href="{{route('votingConfiguration.layout')}}">
+              <span class="sidebar-mini"><i class="material-icons">
+                checklist_rtl
+              </i></span>
+            <span class="sidebar-normal"> Voting Configuration</span>
+          </a>
+        </li>  
       </ul>
     </div>
   </li>
