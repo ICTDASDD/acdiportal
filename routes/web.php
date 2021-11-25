@@ -140,15 +140,6 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 
     Route::get('ovs/adm/systemlog', [OVSAdminController::class, 'systemlog'])->name('OVSAdminSystemLog');
     Route::get('ovs/adm/request', [OVSAdminController::class, 'request'])->name('OVSAdminRequest');
-<<<<<<< HEAD
-    Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'clist'])->name('OVSAdminCandidateList');
-    Route::get('ovs/adm/candidatelist/list', [OVSAdminController::class, 'listCandidate'])->name('candidate.list');
-    Route::get('ovs/adm/candidatelist/add', [OVSAdminController::class, 'addCandidate'])->name('candidate.add');
-    Route::get('ovs/adm/candidatelist/edit', [OVSAdminController::class, 'editCandidate'])->name('candidate.edit');
-    Route::get('ovs/adm/candidatelist/update', [OVSAdminController::class, 'updateCandidate'])->name('candidate.update');
-    Route::get('ovs/adm/candidatelist/delete', [OVSAdminController::class, 'removeCandidate'])->name('candidate.delete');
-     
-=======
     
     Route::get('ovs/adm/votingconfiguration', [OVSAdminController::class, 'viewVotingConfiguration'])->name('votingConfiguration.layout');
     
@@ -166,7 +157,6 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
     Route::get('ovs/adm/candidatelist/update', [CandidateController::class, 'updateCandidate'])->name('candidate.update');
     Route::get('ovs/adm/candidatelist/delete', [CandidateController::class, 'removeCandidate'])->name('candidate.delete');
     
->>>>>>> jms
     Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
     Route::get('ovs/adm/bblocking', [OVSAdminController::class, 'bblocking'])->name('OVSAdminBranchBlocking');    
     Route::get('ovs/adm/eblocking', [OVSAdminController::class, 'eblocking'])->name('OVSAdminEntryBlocking');    
