@@ -44,10 +44,6 @@ class OVSAdminController extends Controller
             return view('ovs.admin.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
         }
 
-        public function clist(){
-            return view('ovs.admin.candidatelist',['title' => 'Candidate List', 'activeparents' => 'BODs & Amendments']);
-        }
-
         public function alist(){
             return view('ovs.admin.amendmentlist',['title' => 'Amendment List', 'activeparents' => 'BODs & Amendments']);
         }
@@ -59,11 +55,16 @@ class OVSAdminController extends Controller
         public function eblocking(){
             return view('ovs.admin.eblocking',['title' => 'Entry Blocking', 'activeparents' => 'Voting Tools']);
         }
+        
+        public function viewVotingConfiguration(){
+            return view('ovs.admin.votingConfiguration',['title' => 'Voting Configuration', 'activeparents' => 'Voting Tools']);
+        }
 
         public function memlist(){
             return view('ovs.admin.memberlist',['title' => 'Voting Member List', 'activeparents' => 'Memlist']);
         }
 
+<<<<<<< HEAD
         //Candidate List
         public function listCandidate(Request $request)
         {
@@ -178,6 +179,8 @@ class OVSAdminController extends Controller
         }
 
 
+=======
+>>>>>>> jms
         public function wall(){
             return view('ovs.admin.wall',['title' => 'Freedom Wall', 'activeparents' => 'Dashboard']);
         }
