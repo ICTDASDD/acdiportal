@@ -21,7 +21,7 @@ class CreateCandidatesTable extends Migration
             $table->string('middleName');
             $table->string('information1');
             $table->string('information2');
-            $table->string('candidateFor');
+            $table->integer('candidateTypeID');
             $table->timestamps();
         });
     }

@@ -289,11 +289,11 @@
                       <input type="hidden" name="candidateID" id="candidateID" value="" />
                     
                       <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 mx-auto">
-                          <select id="candidateFor" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round" title="Candidating for">
-                            <option value="Board of Director" class="text-success">Board of Director</option>
-                            <option value="Committee" class="text-info">Committee</option>
-                          </select>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <div class="form-group">
+                            <select id="candidateTypeID" class="form-control" style="width: 100%"  required="true">
+                            </select>
+                          </div>
                         </div>
                       </div>
                       
@@ -429,6 +429,30 @@
 @parent
 <script>
 $(document).ready(function() {
+
+  var candidateTypeSelect2 = $('#candidateTypeID').select2({
+    placeholder: "Candidate For",
+    dropdownParent: "#modalCandidate" ,
+    minimumInputLength: -1,
+    allowClear: true,
+    ajax: {
+        url: "{{ route('candidate.select2') }}",
+        delay: 250,
+        dataType: 'json',
+        data: function(params) {
+            return {
+                query: params.term, // search term
+            };
+        },
+        processResults: function(response) {
+            return {
+                results: response
+            };
+        },
+        cache: true
+    }
+  });
+
   var candidateTable = $('#candidateTable').DataTable({
     processing: true,
     serverSide: true,
@@ -499,7 +523,15 @@ $(document).ready(function() {
           if(data.candidateID)
           {
             $('#candidateID').val(data.candidateID);
-            $('#candidateFor').val(data.candidateFor);
+            //$('#candidateTypeID').val(data.candidateTypeID);
+                
+            //var $select = $('#candidateTypeID');
+            //var $select = $($('#candidateTypeID').data('target'));
+            //select2_search($select, data.candidateTypeName);
+            
+            var $option = $("<option selected></option>").val(data.candidateTypeID).text(data.candidateTypeName);
+            $('#candidateTypeID').append($option).trigger('change');
+
             $('#lastName').val(data.lastName);
             $('#firstName').val(data.firstName);
             $('#middleName').val(data.middleName);
@@ -523,8 +555,8 @@ $(document).ready(function() {
   
   $(document).on("click", "#addCandidate", function (e) {
       $('#candidateID').val("0");
-        
-      $('#candidateFor').val("");
+
+      $('#candidateTypeID').val("");
       $('#lastName').val("");
       $('#firstName').val("");
       $('#middleName').val("");
@@ -611,7 +643,7 @@ function validateCandidateForm(action)
 $("#candidateForm").validate({
   ignore: 'input[type=hidden]',
   rules:{    
-      'candidateFor':{
+      'candidateTypeID':{
           required: true
       },   
       'lastName':{
@@ -632,7 +664,8 @@ $("#candidateForm").validate({
   },
   submitHandler: function(form){
     var candidateID = $("#candidateID").val();
-    var candidateFor = $("#candidateFor").val();
+    var candidateType = $('#candidateTypeID').select2('data');
+    var candidateTypeID = candidateType[0].id;
     var lastName = $("#lastName").val();
     var firstName = $("#firstName").val();
     var middleName = $("#middleName").val();
@@ -646,7 +679,7 @@ $("#candidateForm").validate({
           type: "GET",
           url: "{{ route('candidate.add') }}",
           data: { 
-            candidateFor : candidateFor,
+            candidateTypeID : candidateTypeID,
             lastName : lastName,
             firstName  : firstName,
             middleName  : middleName,
@@ -689,13 +722,12 @@ $("#candidateForm").validate({
     } 
     else 
     {
-       
       $.ajax({
           type: "GET",
           url: "{{ route('candidate.update') }}",
           data: { 
             candidateID : candidateID,
-            candidateFor : candidateFor,
+            candidateTypeID : candidateTypeID,
             lastName : lastName,
             firstName  : firstName,
             middleName  : middleName,

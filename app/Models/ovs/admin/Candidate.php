@@ -19,6 +19,6 @@ class Candidate extends Model
         'middleName',
         'information1',
         'information2',
-        'candidateFor',
+        'candidateTypeID',
     ];
 }

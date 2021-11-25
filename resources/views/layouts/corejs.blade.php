@@ -6,6 +6,8 @@
 <script src="{{ asset('material/js/plugins/moment.min.js')}}"></script>
 <!--  Plugin for Sweet Alert -->
 <script src="{{ asset('material/js/plugins/sweetalert2.js')}}"></script>
+<!--  Plugin for Select2 -->
+<script src="{{ asset('material/js/plugins/select2.full.min.js')}}"></script>
 <!-- Forms Validations Plugin -->
 <script src="{{ asset('material/js/plugins/jquery.validate.min.js')}}"></script>
 <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->

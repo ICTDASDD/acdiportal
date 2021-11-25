@@ -196,9 +196,9 @@
                       </div> 
                   </div>
                   <div class="modal-footer">
-                    <button id="btnSaveCandidateType" type="submit" class="col btn btn-round btn-success d-block"> Save </button> 
-                    <button id="btnUpdateCandidateType" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
-                    <button id="btnRemoveCandidateType" type="button" class="col btn btn-round  btn-danger d-none removeCandidateType"> Remove </button>
+                    <button id="btnSaveVotingPeriod" type="submit" class="col btn btn-round btn-success d-block"> Save </button> 
+                    <button id="btnUpdateVotingPeriod" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
+                    <button id="btnRemoveVotingPeriod" type="button" class="col btn btn-round  btn-danger d-none removVotingPeriod"> Remove </button>
                     <button type="button" class="col btn btn-round btn-secondary" data-dismiss="modal"> Cancel </button>
                   </div>    
                 </form>
@@ -276,6 +276,42 @@ $(document).ready(function() {
     ]
   });
 
+  var votingPeriod = $('#votingPeriodTable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ route('votingPeriod.list') }}",
+    columns: [
+        {
+          data: 'votingPeriodID',
+          name: 'votingPeriodID'
+        },
+        {
+          data: 'cy',
+          name: 'cy'
+        },
+        {
+          data: 'startDate',
+          name: 'startDate'
+        },
+        {
+          data: 'endDate',
+          name: 'endDate'
+        },
+        {
+          'data': null,
+          'render': function (data) {
+              var x = "";
+              x = 
+                      "<button class='btn btn-success btn-sm editVotingPeriod' value='" + data.votingPeriodID + "'> " +
+                      "  Edit " +
+                      "</button> " ;
+                  
+              return "<center>"+ x + "</center>";
+          }
+        },
+    ]
+  });
+
   $('#candidateTypeTable').on('click','.editCandidateType',function(){
     var candidateTypeID = this.value;
 
@@ -314,6 +350,47 @@ $(document).ready(function() {
         }
     });   
   });
+  
+  $('#votingPeriodTable').on('click','.editVotingPeriod',function(){
+    var votingPeriodID = this.value;
+
+    $.ajax({
+        type: "GET",
+        url: "{{ route('votingPeriod.edit') }}",
+        data: { votingPeriodID : votingPeriodID },
+        contentType: "application/json; charset=utf-8",
+        beforeSend:  function() {
+            swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+        },
+        error: function (jqXHR, exception) {
+            swal.close();
+            
+            console.log(jqXHR.responseText);
+            swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        },
+        success: function (data) {
+          swal.close();
+
+          if(data.votingPeriodID)
+          {
+            $('#votingPeriodID').val(data.votingPeriodID);
+            $('#cy').val(data.cy);
+            $('#startDate').val(data.startDate);
+            $('#endDate').val(data.endDate);
+          
+            $('#btnSaveVotingPeriod').removeClass('d-block').addClass('d-none');
+            $('#btnUpdateVotingPeriod').removeClass('d-none').addClass('d-block');
+            $('#btnRemoveVotingPeriod').removeClass('d-none').addClass('d-block');
+
+            $('#modalVotingPeriod').modal('show');
+          } 
+          else 
+          {
+            swal({ title: "Unable to Edit", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          }
+        }
+    });   
+  });
 
   $(document).on("click", "#addCandidateType", function (e) {
       $('#candidateTypeID').val("0");
@@ -323,18 +400,85 @@ $(document).ready(function() {
       $('#btnRemoveCandidateType').removeClass('d-block').addClass('d-none');
   });
   
+  $(document).on("click", "#addVotingPeriod", function (e) {
+      $('#votingPeriodID').val("0");
+      $('#cy').val("");
+      $('#startDate').val(""); 
+      $('#endDate').val("");  
+      $('#btnSaveVotingPeriod').removeClass('d-none').addClass('d-block');
+      $('#btnUpdateVotingPeriod').removeClass('d-block').addClass('d-none');
+      $('#btnRemoveVotingPeriod').removeClass('d-block').addClass('d-none');
+  });
+  
   $(document).on("click", "#btnSaveCandidateType", function (e) {
       $('#candidateTypeForm').attr('action', 'Saving');
       validateCandidateTypeForm();
   });
+
+  $(document).on("click", "#btnSaveVotingPeriod", function (e) {
+      $('#votingPeriodForm').attr('action', 'Saving');
+      validateVotingPeriodForm();
+  });
   
   $(document).on("click", "#btnUpdateCandidateType", function (e) {
-
       $('#candidateTypeForm').attr('action', 'Updating');
       validateCandidateTypeForm();
   });
+  
+  $(document).on("click", "#btnUpdateVotingPeriod", function (e) {
+      $('#votingPeriodForm').attr('action', 'Updating');
+      validateVotingPeriodForm();
+  });
 
   $("#candidateTypeForm").on("click", ".removeCandidateType", function (e) {
+      swal({
+          title: 'Remove Candidate Type!',
+          text: "Are you sure?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirm'
+      }).then((result) => {
+          if (result.value) {
+            var candidateTypeID = $("#candidateTypeID").val();
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ route('candidateType.delete') }}",
+                data: { candidateTypeID : candidateTypeID},
+                contentType: "application/json; charset=utf-8",
+                beforeSend:  function() {
+                    swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                },
+                error: function (jqXHR, exception) {
+                    swal.close();
+
+                    console.log(jqXHR.responseText);
+                    swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                },
+                success: function (data) {
+                    swal.close();
+
+                    if(!data.success)
+                    {
+                      swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                    } 
+                    else 
+                    {
+                      swal({ title:"Successfully Remove!", text: "You remove candidate type!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                      candidateTypeTable.ajax.reload();  
+
+                      $('#modalCandidateType').modal('hide');
+                    }
+                }
+            });   
+          } 
+      });
+  });
+
+  $("#votingPeriodForm").on("click", ".removeVotingPeriod", function (e) {
       swal({
           title: 'Remove Candidate Type!',
           text: "Are you sure?",
@@ -386,114 +530,237 @@ $(document).ready(function() {
       // Do something useful e.g. display the Validation Summary in a popup dialog
   });
 
+  $("#votingPeriodForm").bind("invalid-form.validate", function () {
+      // Do something useful e.g. display the Validation Summary in a popup dialog
+  });
+
   $('#candidateTypeForm').submit(function (evt) {
+      evt.preventDefault(); //prevents the default action
+  });
+
+  $('#votingPeriodForm').submit(function (evt) {
       evt.preventDefault(); //prevents the default action
   });
 });
 
 function validateCandidateTypeForm(action)
 {
-$("#candidateTypeForm").validate({
-  ignore: 'input[type=hidden]',
-  rules:{    
-      'candidateTypeName':{
-          required: true
-      },      
-  },
-  submitHandler: function(form){
-    var candidateTypeID = $("#candidateTypeID").val();
-    var candidateTypeName = $("#candidateTypeName").val();
+  $("#candidateTypeForm").validate({
+    ignore: 'input[type=hidden]',
+    rules:{    
+        'candidateTypeName':{
+            required: true
+        },      
+    },
+    submitHandler: function(form){
+      var candidateTypeID = $("#candidateTypeID").val();
+      var candidateTypeName = $("#candidateTypeName").val();
 
-    if("Saving" ==  $('#candidateTypeForm').attr('action'))
-    {
-      $.ajax({
-          type: "GET",
-          url: "{{ route('candidateType.add') }}",
-          data: { 
-            candidateTypeName : candidateTypeName,
-          },
-          contentType: "application/json; charset=utf-8",
-          beforeSend:  function() {
-              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
-          },
-          error: function (jqXHR, exception) {
-              swal.close();
-              
-              console.log(jqXHR.responseText);
-              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-          },
-          success: function (data) {
-              swal.close();
+      if("Saving" ==  $('#candidateTypeForm').attr('action'))
+      {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('candidateType.add') }}",
+            data: { 
+              candidateTypeName : candidateTypeName,
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+                
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
 
-              if(data.errors)
-              {
-                var errorMessage= "";
-                $.each(data.errors, function(key, value) {
-                  errorMessage = errorMessage + value + "\n";
-                });
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
 
-                swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-              } 
-              else 
-              {
-                swal({ title:"Successfully Saved!", text: "You add new candidate type!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                  swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Saved!", text: "You add new candidate type!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
 
-                var candidateTypeTable = $('#candidateTypeTable').DataTable();
-                candidateTypeTable.ajax.reload();  
+                  var candidateTypeTable = $('#candidateTypeTable').DataTable();
+                  candidateTypeTable.ajax.reload();  
 
-                $('#modalCandidateType').modal('hide');
-              }
-          }
-      });    
-    } 
-    else 
-    {
-       
-      $.ajax({
-          type: "GET",
-          url: "{{ route('candidateType.update') }}",
-          data: { 
-            candidateTypeID : candidateTypeID,
-            candidateTypeName : candidateTypeName,
-          },
-          contentType: "application/json; charset=utf-8",
-          beforeSend:  function() {
-              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
-          },
-          error: function (jqXHR, exception) {
-              swal.close();
+                  $('#modalCandidateType').modal('hide');
+                }
+            }
+        });    
+      } 
+      else 
+      {
+        
+        $.ajax({
+            type: "GET",
+            url: "{{ route('candidateType.update') }}",
+            data: { 
+              candidateTypeID : candidateTypeID,
+              candidateTypeName : candidateTypeName,
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
 
-              console.log(jqXHR.responseText);
-              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-          },
-          success: function (data) {
-              swal.close();
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
 
-              if(data.errors)
-              {
-                var errorMessage= "";
-                $.each(data.errors, function(key, value) {
-                  errorMessage = errorMessage + value + "\n";
-                });
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
 
-                swal({ title:"Unable to Update!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-              } 
-              else 
-              {
-                swal({ title:"Successfully Update!", text: "You update candidate type!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                  swal({ title:"Unable to Update!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Update!", text: "You update candidate type!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
 
-                var candidateTypeTable = $('#candidateTypeTable').DataTable();
-                candidateTypeTable.ajax.reload();  
+                  var candidateTypeTable = $('#candidateTypeTable').DataTable();
+                  candidateTypeTable.ajax.reload();  
 
-                $('#modalCandidateType').modal('hide');
-              }
-          }
-      });  
+                  $('#modalCandidateType').modal('hide');
+                }
+            }
+        });  
+      }
+
+      return false;
     }
+  });
+}
 
-    return false;
-  }
-});
+function validateVotingPeriodForm(action)
+{
+  $("#votingPeriodForm").validate({
+    ignore: 'input[type=hidden]',
+    rules:{    
+        'cy':{
+            required: true
+        },    
+        'startDate':{
+            required: true
+        },    
+        'endDate':{
+            required: true
+        },      
+    },
+    submitHandler: function(form){
+      var cy = $("#cy").val();
+      var startDate = $("#startDate").val();
+      var endDate = $("#endDate").val();
+
+      if("Saving" ==  $('#votingPeriodForm').attr('action'))
+      {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('votingPeriod.add') }}",
+            data: { 
+              cy : cy,
+              startDate : startDate,
+              endDate : endDate,
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+                
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
+
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+
+                  swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Saved!", text: "You add new voting period!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                  var votingPeriodTable = $('#votingPeriodTable').DataTable();
+                  votingPeriodTable.ajax.reload();  
+
+                  $('#modalVotingPeriod').modal('hide');
+                }
+            }
+        });    
+      } 
+      else 
+      {
+        
+        $.ajax({
+            type: "GET",
+            url: "{{ route('votingPeriod.update') }}",
+            data: { 
+              cy : cy,
+              startDate : startDate,
+              endDate : endDate,
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
+
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+
+                  swal({ title:"Unable to Update!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Update!", text: "You update voting period!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                  var votingPeriodTable = $('#votingPeriodTable').DataTable();
+                  votingPeriodTable.ajax.reload();  
+
+                  $('#modalVotingPeriod').modal('hide');
+                }
+            }
+        });  
+      }
+
+      return false;
+    }
+  });
 }
 </script>
 @endsection

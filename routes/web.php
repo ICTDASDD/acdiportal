@@ -152,6 +152,13 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
     Route::get('ovs/adm/candidatetype/update', [CandidateTypeController::class, 'updateCandidateType'])->name('candidateType.update');
     Route::get('ovs/adm/candidatetype/delete', [CandidateTypeController::class, 'removeCandidateType'])->name('candidateType.delete');
     
+    Route::get('ovs/adm/votingperiod/list', [VotingPeriodController::class, 'listVotingPeriod'])->name('votingPeriod.list');
+    Route::get('ovs/adm/votingperiod/add', [VotingPeriodController::class, 'addVotingPeriod'])->name('votingPeriod.add');
+    Route::get('ovs/adm/votingperiod/edit', [VotingPeriodController::class, 'editVotingPeriod'])->name('votingPeriod.edit');
+    Route::get('ovs/adm/votingperiod/update', [VotingPeriodController::class, 'updateVotingPeriod'])->name('votingPeriod.update');
+    Route::get('ovs/adm/votingperiod/delete', [VotingPeriodController::class, 'removeVotingPeriod'])->name('votingPeriod.delete');
+    
+    Route::get('ovs/adm/candidatelist/select2', [CandidateController::class, 'listCandidateSelect2'])->name('candidate.select2');
     Route::get('ovs/adm/candidatelist/list', [CandidateController::class, 'listCandidate'])->name('candidate.list');
     Route::get('ovs/adm/candidatelist/add', [CandidateController::class, 'addCandidate'])->name('candidate.add');
     Route::get('ovs/adm/candidatelist/edit', [CandidateController::class, 'editCandidate'])->name('candidate.edit');
