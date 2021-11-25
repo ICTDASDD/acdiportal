@@ -85,36 +85,12 @@ ACDIMPC OVS
       </ul>
     </div>
   </li>
-
-
-  <li class="nav-item {{ $activeparents == 'User' ? ' active' : '' }} user">
-    <a class="nav-link" data-toggle="collapse" href="#formsExamples">
+  
+  <li class="nav-item {{ $title == 'User List' ? ' active' : '' }}">
+    <a  class="nav-link" href="{{route('users.layout')}}">
       <i class="material-icons">people</i>
-      <p> Users
-        <b class="caret"></b>
-      </p>
+      <p> Users </p>
     </a>
-    <div class="collapse {{ $activeparents == 'User' ? ' show' : '' }}" id="formsExamples">
-      <ul class="nav">
-          <li class="nav-item {{ $title == 'Active User' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('OVSAdminUsers')}}">
-              <span class="sidebar-mini"><i class="material-icons">
-                manage_accounts
-              </i></span>
-            <span class="sidebar-normal"> User List</span>
-          </a>
-        </li>
-        <li class="nav-item {{ $title == 'Add User' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('OVSAdminAdduser')}}">
-              <span class="sidebar-mini"><i class="material-icons">
-                  person_add
-              </i></span>
-            <span class="sidebar-normal"> Add User </span>
-          </a>
-        </li>
-          
-      </ul>
-    </div>
   </li>
 
   <li class="nav-item {{ $activeparents == 'BODs & Amendments' ? ' active' : '' }} user">
@@ -127,7 +103,7 @@ ACDIMPC OVS
     <div class="collapse {{ $activeparents == 'BODs & Amendments' ? ' show' : '' }}" id="forBODAmend">
       <ul class="nav">
           <li class="nav-item {{ $title == 'Candidate List' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('OVSAdminCandidateList')}}">
+          <a class="nav-link" href="{{route('candidate.layout')}}">
               <span class="sidebar-mini"><i class="material-icons">
                 manage_accounts
               </i></span>

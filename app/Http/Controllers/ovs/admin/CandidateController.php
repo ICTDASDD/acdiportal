@@ -10,9 +10,6 @@ use Response;
 
 class CandidateController extends Controller
 {
-    public function clist(){
-        return view('ovs.admin.candidatelist',['title' => 'Candidate List', 'activeparents' => 'BODs & Amendments']);
-    }
     //Candidate List
     public function listCandidate(Request $request)
     {

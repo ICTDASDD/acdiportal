@@ -10,6 +10,7 @@ use App\Http\Controllers\ovs\admin\CandidateLimitController;
 use App\Http\Controllers\ovs\admin\CandidateTypeController;
 use App\Http\Controllers\ovs\admin\CandidateVotingLimitController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
+use App\Http\Controllers\ovs\admin\UserController;
 use App\Http\Controllers\OVSElecomController;
 use App\Http\Controllers\EmpController;
 //use App\Http\Controllers\dsbAdminController;
@@ -140,20 +141,35 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 
     Route::get('ovs/adm/systemlog', [OVSAdminController::class, 'systemlog'])->name('OVSAdminSystemLog');
     Route::get('ovs/adm/request', [OVSAdminController::class, 'request'])->name('OVSAdminRequest');
-    Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'clist'])->name('OVSAdminCandidateList');
-    Route::get('ovs/adm/candidatelist/list', [OVSAdminController::class, 'listCandidate'])->name('candidate.list');
-    Route::get('ovs/adm/candidatelist/add', [OVSAdminController::class, 'addCandidate'])->name('candidate.add');
-    Route::get('ovs/adm/candidatelist/edit', [OVSAdminController::class, 'editCandidate'])->name('candidate.edit');
-    Route::get('ovs/adm/candidatelist/update', [OVSAdminController::class, 'updateCandidate'])->name('candidate.update');
-    Route::get('ovs/adm/candidatelist/delete', [OVSAdminController::class, 'removeCandidate'])->name('candidate.delete');
-     
+
+    Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'layoutCandidate'])->name('candidate.layout');
+    Route::get('ovs/adm/votingconfiguration', [OVSAdminController::class, 'layoutVotingConfiguration'])->name('votingConfiguration.layout');
+    Route::get('ovs/adm/users', [OVSAdminController::class, 'layoutUser'])->name('users.layout');    
+    
+    Route::get('ovs/adm/candidatetype/list', [CandidateTypeController::class, 'listCandidateType'])->name('candidateType.list');
+    Route::get('ovs/adm/candidatetype/add', [CandidateTypeController::class, 'addCandidateType'])->name('candidateType.add');
+    Route::get('ovs/adm/candidatetype/edit', [CandidateTypeController::class, 'editCandidateType'])->name('candidateType.edit');
+    Route::get('ovs/adm/candidatetype/update', [CandidateTypeController::class, 'updateCandidateType'])->name('candidateType.update');
+    Route::get('ovs/adm/candidatetype/delete', [CandidateTypeController::class, 'removeCandidateType'])->name('candidateType.delete');
+    
+    Route::get('ovs/adm/candidatelist/list', [CandidateController::class, 'listCandidate'])->name('candidate.list');
+    Route::get('ovs/adm/candidatelist/add', [CandidateController::class, 'addCandidate'])->name('candidate.add');
+    Route::get('ovs/adm/candidatelist/edit', [CandidateController::class, 'editCandidate'])->name('candidate.edit');
+    Route::get('ovs/adm/candidatelist/update', [CandidateController::class, 'updateCandidate'])->name('candidate.update');
+    Route::get('ovs/adm/candidatelist/delete', [CandidateController::class, 'removeCandidate'])->name('candidate.delete');
+    
+    Route::get('ovs/adm/users/list', [UserController::class, 'listUser'])->name('users.list');   
+    Route::get('ovs/adm/users/add', [UserController::class, 'addUser'])->name('users.add');   
+    Route::get('ovs/adm/users/edit', [UserController::class, 'editUser'])->name('users.edit');   
+    Route::get('ovs/adm/users/update', [UserController::class, 'updateUser'])->name('users.update');   
+    Route::get('ovs/adm/users/delete', [UserController::class, 'removeUser'])->name('users.delete');   
+
     Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
     Route::get('ovs/adm/bblocking', [OVSAdminController::class, 'bblocking'])->name('OVSAdminBranchBlocking');    
     Route::get('ovs/adm/eblocking', [OVSAdminController::class, 'eblocking'])->name('OVSAdminEntryBlocking');    
     Route::get('ovs/adm/memlist', [OVSAdminController::class, 'memlist'])->name('OVSAdminMemberList');
-    Route::get('ovs/adm/users', [OVSAdminController::class, 'activeusers'])->name('OVSAdminUsers');    
-    Route::get('ovs/adm/adduser', [OVSAdminController::class, 'adduser'])->name('OVSAdminAdduser');
     
+    Route::get('ovs/adm/adduser', [OVSAdminController::class, 'adduser'])->name('OVSAdminAdduser');
 });
 
 

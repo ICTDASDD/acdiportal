@@ -10,10 +10,6 @@ use Response;
 
 class CandidateTypeController extends Controller
 {
-    public function layoutCandidateType(){
-        return view('ovs.admin.candidatetype',['title' => 'Candidate Type List', 'activeparents' => 'Voting Tools']);
-    }
-
     public function listCandidateType(Request $request)
     {
         if ($request->ajax()) {

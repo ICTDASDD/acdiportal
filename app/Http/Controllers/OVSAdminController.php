@@ -55,9 +55,17 @@ class OVSAdminController extends Controller
         public function eblocking(){
             return view('ovs.admin.eblocking',['title' => 'Entry Blocking', 'activeparents' => 'Voting Tools']);
         }
-        
-        public function viewVotingConfiguration(){
+
+        public function layoutCandidate(){
+            return view('ovs.admin.candidatelist',['title' => 'Candidate List', 'activeparents' => 'BODs & Amendments']);
+        }
+
+        public function layoutVotingConfiguration(){
             return view('ovs.admin.votingConfiguration',['title' => 'Voting Configuration', 'activeparents' => 'Voting Tools']);
+        }
+
+        public function layoutUser(){
+            return view('ovs.admin.users',['title' => 'User List', 'activeparents' => 'User']);
         }
 
         public function memlist(){
@@ -69,9 +77,6 @@ class OVSAdminController extends Controller
         }
 
         // Users nav
-        public function activeusers(){
-            return view('ovs.admin.users',['title' => 'Active User', 'activeparents' => 'User']);
-        }
         public function adduser(){
             return view('ovs.admin.adduser',['title' => 'Add User', 'activeparents' => 'User']);
         }
