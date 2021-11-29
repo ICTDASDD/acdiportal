@@ -5,7 +5,7 @@ namespace App\Http\Controllers\ovs\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Role;
-use App\Models\ovs\admin\User;
+use App\Models\User;
 use App\Models\ovs\admin\Branch;
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -144,6 +144,8 @@ class UserController extends Controller
         ]);
         $user->save();
 
+        /*
+
         $id = $request->get('emp_id');
         $where = array('emp_id' => $id);
         $users  = User::where($where)->first();
@@ -154,7 +156,12 @@ class UserController extends Controller
                 'role_id' => $request->get('role_id'), 
                 'user_type' => "App\Models\User", 
             ]
-            );               
+            ); 
+            
+            */
+            
+        $user->attachRole($request->role_id);
+            
         return Response::json(['success'=> true]);
     }
 
@@ -187,12 +194,16 @@ class UserController extends Controller
         $user->password = Hash::make($request->get('password'));
         $user->save();
 
-      
+
+      /*
         $data = DB::table('role_user')
         ->where('user_id', $id)
           ->update(['role_id' => $request->get('role_id')]);
-      
-        //$user->roles()->sync([$request->input('role_id')]);
+      */
+
+      $user->syncRoles([$request->input('role_id')], $id);
+
+       // $user->roles()->sync([$request->input('role_id')]);
         return Response::json(['success'=> true]);
     } 
 
