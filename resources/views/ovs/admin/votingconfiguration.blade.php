@@ -16,6 +16,7 @@
     @section('main-content')
     <div class="content">
       <div class="container-fluid">
+        <!-- CANDIDATE TYPE -->
         <div class="row">
           <div class="col-md-12">
             <div class="card">
@@ -101,7 +102,7 @@
           </div>
           <!-- end col-md-12 -->
         </div>
-        <!-- end row -->
+        <!-- VOTING PERIOD -->
         <div class="row">
           <div class="col-md-12">
             <div class="card">
@@ -198,7 +199,124 @@
                   <div class="modal-footer">
                     <button id="btnSaveVotingPeriod" type="submit" class="col btn btn-round btn-success d-block"> Save </button> 
                     <button id="btnUpdateVotingPeriod" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
-                    <button id="btnRemoveVotingPeriod" type="button" class="col btn btn-round  btn-danger d-none removVotingPeriod"> Remove </button>
+                    <button id="btnRemoveVotingPeriod" type="button" class="col btn btn-round  btn-danger d-none removeVotingPeriod"> Remove </button>
+                    <button type="button" class="col btn btn-round btn-secondary" data-dismiss="modal"> Cancel </button>
+                  </div>    
+                </form>
+                </div>
+              </div>
+            </div>
+            <!--  end card  -->
+          </div>
+          <!-- end col-md-12 -->
+        </div>
+        <!-- CANDIDATE LIMIT -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">assignment</i>
+                </div>
+                <h4 class="card-title">Candidate Limit
+                  <button id="addCandidateLimit" class="btn btn-success btn-sm btn-round left" data-toggle="modal" data-target="#modalCandidateLimit">
+                    <i class="material-icons">add</i> New  
+                  </button></h4>
+              </div>
+              <div class="card-body">
+                <div class="toolbar">
+                  <!--        Here you can write extra buttons/actions for the toolbar              -->
+                </div>
+                <div class="material-datatables">
+                  <table id="candidateLimitTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Voting Period</th>
+                        <th>Candidate Type</th>
+                        <th>Candidate Limit</th>
+                        <th>Member Voting Limit</th>
+                        <th style="text-align: center; max-width:250px;">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tfoot>
+                      <tr>
+                        <th>Voting Period</th>
+                        <th>Candidate Type</th>
+                        <th>Candidate Limit</th>
+                        <th>Member Voting Limit</th>
+                        <th style="text-align: center; max-width:250px;">Action</th>
+                      </tr>
+                    </tfoot>
+
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- end content-->
+            </div>
+
+            <div class="modal fade" id="modalCandidateLimit" tabindex="-1" role="dialog" aria-labelledby="myModalCandidateLimit" aria-hidden="true">              
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title text-info">Information of Candidate Limit</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                      <i class="material-icons">clear</i>
+                    </button>
+                  </div>
+                  
+                  <form class="cmxform block-form block-form-default" id="candidateLimitForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
+
+                  <div class="modal-body">
+                      <input id="candidateLimitID" class="form-control" type="hidden" name="candidateLimitID" placeholder="Candidate Limit ID" disabled />
+                      
+                      <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <div class="form-group">
+                            <label>Please voting period</label>
+                            <select id="selectVotingPeriod" class="form-control" style="width: 100%"  required="true">
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <div class="form-group">
+                            <label>Candidate for</label>
+                            <select id="selectCandidateType" class="form-control" style="width: 100%"  required="true">
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <input id="candidateLimitCount" class="form-control" type="text" name="candidateLimitCount" placeholder="Candidate Limit" required="true" />
+                          </div>
+                        </div>
+                        <label class="col-sm-3 label-on-right">
+                        </label>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <input id="memberVotingLimitCount" class="form-control" type="text" name="memberVotingLimitCount" placeholder="Member Voting Limit Count" required="true" />
+                          </div>
+                        </div>
+                        <label class="col-sm-3 label-on-right">
+                        </label>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="btnSaveCandidateLimit" type="submit" class="col btn btn-round btn-success d-block"> Save </button> 
+                    <button id="btnUpdateCandidateLimit" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
+                    <button id="btnRemoveCandidateLimit" type="button" class="col btn btn-round  btn-danger d-none removeCandidateLimit"> Remove </button>
                     <button type="button" class="col btn btn-round btn-secondary" data-dismiss="modal"> Cancel </button>
                   </div>    
                 </form>
@@ -276,7 +394,30 @@ $(document).ready(function() {
     ]
   });
 
-  var votingPeriod = $('#votingPeriodTable').DataTable({
+  var candidateTypeSelect2 = $('#selectCandidateType').select2({
+    placeholder: "Candidate For",
+    dropdownParent: "#modalCandidateLimit" ,
+    minimumInputLength: -1,
+    allowClear: true,
+    ajax: {
+        url: "{{ route('candidateType.select2') }}",
+        delay: 250,
+        dataType: 'json',
+        data: function(params) {
+            return {
+                query: params.term, // search term
+            };
+        },
+        processResults: function(response) {
+            return {
+                results: response
+            };
+        },
+        cache: true
+    }
+  });
+
+  var votingPeriodTable = $('#votingPeriodTable').DataTable({
     processing: true,
     serverSide: true,
     ajax: "{{ route('votingPeriod.list') }}",
@@ -310,6 +451,65 @@ $(document).ready(function() {
           }
         },
     ]
+  });
+  
+  var candidateLimitTable = $('#candidateLimitTable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ route('candidateLimit.list') }}",
+    columns: [
+        {
+          data: 'votingPeriodName',
+          name: 'votingPeriodName'
+        },
+        {
+          data: 'candidateTypeName',
+          name: 'candidateTypeName'
+        },
+        {
+          data: 'candidateLimitCount',
+          name: 'candidateLimitCount'
+        },
+        {
+          data: 'memberVotingLimitCount',
+          name: 'memberVotingLimitCount'
+        },
+        {
+          'data': null,
+          'render': function (data) {
+              var x = "";
+              x = 
+                      "<button class='btn btn-success btn-sm editCandidateLimit' value='" + data.candidateLimitID + "'> " +
+                      "  Edit " +
+                      "</button> " ;
+                  
+              return "<center>"+ x + "</center>";
+          }
+        },
+    ]
+  });
+
+  var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
+    placeholder: "Voting Period",
+    dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+    minimumInputLength: -1,
+    allowClear: true,
+    ajax: {
+        url: "{{ route('votingPeriod.select2') }}",
+        delay: 250,
+        dataType: 'json',
+        data: function(params) {
+            return {
+                query: params.term, // search term
+            };
+        },
+        processResults: function(response) {
+            return {
+                results: response
+            };
+        },
+        cache: true
+    }
   });
 
   $('#candidateTypeTable').on('click','.editCandidateType',function(){
@@ -391,6 +591,53 @@ $(document).ready(function() {
         }
     });   
   });
+  
+  $('#candidateLimitTable').on('click','.editCandidateLimit',function(){
+    var candidateLimitID = this.value;
+
+    $.ajax({
+        type: "GET",
+        url: "{{ route('candidateLimit.edit') }}",
+        data: { candidateLimitID : candidateLimitID },
+        contentType: "application/json; charset=utf-8",
+        beforeSend:  function() {
+            swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+        },
+        error: function (jqXHR, exception) {
+            swal.close();
+            
+            console.log(jqXHR.responseText);
+            swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        },
+        success: function (data) {
+          swal.close();
+
+          if(data.candidateLimitID)
+          {
+            $('#candidateLimitID').val(data.candidateLimitID);
+            
+            var $option = $("<option selected></option>").val(data.votingPeriodID).text(data.cy + " (" + data.startDate + "-" + data.endDate + ")");
+            $('#selectVotingPeriod').append($option).trigger('change');
+            
+            $option = $("<option selected></option>").val(data.candidateTypeID).text(data.candidateTypeName);
+            $('#selectCandidateType').append($option).trigger('change');
+
+            $('#candidateLimitCount').val(data.candidateLimitCount);
+            $('#memberVotingLimitCount').val(data.memberVotingLimitCount);
+          
+            $('#btnSaveCandidateLimit').removeClass('d-block').addClass('d-none');
+            $('#btnUpdateCandidateLimit').removeClass('d-none').addClass('d-block');
+            $('#btnRemoveCandidateLimit').removeClass('d-none').addClass('d-block');
+
+            $('#modalCandidateLimit').modal('show');
+          } 
+          else 
+          {
+            swal({ title: "Unable to Edit", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          }
+        }
+    });   
+  });
 
   $(document).on("click", "#addCandidateType", function (e) {
       $('#candidateTypeID').val("0");
@@ -409,6 +656,18 @@ $(document).ready(function() {
       $('#btnUpdateVotingPeriod').removeClass('d-block').addClass('d-none');
       $('#btnRemoveVotingPeriod').removeClass('d-block').addClass('d-none');
   });
+
+  $(document).on("click", "#addCandidateLimit", function (e) {
+      $('#candidateLimitID').val("0");
+      $('#selectVotingPeriod').val("");
+      $('#selectCandidateType').val(""); 
+      $('#candidateLimitCount').val(""); 
+      $('#memberVotingLimitCount').val("");  
+
+      $('#btnSaveCandidateLimit').removeClass('d-none').addClass('d-block');
+      $('#btnUpdateCandidateLimit').removeClass('d-block').addClass('d-none');
+      $('#btnRemoveCandidateLimit').removeClass('d-block').addClass('d-none');
+  });
   
   $(document).on("click", "#btnSaveCandidateType", function (e) {
       $('#candidateTypeForm').attr('action', 'Saving');
@@ -419,6 +678,11 @@ $(document).ready(function() {
       $('#votingPeriodForm').attr('action', 'Saving');
       validateVotingPeriodForm();
   });
+
+  $(document).on("click", "#btnSaveCandidateLimit", function (e) {
+      $('#candidateLimitForm').attr('action', 'Saving');
+      validateCandidateLimitForm();
+  });
   
   $(document).on("click", "#btnUpdateCandidateType", function (e) {
       $('#candidateTypeForm').attr('action', 'Updating');
@@ -428,6 +692,11 @@ $(document).ready(function() {
   $(document).on("click", "#btnUpdateVotingPeriod", function (e) {
       $('#votingPeriodForm').attr('action', 'Updating');
       validateVotingPeriodForm();
+  });
+  
+  $(document).on("click", "#btnUpdateCandidateLimit", function (e) {
+      $('#candidateLimitForm').attr('action', 'Updating');
+      validateCandidateLimitForm();
   });
 
   $("#candidateTypeForm").on("click", ".removeCandidateType", function (e) {
@@ -480,7 +749,7 @@ $(document).ready(function() {
 
   $("#votingPeriodForm").on("click", ".removeVotingPeriod", function (e) {
       swal({
-          title: 'Remove Candidate Type!',
+          title: 'Remove Voting Period!',
           text: "Are you sure?",
           type: 'warning',
           showCancelButton: true,
@@ -489,12 +758,12 @@ $(document).ready(function() {
           confirmButtonText: 'Confirm'
       }).then((result) => {
           if (result.value) {
-            var candidateTypeID = $("#candidateTypeID").val();
+            var votingPeriodID = $("#votingPeriodID").val();
             
             $.ajax({
                 type: "GET",
-                url: "{{ route('candidateType.delete') }}",
-                data: { candidateTypeID : candidateTypeID},
+                url: "{{ route('votingPeriod.delete') }}",
+                data: { votingPeriodID : votingPeriodID},
                 contentType: "application/json; charset=utf-8",
                 beforeSend:  function() {
                     swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
@@ -514,11 +783,59 @@ $(document).ready(function() {
                     } 
                     else 
                     {
-                      swal({ title:"Successfully Remove!", text: "You remove candidate type!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                      swal({ title:"Successfully Remove!", text: "You remove voting period!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
 
-                      candidateTypeTable.ajax.reload();  
+                      votingPeriodTable.ajax.reload();  
 
-                      $('#modalCandidateType').modal('hide');
+                      $('#modalVotingPeriod').modal('hide');
+                    }
+                }
+            });   
+          } 
+      });
+  });
+  
+  $("#candidateLimitForm").on("click", ".removeCandidateLimit", function (e) {
+      swal({
+          title: 'Remove Candidate Limit!',
+          text: "Are you sure?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirm'
+      }).then((result) => {
+          if (result.value) {
+            var candidateLimitID = $("#candidateLimitID").val();
+            
+            $.ajax({
+                type: "GET",
+                url: "{{ route('candidateLimit.delete') }}",
+                data: { candidateLimitID : candidateLimitID},
+                contentType: "application/json; charset=utf-8",
+                beforeSend:  function() {
+                    swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                },
+                error: function (jqXHR, exception) {
+                    swal.close();
+
+                    console.log(jqXHR.responseText);
+                    swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                },
+                success: function (data) {
+                    swal.close();
+
+                    if(!data.success)
+                    {
+                      swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                    } 
+                    else 
+                    {
+                      swal({ title:"Successfully Remove!", text: "You remove candidate limit!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                      candidateLimitTable.ajax.reload();  
+
+                      $('#modalCandidateLimit').modal('hide');
                     }
                 }
             });   
@@ -533,12 +850,20 @@ $(document).ready(function() {
   $("#votingPeriodForm").bind("invalid-form.validate", function () {
       // Do something useful e.g. display the Validation Summary in a popup dialog
   });
+  
+  $("#candidateLimitForm").bind("invalid-form.validate", function () {
+      // Do something useful e.g. display the Validation Summary in a popup dialog
+  });
 
   $('#candidateTypeForm').submit(function (evt) {
       evt.preventDefault(); //prevents the default action
   });
 
   $('#votingPeriodForm').submit(function (evt) {
+      evt.preventDefault(); //prevents the default action
+  });
+
+  $('#candidateLimitForm').submit(function (evt) {
       evt.preventDefault(); //prevents the default action
   });
 });
@@ -664,6 +989,7 @@ function validateVotingPeriodForm(action)
         },      
     },
     submitHandler: function(form){
+      var votingPeriodID = $("#votingPeriodID").val();
       var cy = $("#cy").val();
       var startDate = $("#startDate").val();
       var endDate = $("#endDate").val();
@@ -714,11 +1040,11 @@ function validateVotingPeriodForm(action)
       } 
       else 
       {
-        
         $.ajax({
             type: "GET",
             url: "{{ route('votingPeriod.update') }}",
             data: { 
+              votingPeriodID : votingPeriodID,
               cy : cy,
               startDate : startDate,
               endDate : endDate,
@@ -753,6 +1079,133 @@ function validateVotingPeriodForm(action)
                   votingPeriodTable.ajax.reload();  
 
                   $('#modalVotingPeriod').modal('hide');
+                }
+            }
+        });  
+      }
+
+      return false;
+    }
+  });
+}
+
+function validateCandidateLimitForm(action)
+{
+  $("#candidateLimitForm").validate({
+    ignore: 'input[type=hidden]',
+    rules:{      
+        'selectVotingPeriod':{
+            required: true
+        },   
+        'selectCandidateType':{
+            required: true
+        },    
+        'candidateLimitCount':{
+            required: true
+        }, 
+        'memberVotingLimitCount':{
+            required: true
+        },      
+    },
+    submitHandler: function(form){
+      var candidateLimitID = $("#candidateLimitID").val();
+      
+      var selectVotingPeriod = $('#selectVotingPeriod').select2('data');
+      var votingPeriodID = selectVotingPeriod[0].id;
+      
+      var selectCandidateType = $('#selectCandidateType').select2('data');
+      var candidateTypeID = selectCandidateType[0].id;
+
+      var candidateLimitCount = $("#candidateLimitCount").val();
+      var memberVotingLimitCount = $("#memberVotingLimitCount").val();
+
+      if("Saving" ==  $('#candidateLimitForm').attr('action'))
+      {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('candidateLimit.add') }}",
+            data: { 
+              votingPeriodID : votingPeriodID,
+              candidateTypeID : candidateTypeID,
+              candidateLimitCount : candidateLimitCount,
+              memberVotingLimitCount : memberVotingLimitCount,
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+                
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
+
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+
+                  swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Saved!", text: "You add new candidate limit!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                  var candidateLimitTable = $('#candidateLimitTable').DataTable();
+                  candidateLimitTable.ajax.reload();  
+
+                  $('#modalCandidateLimit').modal('hide');
+                }
+            }
+        });    
+      } 
+      else 
+      {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('candidateLimit.update') }}",
+            data: { 
+              candidateLimitID : candidateLimitID,
+              votingPeriodID : votingPeriodID,
+              candidateTypeID : candidateTypeID,
+              candidateLimitCount : candidateLimitCount,
+              memberVotingLimitCount : memberVotingLimitCount,
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
+
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+
+                  swal({ title:"Unable to Update!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Update!", text: "You update candidate limit!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+
+                  var candidateLimitTable = $('#candidateLimitTable').DataTable();
+                  candidateLimitTable.ajax.reload();  
+
+                  $('#modalCandidateLimit').modal('hide');
                 }
             }
         });  

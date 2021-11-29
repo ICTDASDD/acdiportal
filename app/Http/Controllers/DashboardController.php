@@ -39,6 +39,10 @@ class DashboardController extends Controller
                 return view('ovs.elecom.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
+            elseif(Auth::user()->hasRole('branch-officer')){
+                return view('ovs.ba.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
+            }
+
             // EMP
             elseif(Auth::user()->hasRole('emp')){
                 return view('emp.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);

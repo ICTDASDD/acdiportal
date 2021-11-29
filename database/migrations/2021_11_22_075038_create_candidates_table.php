@@ -22,6 +22,7 @@ class CreateCandidatesTable extends Migration
             $table->string('information1');
             $table->string('information2');
             $table->integer('candidateTypeID');
+            $table->integer('votingPeriodID');
             $table->timestamps();
         });
     }

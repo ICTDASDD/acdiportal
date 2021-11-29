@@ -19,6 +19,37 @@ class VotingPeriodController extends Controller
         }
     }
 
+    public function listVotingPeriodSelect2(Request $request)
+    {
+    	$input = $request->all();
+
+        if (!empty($input['query'])) {
+
+            $data = VotingPeriod::select(["votingPeriodID", "cy", "startDate", "endDate"])
+                ->where("cy", "LIKE", "%{$input['query']}%")
+                ->get();
+        } else {
+            $data = VotingPeriod::select(["votingPeriodID", "cy", "startDate", "endDate"])
+                ->get();
+        }
+
+        $result = [];
+
+        if (count($data) > 0) {
+
+            foreach ($data as $row) {
+                $result[] = array(
+                    "id" => $row->votingPeriodID,
+                    "text" => $row->cy . " (" . $row->startDate . "-" . $row->endDate . ")",
+                    "cy" => $row->cy,
+                    "startDate" => $row->startDate,
+                    "endDate" => $row->endDate,
+                );
+            }
+        }
+        return response()->json($result);
+    }
+
     public function editVotingPeriod(Request $request)
     {
         $votingPeriodID = $request->get('votingPeriodID');
@@ -80,6 +111,7 @@ class VotingPeriodController extends Controller
         $votingPeriodID = $request->get('votingPeriodID');
 
         $votingPeriod = VotingPeriod::find($votingPeriodID);
+        
         $votingPeriod->cy = $request->get('cy');
         $votingPeriod->startDate = $request->get('startDate');
         $votingPeriod->endDate = $request->get('endDate');

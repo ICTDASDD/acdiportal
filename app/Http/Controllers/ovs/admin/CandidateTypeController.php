@@ -18,6 +18,35 @@ class CandidateTypeController extends Controller
                 ->make(true);
         }
     }
+    
+    public function listCandidateTypeSelect2(Request $request)
+    {
+    	$input = $request->all();
+
+        if (!empty($input['query'])) {
+
+            $data = CandidateType::select(["candidateTypeID", "candidateTypeName"])
+                ->where("candidateTypeName", "LIKE", "%{$input['query']}%")
+                ->get();
+        } else {
+
+            $data = CandidateType::select(["candidateTypeID", "candidateTypeName"])
+                ->get();
+        }
+
+        $candidateTypes = [];
+
+        if (count($data) > 0) {
+
+            foreach ($data as $candidateType) {
+                $candidateTypes[] = array(
+                    "id" => $candidateType->candidateTypeID,
+                    "text" => $candidateType->candidateTypeName,
+                );
+            }
+        }
+        return response()->json($candidateTypes);
+    }
 
     public function editCandidateType(Request $request)
     {

@@ -23,7 +23,17 @@
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">Candidate for SAGA 2022</h4>
+               
+                
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                      <h4 class="card-title">Candidate for SAGA </h4>
+                      <select id="selectVotingPeriod" class="form-control" style="width: 100%"  required="true">
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="card-body">
                 <div class="toolbar">
@@ -54,223 +64,16 @@
                     </tfoot>
 
                     <tbody>
-<!--
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate1.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. One (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate2.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Two (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr> 
 
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate3.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Three (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr> 
-
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate4.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Four (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-                      
-                      
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate5.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Five (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate6.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Six (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate7.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Seven (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate8.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Eight (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-success">Board of Director</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate1.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. One (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-info">Committee</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td style="text-align: center" ><img src="{{ asset('material/img/candidate/candidate2.jpg')}}" style="max-width: 50px;"/></td>
-                        <td style="text-align: center">BGEN Candidate N. Two (RET)</td>                            
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center">Lorem Ipsum 123</td>
-                        <td style="text-align: center" class="text-info">Committee</td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-                    -->
                     </tbody>
-
-                    
                   </table>
-
-                  
                 </div>
-                
               </div>
               <!-- end content-->
             </div>
             <button id="addCandidate" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalCandidate">
               <i class="material-icons">add</i> Add Candidate
             </button>
-
 
             <div class="modal fade" id="modalCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalCandidate" aria-hidden="true">              
               <div class="modal-dialog">
@@ -430,13 +233,42 @@
 <script>
 $(document).ready(function() {
 
+  var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
+    placeholder: "Choose year",
+    //dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+    minimumInputLength: -1,
+    allowClear: true,
+    ajax: {
+        url: "{{ route('votingPeriod.select2') }}",
+        delay: 250,
+        dataType: 'json',
+        data: function(params) {
+            return {
+                query: params.term, // search term
+            };
+        },
+        processResults: function(response) {
+            return {
+                results: response
+            };
+        },
+        cache: true
+    }
+  }).on('change', function () {
+    var votingPeriod = $('#selectVotingPeriod').select2('data');
+    var votingPeriodID = votingPeriod[0].id;
+
+    var candidateTable = $('#candidateTable').DataTable();
+    candidateTable.ajax.reload();  
+  });
+
   var candidateTypeSelect2 = $('#candidateTypeID').select2({
     placeholder: "Candidate For",
     dropdownParent: "#modalCandidate" ,
     minimumInputLength: -1,
     allowClear: true,
     ajax: {
-        url: "{{ route('candidate.select2') }}",
+        url: "{{ route('candidateType.select2') }}",
         delay: 250,
         dataType: 'json',
         data: function(params) {
@@ -497,7 +329,10 @@ $(document).ready(function() {
               return "<center>"+ x + "</center>";
           }
         },
-    ]
+    ],
+    "fnServerParams": function (aoData) {
+        aoData.push({ "name": "votingPeriodID", "value": document.getElementById("votingPeriodID").value });
+    }
   });
 
   $('#candidateTable').on('click','.editCandidate',function(){

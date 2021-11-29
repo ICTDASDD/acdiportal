@@ -5,7 +5,6 @@ namespace App\Http\Controllers\ovs\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\Candidate;
-use App\Models\ovs\admin\CandidateType;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use Response;
@@ -16,10 +15,13 @@ class CandidateController extends Controller
     public function listCandidate(Request $request)
     {
         if ($request->ajax()) {
-            $data = Candidate::latest()->get();
+            $votingPeriodID = $request->get('votingPeriodID');
+            
+            //$data = Candidate::latest()->get();
             $data = DB::table('candidates')
             ->join('candidate_types', 'candidates.candidateTypeID', '=', 'candidate_types.candidateTypeID')
             ->select('candidates.*','candidate_types.candidateTypeName')
+            ->where('votingPeriodID', $votingPeriodID)
             ->get();
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -45,35 +47,6 @@ class CandidateController extends Controller
                 ->rawColumns(['profilePicture','fullName','candidateFor'])
                 ->make(true);
         }
-    }
-
-    public function listCandidateSelect2(Request $request)
-    {
-    	$input = $request->all();
-
-        if (!empty($input['query'])) {
-
-            $data = CandidateType::select(["candidateTypeID", "candidateTypeName"])
-                ->where("candidateTypeName", "LIKE", "%{$input['query']}%")
-                ->get();
-        } else {
-
-            $data = CandidateType::select(["candidateTypeID", "candidateTypeName"])
-                ->get();
-        }
-
-        $candidateTypes = [];
-
-        if (count($data) > 0) {
-
-            foreach ($data as $candidateType) {
-                $candidateTypes[] = array(
-                    "id" => $candidateType->candidateTypeID,
-                    "text" => $candidateType->candidateTypeName,
-                );
-            }
-        }
-        return response()->json($candidateTypes);
     }
 
     public function editCandidate(Request $request)

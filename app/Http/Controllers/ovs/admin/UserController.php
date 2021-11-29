@@ -4,31 +4,27 @@ namespace App\Http\Controllers\ovs\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-//use App\\Models\\User::id();
 use App\Models\Role;
+use App\Models\ovs\admin\User;
+use App\Models\ovs\admin\Branch;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use Response;
 use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
     
     public function listUser(Request $request)
     {
-       /* if ($request->ajax()) {
-            $data = user::latest()->get();
-            return Datatables::of($data)
-            ->make(true);
-        }*/
 
         if ($request->ajax()) {
             $data = DB::table('users')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
-            //->select('users.name', 'users.branch_of_operation','roles.description','users.email')
-            ->select('users.*','roles.description')
+            ->join('branches', 'users.brCode', '=', 'branches.brCode')
+            ->select('users.*','roles.description','branches.brName')
             ->get();
             return Datatables::of($data) 
             ->addIndexColumn()
@@ -36,26 +32,67 @@ class UserController extends Controller
                     $actionBtn = "<center>". $row->lname. ", "  . $row->name . "</center>";
                     return $actionBtn;
                 })
-                ->addColumn('branch_of_operation', function($row){
-                    $actionBtn = "<center>". $row->branch_of_operation. "</center>";
+                ->addColumn('brName', function($row){
+                    $actionBtn = "<center>". $row->brName. "</center>";
                     return $actionBtn;
                 })
                 ->addColumn('description', function($row){
-                    $actionBtn = "<center class='text-success'>". $row->description. "</center>";
+                    $actionBtn = "<center>". $row->description. "</center>";
                     return $actionBtn;
                 })
-                ->rawColumns(['fullName','branch_of_operation','description','emp_id'])
+                ->addColumn('email', function($row){
+                    $actionBtn = "<center>". $row->email. "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('emp_id', function($row){
+                    $actionBtn = "<center>". $row->emp_id. "</center>";
+                    return $actionBtn;
+                })
+                ->rawColumns(['fullName','brName','description','email','emp_id'])
             ->addIndexColumn()->make(true);
-
         }
     }
+
+    public function listBranchSelect2(Request $request)
+    {
+    	$input = $request->all();
+
+        if (!empty($input['query'])) {
+
+            $data = Branch::select(["brName", "brCode"])
+                ->where("brName", "LIKE", "%{$input['query']}%")
+                ->orderBy('brName')
+                ->get();
+        } else {
+
+            $data = Branch::select(["brName", "brCode"])
+                ->orderBy('brName')
+                ->get();
+        }
+
+        $branches = [];
+
+        if (count($data) > 0) {
+
+            foreach ($data as $branch) {
+                $branches[] = array(
+                    "id" => $branch->brCode,
+                    "text" => $branch->brName,
+                );
+            }
+        }
+        return response()->json($branches);
+    } 
 
     public function editUser(Request $request)
     {
         $id = $request->get('id');
         $where = array('id' => $id);
-        $user  = User::where($where)->first();
-
+        $user = DB::table('users')
+        ->join('branches', 'users.brCode', '=', 'branches.brCode')
+        ->select('users.*','branches.brName')
+        ->where($where)
+        ->first();
         return Response::json($user);
     }
 
@@ -63,6 +100,10 @@ class UserController extends Controller
     {
         $id = $request->get('id');
         $user = User::where('id',$id)->delete();
+
+        $user = DB::table('role_user')
+        ->where('role_user.user_id', '=', $id)
+        ->delete();
 
         if(!$user)
         {
@@ -77,15 +118,13 @@ class UserController extends Controller
     public function addUser(Request $request)
     { 
         $validator = \Validator::make($request->all(), [
-           // 'branch_of_operation' => 'required',\
-           
+            'brCode' => 'required',
             'name' => 'required',
             'mname' => 'required',
             'lname' => 'required',
             'emp_id' => 'required',
             'email' => 'required',
             'password' => 'required',
-
             'role_id' => 'required',
 
         ]);
@@ -93,10 +132,9 @@ class UserController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->errors()->all()]);
         }
-        
+
         $user = new User([
-            
-            'branch_of_operation' => $request->get('branch_of_operation'),
+            'brCode' => $request->get('brCode'),
             'name' => $request->get('name'),
             'mname' => $request->get('mname'),
             'lname' => $request->get('lname'),
@@ -105,14 +143,6 @@ class UserController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
         $user->save();
-       // $id = User::getPdo()->lastInsertId();
-       // $id = $user->id;
-        //$id = DB::table('users')->max('id');
-
-        //$id = DB::table('users')
-        //->select('id')
-        //->where(max(id))
-        //->get();
 
         $id = $request->get('emp_id');
         $where = array('emp_id' => $id);
@@ -124,22 +154,21 @@ class UserController extends Controller
                 'role_id' => $request->get('role_id'), 
                 'user_type' => "App\Models\User", 
             ]
-            );
-
-  
+            );               
         return Response::json(['success'=> true]);
     }
 
     public function updateUser(User $user, Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'branch_of_operation' => 'required',
+            'brCode' => 'required',
             'name' => 'required',
             'mname' => 'required',
             'lname' => 'required',
             'emp_id' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'role_id'=> 'required',
         ]);
         
         if ($validator->fails()) {
@@ -148,17 +177,22 @@ class UserController extends Controller
 
         $id = $request->get('id');
         $user = User::find($id);
-        $user->branch_of_operation = $request->get('branch_of_operation');
+
+        $user->brCode = $request->get('brCode');
         $user->name = $request->get('name');
         $user->mname = $request->get('mname');
         $user->lname = $request->get('lname');
         $user->emp_id = $request->get('emp_id');
         $user->email = $request->get('email');
-        $user->password = $request->get('password');
+        $user->password = Hash::make($request->get('password'));
         $user->save();
-        //$candidate = Candidate::find($candidateID)->update($request->all());
-        //$candidate->update($request->all());
+
       
+        $data = DB::table('role_user')
+        ->where('user_id', $id)
+          ->update(['role_id' => $request->get('role_id')]);
+      
+        //$user->roles()->sync([$request->input('role_id')]);
         return Response::json(['success'=> true]);
     } 
 

@@ -21,6 +21,7 @@ class User extends Model
      */
     protected $fillable = [
         'emp_id',
+        'brCode',
         'name',
         'lname',
         'mname',

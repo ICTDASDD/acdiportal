@@ -145,32 +145,7 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
     Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'layoutCandidate'])->name('candidate.layout');
     Route::get('ovs/adm/votingconfiguration', [OVSAdminController::class, 'layoutVotingConfiguration'])->name('votingConfiguration.layout');
     Route::get('ovs/adm/users', [OVSAdminController::class, 'layoutUser'])->name('users.layout');    
-    
-    Route::get('ovs/adm/candidatetype/list', [CandidateTypeController::class, 'listCandidateType'])->name('candidateType.list');
-    Route::get('ovs/adm/candidatetype/add', [CandidateTypeController::class, 'addCandidateType'])->name('candidateType.add');
-    Route::get('ovs/adm/candidatetype/edit', [CandidateTypeController::class, 'editCandidateType'])->name('candidateType.edit');
-    Route::get('ovs/adm/candidatetype/update', [CandidateTypeController::class, 'updateCandidateType'])->name('candidateType.update');
-    Route::get('ovs/adm/candidatetype/delete', [CandidateTypeController::class, 'removeCandidateType'])->name('candidateType.delete');
-    
-    Route::get('ovs/adm/votingperiod/list', [VotingPeriodController::class, 'listVotingPeriod'])->name('votingPeriod.list');
-    Route::get('ovs/adm/votingperiod/add', [VotingPeriodController::class, 'addVotingPeriod'])->name('votingPeriod.add');
-    Route::get('ovs/adm/votingperiod/edit', [VotingPeriodController::class, 'editVotingPeriod'])->name('votingPeriod.edit');
-    Route::get('ovs/adm/votingperiod/update', [VotingPeriodController::class, 'updateVotingPeriod'])->name('votingPeriod.update');
-    Route::get('ovs/adm/votingperiod/delete', [VotingPeriodController::class, 'removeVotingPeriod'])->name('votingPeriod.delete');
-    
-    Route::get('ovs/adm/candidatelist/select2', [CandidateController::class, 'listCandidateSelect2'])->name('candidate.select2');
-    Route::get('ovs/adm/candidatelist/list', [CandidateController::class, 'listCandidate'])->name('candidate.list');
-    Route::get('ovs/adm/candidatelist/add', [CandidateController::class, 'addCandidate'])->name('candidate.add');
-    Route::get('ovs/adm/candidatelist/edit', [CandidateController::class, 'editCandidate'])->name('candidate.edit');
-    Route::get('ovs/adm/candidatelist/update', [CandidateController::class, 'updateCandidate'])->name('candidate.update');
-    Route::get('ovs/adm/candidatelist/delete', [CandidateController::class, 'removeCandidate'])->name('candidate.delete');
-    
-    Route::get('ovs/adm/users/list', [UserController::class, 'listUser'])->name('users.list');   
-    Route::get('ovs/adm/users/add', [UserController::class, 'addUser'])->name('users.add');   
-    Route::get('ovs/adm/users/edit', [UserController::class, 'editUser'])->name('users.edit');   
-    Route::get('ovs/adm/users/update', [UserController::class, 'updateUser'])->name('users.update');   
-    Route::get('ovs/adm/users/delete', [UserController::class, 'removeUser'])->name('users.delete');   
-
+   
     Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
     Route::get('ovs/adm/bblocking', [OVSAdminController::class, 'bblocking'])->name('OVSAdminBranchBlocking');    
     Route::get('ovs/adm/eblocking', [OVSAdminController::class, 'eblocking'])->name('OVSAdminEntryBlocking');    
@@ -197,7 +172,8 @@ Route::group(['middleware' => ['auth', 'role:elecom-admin']], function() {
 /////////////////////////////////////////////////////////////////////////////// ------- Online Voting System  END ------- ///////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+@include(base_path('routes/extended_route/ovs/admin/OVSadminExtend.php'));
+@include(base_path('routes/extended_route/ovs/ba/OVSBranchAdminExtend.php'));
 
 
 

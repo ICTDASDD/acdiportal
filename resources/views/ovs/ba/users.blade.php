@@ -1,13 +1,14 @@
-@extends('ovs.admin.layouts.app') 
+@extends('ovs.ba.layouts.app') 
 
 @section('sidebar')
-@include('ovs.admin.layouts.sidebar')
+@include('ovs.ba.layouts.sidebar')
 @parent
 @endsection
 
+
     <!-- Navbar -->
     @section('navbar')
-    @include('ovs.admin.layouts.navbar')
+    @include('ovs.ba.layouts.navbar')
     @parent
     @endsection
     <!-- End Navbar -->
@@ -89,7 +90,7 @@
                           <div class="fileinput-new thumbnail img-circle">
                             <img src="{{ asset('material/img/placeholder.jpg')}}"  alt="...">
                           </div>
-                          <div class="fileinput-preview fileinput-exists thumbnail img-circle" style=""> </div>
+                          <div class="fileinput-preview fileinput-exists thumbnail img-circle" style=""></div>
                           <div>
                             <span class="btn btn-round btn-rose btn-file btn-sm" >
                               <span class="fileinput-new">Add Photo</span>
@@ -101,31 +102,26 @@
                         </div>
                       </div>
 
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group">
-                            <select id="brCode" class ="form-control" style="width: 100%"  required="true">
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
+                      
                       <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group">
-                            <select id="role_id" class="form-control" style="width: 100%"  required="true" placeholder="User Type">
-                              <option value="16">ICTD</option>
-                              <option value="17">ELECOM</option>
-                              <option value="18">CANVASSING</option>
-                              <option value="19">GENERAL PUBLIC</option>
-                              <option value="20">BRANCH OFFICER</option>
-                            </select>
-                          </div>
+
+
+                        <div class="col-sm-6">
+                          <select id="branch_of_operation" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Branch of Operation">
+                            <option value="TEST BRANCH" class="text-success">TEST BRANCH</option>
+                          </select>
                         </div>
-                      </div>
 
+                        <div class="col-sm-6">
+                          <select id="role_id" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="User Type">
+                            <option value="16">ICTD (VOTING)</option>
+                            <option value="17">ELECOM (VOTING)</option>
+                            <option value="18">CANVASSING (VOTING)</option>
+                            <option value="19">Gen. Public (VOTING)</option>
+                            <option value="20">Branch Office (VOTING)</option>
+                          </select>
+                        </div>
 
-                      <div class="row">
 
                         <div class="col-sm-4">
                           <div class="form-group">
@@ -195,14 +191,14 @@
 
     <!--footer -->
     @section('footer')
-    @include('ovs.admin.layouts.footer')
+    @include('ovs.ba.layouts.footer')
     @parent
     @endsection
     <!--footer -->
 
     <!--side filter -->
     @section('sidefilter')
-    @include('ovs.admin.layouts.sidefilter')
+    @include('ovs.ba.layouts.sidefilter')
     @parent
     @endsection
     <!-- side filter -->
@@ -216,56 +212,30 @@
 
 <!--   Script Plugins -->
     @section('adminplugin')
-    @include('ovs.admin.layouts.plugins.adminplugin')
+    @include('ovs.ba.layouts.plugins.adminplugin')
     @parent
     @endsection
 <!--   Script Plugins -->
 
 <!--   Wizard Plugins -->
 @section('pageplugin')
-@include('ovs.admin.layouts.plugins.datatables')
+@include('ovs.ba.layouts.plugins.datatables')
 @parent
 
 <script>
   $(document).ready(function() {
-
-   $('#role_id').select2();
-
-    var branchSelect2 = $('#brCode').select2({
-    placeholder: "Branch of Operation",
-    dropdownParent: "#modalUser" ,
-    minimumInputLength: -1,
-    allowClear: true,
-    ajax: {
-        url: "{{ route('users.select2') }}",
-        delay: 250,
-        dataType: 'json',
-        data: function(params) {
-            return {
-                query: params.term, // search term
-            };
-        },
-        processResults: function(response) {
-            return {
-                results: response
-            };
-        },
-        cache: true
-    }
-  });
-
     var userTable = $('#userTable').DataTable({
       processing: true,
       serverSide: true,
       ajax: "{{ route('users.list') }}",
       columns: [
           {
-            data: 'fullName',
-            name: 'fullName'
+            data: 'name',
+            name: 'name'
           },
           {
-            data: 'brName',
-            name: 'brName'
+            data: 'branch_of_operation',
+            name: 'branch_of_operation'
           },
           {
             data: 'description',
@@ -317,10 +287,7 @@
             if(data.id)
             {
               $('#id').val(data.id);
-
-              var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
-            $('#brCode').append($option).trigger('change');
-
+           //   $('#branch_of_operation').val(data.branch_of_operation);
             $('#description').val(data.description);
             $('#name').val(data.name);
             $('#mname').val(data.mname);
@@ -346,8 +313,7 @@
     
     $(document).on("click", "#addUser", function (e) {
         $('#id').val("0");
-
-        $('#brCode').val("");
+        $('#branch_of_operation').val("");
         $('#name').val("");
         $('#mname').val("");
         $('#lname').val("");
@@ -441,7 +407,7 @@
       'id':{
             required: true
         }, 
-        'brCode':{
+        'branch_of_operation':{
             required: true
         },   
         'name':{
@@ -465,10 +431,7 @@
     },
     submitHandler: function(form){
       var id = $("#id").val();
-  
-      var brSelect2 = $('#brCode').select2('data');
-      var brCode = brSelect2[0].id;
-
+      var branch_of_operation = $("#branch_of_operation").val();
       var name = $("#name").val();
       var mname = $("#mname").val();
       var lname = $("#lname").val();
@@ -486,7 +449,7 @@
             type: "GET",
             url: "{{ route('users.add') }}",
             data: { 
-              brCode : brCode,
+              branch_of_operation : branch_of_operation,
               name : name,
               mname  : mname,
               lname  : lname,
@@ -533,12 +496,12 @@
       } 
       else 
       {
+         
         $.ajax({
             type: "GET",
             url: "{{ route('users.update') }}",
             data: { 
-              id : id,
-              brCode : brCode,
+              branch_of_operation : branch_of_operation,
               name : name,
               mname  : mname,
               lname  : lname,

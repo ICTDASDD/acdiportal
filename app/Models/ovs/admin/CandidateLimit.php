@@ -15,6 +15,7 @@ class CandidateLimit extends Model
         'candidateLimitID',
         'votingPeriodID',
         'candidateTypeID',
-        'count',
+        'candidateLimitCount',
+        'memberVotingLimitCount',
     ];
 }
