@@ -18,8 +18,6 @@
         <div class="content">
           <div class="container-fluid">
             
-
-
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
@@ -34,10 +32,10 @@
                       <!--        Here you can write extra buttons/actions for the toolbar              -->
                     </div>
                     <div class="material-datatables">
-                      <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                      <table id="requestTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                         <thead>
                           <tr>
-                            <th style="text-align: left">R. Date</th>
+                            <th style="text-align: center">R. Date</th>
                             <th style="text-align: center">R. Branch</th>
                             <th style="text-align: center">User Type</th>
                             <th style="text-align: center">Request Type</th>                            
@@ -48,8 +46,21 @@
                           </tr>
                         </thead>
 
-                        <tbody>
+                        <tfoot>
                           <tr>
+                            <th style="text-align: center">R. Date</th>
+                            <th style="text-align: center">R. Branch</th>
+                            <th style="text-align: center">User Type</th>
+                            <th style="text-align: center">Request Type</th>                            
+                            <th style="text-align: center">Request Info</th>
+                            <th style="text-align: center">Status</th>
+                            <th style="text-align: center">Last Update</th>
+                            <th style="text-align: center">Action</th>
+                          </tr>
+                        </tfoot>
+
+                        <tbody>
+                          {{-- <tr>
                             <td style="text-align: left">10/21/2021 08:03:15</td>
                             <td style="text-align: center">Lipa Branch</td>                            
                             <td style="text-align: center">Branch Admin</td>
@@ -125,33 +136,24 @@
                                   </button>
                                   </a>
                             </td>
-                          </tr>
+                          </tr> --}}
                              
                         </tbody>
 
 
-                        <tfoot>
-                          <tr>
-                            <th style="text-align: left">R. Date</th>
-                            <th style="text-align: center">R. Branch</th>
-                            <th style="text-align: center">User Type</th>
-                            <th style="text-align: center">Request Type</th>                            
-                            <th style="text-align: center">Request Info</th>
-                            <th style="text-align: center">Status</th>
-                            <th style="text-align: center">Action</th>
-                          </tr>
-                        </tfoot>
+                        
                         
                       </table>
                     </div>
                   </div>
                   <!-- end content-->
                 </div>
-
-                      <button id="addRequest" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalRequest">
+                       
+                      {{-- <button id="addRequest" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalRequest">
                         <i class="material-icons">add</i> Add Request
-                      </button>
+                      </button> --}}
 
+                      {{-- ADD REQUEST MODAL --}}
                           <div class="modal fade" id="modalRequest" tabindex="-1" role="dialog" aria-labelledby="myModalRequest" aria-hidden="true">                   
                             <div class="modal-dialog">
                               <div class="modal-content">
@@ -162,8 +164,8 @@
                                   </button>
                                 </div>
                                 
-                                <form class="cmxform block-form block-form-default" id="userForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
-              
+                                <form class="cmxform block-form block-form-default" id="requestForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
+                                  @CSRF
                                 <div class="modal-body">
               
                                     <input type="hidden" name="id" id="id" value="" />
@@ -171,69 +173,30 @@
                                     <div class="row">
               
               
-                                      <div class="col-sm-6">
-                                        <select id="branch_of_operation" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Branch of Operation">
-                                          <option value="TEST BRANCH" class="text-success">TEST BRANCH</option>
+                                      <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                        <select id="elecom_status" name="elecom_status" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Status">
+                                          <option value="0" >PENDING</option>
+                                          <option value="1" >APPROVED</option>
+                                          <option value="2" >DENIED</option>
                                         </select>
                                       </div>
-              
-                                      <div class="col-sm-6">
-                                        <select id="role_id" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="User Type">
-                                          <option value="16">ICTD (VOTING)</option>
-                                          <option value="17">ELECOM (VOTING)</option>
-                                          <option value="18">CANVASSING (VOTING)</option>
-                                          <option value="19">Gen. Public (VOTING)</option>
-                                          <option value="20">Branch Office (VOTING)</option>
-                                        </select>
-                                      </div>
-              
-              
-                                      <div class="col-sm-4">
-                                        <div class="form-group">
-                                          <input id="lname" class="form-control" type="text" name="lname" placeholder="Last Name" required="true" />
-                                        </div>
-                                      </div>
-                                      <div class="col-sm-4">
-                                        <div class="form-group">
-                                          <input id="name" class="form-control" type="text" name="name" placeholder="First Name" required="true" />
-                                        </div>
-                                      </div>
-                                      <div class="col-sm-4">
-                                        <div class="form-group">
-                                          <input id="mname" class="form-control" type="text" name="mname" placeholder="Middle Name" required="true" />
-                                        </div>
-                                      </div>
-              
-                                      <div class="col-sm-6">
-                                        <div class="form-group">
-                                          <input id="emp_id" class="form-control" type="text" name="emp_id" placeholder="Emp ID (ex. 1-****)" required="true" />
-                                        </div>
-                                      </div>
-                                      <div class="col-sm-6">
-                                        <div class="form-group">
-                                          <input id="email" class="form-control" type="email" name="email" placeholder="Email" required="true" />
-                                        </div>
-                                      </div>
-              
-                                      <div class="col-sm-6">
-                                        <div class="form-group">
-                                          <input id="password" class="form-control" type="password" name="password" placeholder="Password" required="true" />
-                                        </div>
-                                      </div>
-                                      <div class="col-sm-6">
-                                        <div class="form-group">
-                                          <input id="repassword" class="form-control" type="password" name="repassword" placeholder="Re-Type Password" required="true" />
-                                        </div>
-                                      </div>
-                                      
                                     </div>
               
-                                  
+     
+                                      {{-- <div class="col-sm-12">
+                                        <div class="form-group">
+                                          <input id="request_info" class="form-control" type="text" name="request_info" placeholder="Request Info" required="true" />
+                                        </div>
+                                      </div> --}}
+
+                                    </div>
+                                                
                                 </div>
                                 <div class="modal-footer">
-                                  <button id="btnSaveUser" type="submit" class="col btn btn-round btn-success d-block btn-sm">  Save </button> 
-                                  <button id="btnUpdateUser" type="submit" class="col btn btn-round btn-success d-none btn-sm"> Update </button>
-                                  <button id="btnRemoveUser" type="button" class="col btn btn-round  btn-danger d-none removeUser btn-sm">Delete</button>
+                                  <button id="btnSaveRequest" type="submit" class="col btn btn-round btn-success d-block btn-sm">  Save </button> 
+                                  <button id="btnUpdateRequest" type="submit" class="col btn btn-round btn-success d-none btn-sm"> Update </button>
+                                  <button id="btnRemoveRequest" type="button" class="col btn btn-round  btn-danger d-none removeRequest btn-sm">Delete</button>
                                   <button type="button" class="col btn btn-round btn-danger btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
                                 </div>
                                           
@@ -241,6 +204,55 @@
                               </div>
                             </div>
                           </div>
+
+                          {{-- EDIT STATUS MODAL --}}
+                      
+                          <div class="modal fade" id="modalEditStatus" tabindex="-1" role="dialog" aria-labelledby="myModalEditStatus" aria-hidden="true">                   
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title text-info">Edit Request Status</h4>
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    <i class="material-icons">clear</i>
+                                  </button>
+                                </div>
+                                
+                                <form class="cmxform block-form block-form-default" id="statusForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
+                                  @CSRF
+                                <div class="modal-body">
+              
+                                    <input type="hidden" name="id" id="id" value="" />
+                                  
+                                    <div class="row">
+              
+              
+                                      <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                        <select id="elecom_status" name="elecom_status" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Status">
+                                          <option value="0" >PENDING</option>
+                                          <option value="1" >APPROVE</option>
+                                          <option value="2" >DENIED</option>
+                                        </select>
+                                      </div>
+                                    </div>
+              
+    
+                                    </div>
+                                                
+                                </div>
+                                <div class="modal-footer">
+                                  <button id="btnSaveStatus" type="submit" class="col btn btn-round btn-success d-block btn-sm">  Save </button> 
+                                  <button id="btnUpdateStatus" type="submit" class="col btn btn-round btn-success d-none btn-sm"> Update </button>
+                                  <button type="button" class="col btn btn-round btn-danger btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                                </div>
+                                          
+                              </form>
+                              </div>
+                            </div>
+                          </div>
+
+
+           
 
 
                 <!--  end card  -->
@@ -292,54 +304,290 @@
 
 <script>
   $(document).ready(function() {
-    $('#datatables').DataTable({
-      "pagingType": "full_numbers",
-      "lengthMenu": [
-        [10, 25, 50, -1],
-        [10, 25, 50, "All"]
-      ],
-      responsive: true,
-      language: {
-        search: "INPUT",
-        searchPlaceholder: "Search records",
-      }
-    });
 
-    var table = $('#datatables').DataTable();
+    var requestTable = $('#requestTable').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{{ route('elecom.request.list') }}",
+      columns: [
+          {
+            data: 'created_at',
+            name: 'created_at'
+          },
+          {
+            data: 'brName',
+            name: 'brName'
+          },
+          {
+            data: 'description',
+            name: 'description'
+          }, 
+          {
+            data: 'request_type',
+            name: 'request_type'
+          },
+          {
+            data: 'request_info',
+            name: 'request_info'
+          },
+          {
+            data: 'elecom_status',
+            name: 'elecom_status'
+          },
+          {
+            data: 'updated_at',
+            name: 'updated_at'
+          },
+          
+          {
+            'data': null,
+            'render': function (data) {
+                var x = "";
+                x = 
+                        "<button class='btn btn-success btn-sm editRequest' value='" + data.id + "'> " +
+                        "  Edit Status" +
+                        "</button> " ;
+                    
+                return "<center>"+ x + "</center>";
+            }
+          },
 
-    // Edit record
-
-    table.on('click', '.edit', function() {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
-      }
-
-      var data = table.row($tr).data();
-      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-    });
-
-    // Delete a record
-
-    table.on('click', '.remove', function(e) {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
-      }
-
-      table.row($tr).remove().draw();
-      e.preventDefault();
-    });
-
-    //Like record
-
-    table.on('click', '.like', function() {
-      alert('You clicked on Like button');
+         
+      ]
     });
   });
-</script>
+
+
+  $('#requestTable').on('click','.editRequest',function(){
+      var id = this.value;
+  
+      $.ajax({
+          type: "GET",
+          url: "{{ route('elecom.request.edit') }}",
+          data: { id : id },
+          contentType: "application/json; charset=utf-8",
+          beforeSend:  function() {
+              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+          },
+          error: function (jqXHR, exception) {
+              swal.close();
+              
+              console.log(jqXHR.responseText);
+              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          },
+          success: function (data) {
+            swal.close();
+  
+            if(data.id)
+            {
+              $('#id').val(data.id);
+
+            //   var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
+            // $('#brCode').append($option).trigger('change');
+
+            $('#elecom_status').val(data.elecom_status);
+            // $('#request_type').val(data.request_type);
+            // $('#request_info').val(data.request_info);
+            
+              $('#btnSaveRequest').removeClass('d-block').addClass('d-none');
+              $('#btnUpdateRequest').removeClass('d-none').addClass('d-block');
+              // $('#btnRemoveRequest').removeClass('d-none').addClass('d-block');
+  
+              $('#modalRequest').modal('show');
+            } 
+            else 
+            {
+              swal({ title: "Unable to Edit", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            }
+          }
+      });   
+    });
+
+ 
+    $(document).on("click", "#btnUpdateRequest", function (e) {
+        $('#requestForm').attr('action', 'Updating');
+        validateRequestForm();
+    });
+
+    $("#requestForm").on("click", ".removeRequest", function (e) {
+        swal({
+            title: 'Remove Request!',
+            text: "Are you sure?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+        }).then((result) => {
+            if (result.value) {
+              var id = $("#id").val();
+              
+              $.ajax({
+                  type: "GET",
+                  url: "{{ route('elecom.request.delete') }}",
+                  data: { id : id},
+                  contentType: "application/json; charset=utf-8",
+                  beforeSend:  function() {
+                      swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                  },
+                  error: function (jqXHR, exception) {
+                      swal.close();
+  
+                      console.log(jqXHR.responseText);
+                      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                  },
+                  success: function (data) {
+                      swal.close();
+  
+                      if(!data.success)
+                      {
+                        swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                      } 
+                      else 
+                      {
+                        swal({ title:"Successfully Remove!", text: "You removed a request!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+  
+                        var requestTable = $('#requestTable').DataTable();
+                        requestTable.ajax.reload();  
+  
+                        $('#modalRequest').modal('hide');
+                      }
+                  }
+              });   
+            } 
+        });
+    }); 
+
+  //   $("#requestForm").bind("invalid-form.validate", function () {
+  //       // Do something useful e.g. display the Validation Summary in a popup dialog
+  //   });
+  
+  //   $('#requestForm').submit(function (evt) {
+  //       evt.preventDefault(); //prevents the default action
+  //   });
+  // });
+  
+  function validateRequestForm(action)
+  {
+  $("#requestForm").validate({
+    ignore: 'input[type=hidden]',
+    rules:{    
+      'id':{
+            required: true
+        }, 
+                
+        'elecom_status':{
+            required: true
+        },  
+    },
+    submitHandler: function(form){
+      var id = $("#id").val();
+  
+      // var brSelect2 = $('#brCode').select2('data');
+      // var brCode = brSelect2[0].id;
+
+      var elecom_status = $("#elecom_status").val();
+      
+
+      if("Saving" ==  $('#requestForm').attr('action'))
+      {
+           
+        $.ajax({
+            type: "GET",
+            url: "{{ route('elecom.request.add') }}",
+            data: { 
+              request_type : request_type,
+              request_info : request_info,           
+             
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+                
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
+  
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+  
+                  swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Saved!", text: "You add new request!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+  
+                  var requestTable = $('#requestTable').DataTable();
+                  requestTable.ajax.reload();  
+  
+                  $('#modalRequest').modal('hide');
+                }
+            }
+        });    
+      } 
+      else 
+      {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('elecom.request.update') }}",
+            data: { 
+              id : id,
+              elecom_status : elecom_status,
+              
+            
+            },
+            contentType: "application/json; charset=utf-8",
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+  
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
+  
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+  
+                  swal({ title:"Unable to Update!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Update!", text: "You updated a request!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+  
+                  var requestTable = $('#requestTable').DataTable();
+                  requestTable.ajax.reload();  
+  
+                  $('#modalRequest').modal('hide');
+                }
+            }
+        });  
+      }
+     
+      return false;
+    }
+  });
+  } 
+
+ 
+    </script>
+
 
 
 @parent

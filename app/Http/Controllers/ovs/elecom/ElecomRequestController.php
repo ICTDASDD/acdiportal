@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ovs\ba;
+namespace App\Http\Controllers\ovs\elecom;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 
-class RequestController extends Controller
+class ElecomRequestController extends Controller
 {
     //---------------------------------------------------- Online Voting System Branch Admin ------------------------------------------//
 
@@ -57,12 +57,12 @@ class RequestController extends Controller
                         $actionBtn = "<center>". $row->request_info. "</center>";
                         return $actionBtn;
                     })
-                    ->addColumn('status', function($data){
-                        if($data->status == 1){
+                    ->addColumn('elecom_status', function($data){
+                        if($data->elecom_status == 1){
                             $actionBtn = "<center>".'APPROVED'. "</center>";
                             return $actionBtn;
                         }
-                        elseif($data->status == 2){
+                        elseif($data->elecom_status == 2){
                             $actionBtn = "<center>".'DENIED'. "</center>";
                             return $actionBtn;
                         }
@@ -76,7 +76,7 @@ class RequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','status','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','request_info','elecom_status','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
@@ -125,8 +125,9 @@ class RequestController extends Controller
         public function updateRequest(Request $request){
 
             $validator = \Validator::make($request->all(), [
-                'request_type' => 'required',
-                'request_info' => 'required',
+                // 'request_type' => 'required',
+                // 'request_info' => 'required',
+                'elecom_status' => 'required',
                 
             ]);
             
@@ -138,11 +139,22 @@ class RequestController extends Controller
             $br_req = Branch_Request::find($id);
            // $user_id = Auth::user()->id;
     
-            $br_req->request_type = $request->get('request_type');
-            $br_req->request_info = $request->get('request_info');
-            $br_req->brCode = Auth::user()->brCode;
-            $br_req->user_id = Auth::user()->id;
+            // $br_req->request_type = $request->get('request_type');
+            // $br_req->request_info = $request->get('request_info');
+            // $br_req->brCode = Auth::user()->brCode;
+            // $br_req->user_id = Auth::user()->id;
+
+            $br_req->elecom_status = $request->get('elecom_status');
           
+            if ($request->elecom_status == 2 && $br_req->canvas_status == 2){
+                $br_req->status = 2 ;
+            }
+            elseif ($request->elecom_status == 0 && $br_req->canvas_status == 0){
+                $br_req->status = 0 ;
+            }
+            else{
+                $br_req->status = 0 ;
+            }
             $br_req->save();
 
             return Response::json(['success'=> true]);
@@ -170,19 +182,19 @@ class RequestController extends Controller
 
         }
 
-        // //FOR ELECOM/CANVAS
-        // public function editStatus(Request $request){
+        //FOR ELECOM/CANVAS
+        public function editStatus(Request $request){
 
-        //     $id = $request->get('id');
-        //     $where = array('id' => $id);
-        //     $br_req = DB::table('branch_request')
-        //     ->join('branches', 'branch_request.brCode', '=', 'branches.brCode')
-        //     ->select('branch_request.*','branches.brName')
-        //     ->where($where)
-        //     ->first();
-        //     return Response::json($br_req);
+            $id = $request->get('id');
+            $where = array('id' => $id);
+            $br_req = DB::table('branch_request')
+            ->join('branches', 'branch_request.brCode', '=', 'branches.brCode')
+            ->select('branch_request.*','branches.brName')
+            ->where($where)
+            ->first();
+            return Response::json($br_req);
 
-        // }
+        }
         //------------- Navigation End-----------------//
 
         //----------------------------------------------------  End ------------------------------------------//

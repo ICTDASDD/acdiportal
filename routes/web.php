@@ -15,6 +15,7 @@ use App\Http\Controllers\ovs\ba\RequestController;
 use App\Http\Controllers\OVSElecomController;
 use App\Http\Controllers\ovs\canva\OVSCanvaController;
 use App\Http\Controllers\EmpController;
+use App\Http\Controllers\ovs\elecom\ElecomRequestController;
 
 //use App\Http\Controllers\dsbAdminController;
 //use App\Http\Controllers\dsbCreatorController;
@@ -168,7 +169,6 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 @include(base_path('routes/extended_route/ovs/admin/OVSadminExtend.php'));
 @include(base_path('routes/extended_route/ovs/elecom/OVSElecomAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/ba/OVSBranchAdminExtend.php'));
-<<<<<<< HEAD
 //@include(base_path('routes/extended_route/ba/RequestRoutes.php'));
 /*
 Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {
@@ -183,9 +183,6 @@ Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {
     Route::get('ovs/ba/request/delete', [RequestController::class, 'removeUser'])->name('request.delete'); 
 
   
-=======
-@include(base_path('routes/extended_route/ovs/canva/OVSCanvaAdminExtend.php'));
->>>>>>> 7f3c3ffdc5ab02881c6f339fe624be3565b5eb3a
 
 
 

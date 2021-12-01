@@ -150,19 +150,12 @@
                   </div>
                   <!-- end content-->
                 </div>
-<<<<<<< HEAD
                        
-=======
-
->>>>>>> 7f3c3ffdc5ab02881c6f339fe624be3565b5eb3a
                       <button id="addRequest" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalRequest">
                         <i class="material-icons">add</i> Add Request
                       </button>
 
-<<<<<<< HEAD
                       {{-- ADD REQUEST MODAL --}}
-=======
->>>>>>> 7f3c3ffdc5ab02881c6f339fe624be3565b5eb3a
                           <div class="modal fade" id="modalRequest" tabindex="-1" role="dialog" aria-labelledby="myModalRequest" aria-hidden="true">                   
                             <div class="modal-dialog">
                               <div class="modal-content">

@@ -19,8 +19,8 @@ use App\Http\Controllers\ovs\ba\BAUserController;
         Route::get('ovs/ba/request/update', [RequestController::class, 'updateRequest'])->name('request.update');   
         Route::get('ovs/ba/request/delete', [RequestController::class, 'removeRequest'])->name('request.delete'); 
         //for approve(elecom) 
-        Route::get('ovs/ba/request/editStatus', [RequestController::class, 'editStatus'])->name('request.edit.status');
-        Route::get('ovs/ba/request/updateStatus', [RequestController::class, 'updateStatus'])->name('request.update.status');
+        // Route::get('ovs/ba/request/editStatus', [RequestController::class, 'editStatus'])->name('request.edit.status');
+        // Route::get('ovs/ba/request/updateStatus', [RequestController::class, 'updateStatus'])->name('request.update.status');
 
         Route::get('ovs/ba/users/select2', [BAUserController::class, 'listBranchSelect2'])->name('ba.users.select2'); 
         Route::get('ovs/ba/users/list', [BAUserController::class, 'listUser'])->name('ba.users.list');   
