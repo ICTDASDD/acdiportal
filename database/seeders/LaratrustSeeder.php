@@ -72,6 +72,203 @@ class LaratrustSeeder extends Seeder
             }
 
         }
+
+
+
+            DB::table('branches')->insert(
+            [
+            'brCode' => '01',
+            'BrName' => 'CJVAB'
+              ] ); 
+
+            DB::table('branches')->insert(
+            [
+                'brCode' => '02',
+                'BrName' => 'LIPA'
+              ] ); 
+            
+            DB::table('branches')->insert(
+            [
+                'brCode' => '03',
+                'BrName' => 'MDAAB'
+              ] ); 
+
+            DB::table('branches')->insert(
+            [
+                'brCode' => '04',
+                'BrName' => 'MBEAB'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '05',
+                'BrName' => 'AFC'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '06',
+                'BrName' => 'EAAB'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '07',
+                'BrName' => 'ABAB'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '08',
+                'BrName' => 'BAB'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '09',
+                'BrName' => 'HEAD OFFICE'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '10',
+                'BrName' => 'FORT BONI'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '11',
+                'BrName' => 'GHQ'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '20',
+                'BrName' => 'TANAY'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '22',
+                'BrName' => 'LEGAZPI'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '23',
+                'BrName' => 'PILI'
+              ] ); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '34',
+                'BrName' => 'TRECE MARTIREZ'
+            ]); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '41',
+                'BrName' => 'CEBU'
+            ]); 
+            DB::table('branches')->insert(
+            [
+                'brCode' => '42',
+                'BrName' => 'ILOILO'
+            ]);
+
+            DB::table('branches')->insert(
+            [
+                'brCode' => '44',
+                'BrName' => 'BACOLOD'
+            ]);
+
+            DB::table('branches')->insert(
+            [
+                'brCode' => '45',
+                'BrName' => 'TACLOBAN'
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '46',
+                'BrName' => 'CATBALOGAN'
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '53',
+                'BrName' => 'TARLAC'
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '55',
+                'BrName' => 'FORT MAGSAYSAY'
+            ]);
+
+            DB::table('branches')->insert(
+            [
+                'brCode' => '57',
+                'BrName' => 'ROSALES',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '61',
+                'BrName' => 'GENSAN',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '62',
+                'BrName' => 'DAVAO',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '63',
+                'BrName' => 'COTABATO',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '64',
+                'BrName' => 'CDO',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '65',
+                'BrName' => 'PAGADIAN',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '68',
+                'BrName' => 'BUTUAN',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '69',
+                'BrName' => 'TAGUM',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '82',
+                'BrName' => 'SAN ANTONIO',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '5B',
+                'BrName' => 'GAMU',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '5J',
+                'BrName' => 'SFLU',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '6B',
+                'BrName' => 'MALAYBALAY',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '6D',
+                'BrName' => 'CALARIAN',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '6J',
+                'BrName' => 'ILIGAN',
+            ]);
+            DB::table('branches')->insert(
+            [
+                'brCode' => '66',
+                'BrName' => 'DIPOLOG',
+            ]);
+      
+    
+
     }
 
     /**
