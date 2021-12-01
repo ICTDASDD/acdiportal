@@ -24,7 +24,11 @@
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">Candidate Type</h4>
+                <h4 class="card-title">Candidate Type
+                  <button id="addCandidateType" class="btn btn-sm btn-success btn-round" data-toggle="modal" data-target="#modalCandidateType">
+                    <i class="material-icons">add</i> Add Candidate Type
+                  </button>
+                </h4>
               </div>
               <div class="card-body">
                 <div class="toolbar">
@@ -59,9 +63,6 @@
               </div>
               <!-- end content-->
             </div>
-            <button id="addCandidateType" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalCandidateType">
-              <i class="material-icons">add</i> Add Candidate Type
-            </button>
 
             <div class="modal fade" id="modalCandidateType" tabindex="-1" role="dialog" aria-labelledby="myModalCandidateType" aria-hidden="true">              
               <div class="modal-dialog">
@@ -127,6 +128,7 @@
                         <th>CY</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>isDefault</th>
                         <th style="text-align: center; max-width:250px;">Action</th>
                       </tr>
                     </thead>
@@ -137,6 +139,7 @@
                         <th>CY</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>isDefault</th>
                         <th style="text-align: center; max-width:250px;">Action</th>
                       </tr>
                     </tfoot>
@@ -195,6 +198,21 @@
                           </div>
                         </div>
                       </div> 
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                  <input class="form-check-input" type="checkbox" id="isDefault" value="">
+                                  Set as Default
+                                  <span class="form-check-sign">
+                                      <span class="check"></span>
+                                  </span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                   </div>
                   <div class="modal-footer">
                     <button id="btnSaveVotingPeriod" type="submit" class="col btn btn-round btn-success d-block"> Save </button> 
@@ -439,6 +457,10 @@ $(document).ready(function() {
           name: 'endDate'
         },
         {
+          data: 'isDefault',
+          name: 'isDefault'
+        },
+        {
           'data': null,
           'render': function (data) {
               var x = "";
@@ -577,7 +599,8 @@ $(document).ready(function() {
             $('#cy').val(data.cy);
             $('#startDate').val(data.startDate);
             $('#endDate').val(data.endDate);
-          
+            $('#isDefault').prop('checked', ((data.isDefault == 1) ? true : false));
+
             $('#btnSaveVotingPeriod').removeClass('d-block').addClass('d-none');
             $('#btnUpdateVotingPeriod').removeClass('d-none').addClass('d-block');
             $('#btnRemoveVotingPeriod').removeClass('d-none').addClass('d-block');
@@ -652,6 +675,7 @@ $(document).ready(function() {
       $('#cy').val("");
       $('#startDate').val(""); 
       $('#endDate').val("");  
+      $('#isDefault').prop('checked', false);
       $('#btnSaveVotingPeriod').removeClass('d-none').addClass('d-block');
       $('#btnUpdateVotingPeriod').removeClass('d-block').addClass('d-none');
       $('#btnRemoveVotingPeriod').removeClass('d-block').addClass('d-none');
@@ -993,7 +1017,8 @@ function validateVotingPeriodForm(action)
       var cy = $("#cy").val();
       var startDate = $("#startDate").val();
       var endDate = $("#endDate").val();
-
+      var isDefault = $("#isDefault").prop("checked");
+    
       if("Saving" ==  $('#votingPeriodForm').attr('action'))
       {
         $.ajax({
@@ -1003,6 +1028,7 @@ function validateVotingPeriodForm(action)
               cy : cy,
               startDate : startDate,
               endDate : endDate,
+              isDefault : isDefault,
             },
             contentType: "application/json; charset=utf-8",
             beforeSend:  function() {
@@ -1048,6 +1074,7 @@ function validateVotingPeriodForm(action)
               cy : cy,
               startDate : startDate,
               endDate : endDate,
+              isDefault : isDefault,
             },
             contentType: "application/json; charset=utf-8",
             beforeSend:  function() {

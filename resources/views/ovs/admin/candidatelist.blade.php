@@ -30,7 +30,7 @@
                     <div class="form-group">
                       <h4 class="card-title">Candidate for SAGA 
                         
-                        <select id="selectVotingPeriod" class="form-control" style="width: 15%"  required="true">
+                        <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
                         </select>
                         <button id="addCandidate" class="btn btn-success btn-sm btn-round" >
                           <i class="material-icons">add</i> Add Candidate

@@ -28,9 +28,6 @@
                       <i class="material-icons">assignment</i>
                     </div>
                     <h4 class="card-title">Branch List 
-                      <button id="addCandidate" class="btn btn-success btn-sm btn-round" >
-                        <i class="material-icons">add</i> Add Branch
-                      </button>
                     </h4>
                   </div>
                   <div class="card-body">
@@ -47,7 +44,7 @@
                             <th style="text-align: center">REG-MIGGS</th>
                             <th style="text-align: center">Active Admin</th>
                             <th style="text-align: center">Registered Unit</th>
-                            <th style="text-align: center">Status</th>
+                            <th style="text-align: center">Locked</th>
                             <th style="text-align: right; max-width:250px;">Action</th>
                           </tr>
                         </thead>
@@ -65,7 +62,7 @@
                             <th style="text-align: center">REG-MIGGS</th>
                             <th style="text-align: center">Active Admin</th>
                             <th style="text-align: center">Registered Unit</th>
-                            <th style="text-align: center">Status</th>
+                            <th style="text-align: center">Locked</th>
                             <th style="text-align: right; max-width:250px;">Action</th>
                           </tr>
                         </tfoot>
@@ -170,19 +167,69 @@
             'data': null,
             'render': function (data) {
                 var x = "";
+                var isLocked = "";
+                if(data.isLocked == "YES")
+                {
+                  isLocked ="checked";
+                }
+
                 x = "<td style='text-align: right; max-width:250px;'>" +
-                              "<div class='togglebutton'>" +
-                                "<label>" +
-                                  "<input type='checkbox' >" +
-                                  "<span class='toggle'></span>" +
-                                "</label>" +
-                              "</div>" +
-                            "</td>" ;
+                      "<div class='togglebutton'>" +
+                        "<label>" +
+                          "<input type='checkbox' class='branchLocking' value='" + data.brCode + "' " + isLocked + ">" +
+                          "<span class='toggle'></span>" +
+                        "</label>" +
+                      "</div>" +
+                    "</td>" ;
                     
                 return "<center>"+ x + "</center>";
             }
           },
       ],
+    });
+
+    $('#branchTable').on('click','.branchLocking',function(){
+      var brCode = this.value;
+      var isLocked = $(this).prop("checked");
+      $.ajax({
+          type: "GET",
+          url: "{{ route('branch.locking') }}",
+          data: { brCode : brCode, isLocked : isLocked},
+          contentType: "application/json; charset=utf-8",
+          beforeSend:  function() {
+              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+          },
+          error: function (jqXHR, exception) {
+              swal.close();
+              
+              console.log(jqXHR.responseText);
+              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          },
+          success: function (data) {
+            swal.close();
+
+            var message = "";
+            if(isLocked == true)
+            {
+              message = "Locked";
+            } 
+            else 
+            {
+              message = "Unlocked";
+            }
+
+            if(data.success)
+            {
+              branchTable.ajax.reload();
+              swal({ title: "Successfully " + message + " Branch", text: "Please try again later.", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+            } 
+            else 
+            {
+              branchTable.ajax.reload();
+              swal({ title: "Unable to " + message, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+            }
+          }
+      });   
     });
   });
 </script>

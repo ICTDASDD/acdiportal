@@ -23,59 +23,43 @@
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">DataTables.net</h4>
+                <h4 class="card-title">Member List
+                  <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
+                  </select>
+
+                </h4>
               </div>
               <div class="card-body">
                 <div class="toolbar">
                   <!--        Here you can write extra buttons/actions for the toolbar              -->
                 </div>
                 <div class="material-datatables">
-                  <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                  <table id="memberTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                     <thead>
                       <tr>
                         <th style="text-align: left">Name</th>
-                        <th style="text-align: center">Branch Registered</th>                            
+                        <th style="text-align: center">Branch <BR>Membership</th>                            
                         <th style="text-align: center">AFSN</th>
-                        <th style="text-align: center">SCCNO</th>
-                        <th style="text-align: center">PIN</th>
-                        <th style="text-align: center">PASSCODE</th>
-                        <th style="text-align: center">Voted</th>
+                        <th style="text-align: center">SCNO</th>
+                        <th style="text-align: center">Branch <BR>Registered</th>
+                        <th style="text-align: center">Code</th>
+                        <th style="text-align: center">Action</th>
                       </tr>
                     </thead>
 
                     <tfoot>
                       <tr>
                         <th style="text-align: left">Name</th>
-                        <th style="text-align: center">Branch Registered</th>                            
+                        <th style="text-align: center">Branch <BR>Membership</th>                            
                         <th style="text-align: center">AFSN</th>
-                        <th style="text-align: center">SCCNO</th>
-                        <th style="text-align: center">PIN</th>
-                        <th style="text-align: center">PASSCODE</th>
-                        <th style="text-align: center">Voted</th>
+                        <th style="text-align: center">SCNO</th>
+                        <th style="text-align: center">Branch <BR>Registered</th>
+                        <th style="text-align: center">Code</th>
+                        <th style="text-align: center">Action</th>
                       </tr>
                     </tfoot>
 
                     <tbody>
-
-                      <tr>
-                        <td style="text-align: left">Aron Rocillo</td>
-                        <td style="text-align: center">Fort Bonifacio</td>                            
-                        <td style="text-align: center">*-***********</td>
-                        <td style="text-align: center">*-***********</td>                        
-                        <td style="text-align: center">****</td>                        
-                        <td style="text-align: center">******</td>
-                        <td style="text-align: center" class="text-success">Yes</td>                        
-                      </tr> 
-
-                      <tr>
-                        <td style="text-align: left">Mark Lester Dimapilis</td>
-                        <td style="text-align: center">GHQ</td>                            
-                        <td style="text-align: center">*-***********</td>
-                        <td style="text-align: center">*-***********</td>                        
-                        <td style="text-align: center">****</td>                        
-                        <td style="text-align: center">******</td>
-                        <td style="text-align: center" class="text-warning">No</td>                        
-                      </tr> 
 
                     </tbody>
 
@@ -127,8 +111,115 @@
 <!--   Script Plugins -->
 
 <!--   Wizard Plugins -->
-@section('pageplugin')
-@include('ovs.admin.layouts.plugins.datatables')
-@parent
-@endsection
+    @section('pageplugin')
+    @include('ovs.admin.layouts.plugins.datatables')
+
+
+    <script>
+      $(document).ready(function() {
+
+        var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
+          placeholder: "Choose year",
+          //dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+          minimumInputLength: -1,
+          allowClear: true,
+          ajax: {
+              url: "{{ route('votingPeriod.select2') }}",
+              delay: 250,
+              dataType: 'json',
+              data: function(params) {
+                  return {
+                      query: params.term, // search term
+                  };
+              },
+              processResults: function(response) {
+                  return {
+                      results: response
+                  };
+              },
+              cache: true
+          }
+        }).on('change', function () {
+          
+          var votingPeriod = $('#selectVotingPeriod').select2('data');
+          var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+          $('#selectVotingPeriod2').append($option).trigger('change');
+
+          memberTable.ajax.reload();  
+        });
+
+        var memberTable = $('#memberTable').DataTable({
+          processing: true,
+          serverSide: true,
+          cache: false,
+          responsive: true,
+          ajax: {
+              url: "{{ route('member.list') }}",
+              //PASSING WITH DATA
+              dataType: 'json',
+              data: function (d) {
+                    d.votingPeriodID = $('#selectVotingPeriod').val() || ""
+                    //d.search = $('input[type="search"]').val(),
+                }
+              },
+          columns: [
+              {
+                data: 'fullName',
+                name: 'fullName'
+              },
+              {
+                data: 'brName',
+                name: 'brName'
+              },
+              {
+                data: 'AFSN',
+                name: 'AFSN'
+              }, 
+              {
+                data: 'SCNO',
+                name: 'SCNO'
+              },
+              {
+                data: 'brRegistered',
+                name: 'brRegistered'
+              }, 
+              {
+                data: 'code',
+                name: 'code'
+              }, 
+              {
+                data: 'actionButton',
+                name: 'actionButton'
+              }, 
+              
+              /*
+              {
+                'data': null,
+                'render': function (data) {
+                    var x = "";
+                    var isLocked = "";
+                    if(data.isLocked == "YES")
+                    {
+                      isLocked ="checked";
+                    }
+    
+                    x = "<td style='text-align: right; max-width:250px;'>" +
+                          "<div class='togglebutton'>" +
+                            "<label>" +
+                              "<input type='checkbox' class='branchLocking' value='" + data.brCode + "' " + isLocked + ">" +
+                              "<span class='toggle'></span>" +
+                            "</label>" +
+                          "</div>" +
+                        "</td>" ;
+                        
+                    return "<center>"+ x + "</center>";
+                }
+              },
+              */
+          ],
+        });
+      });
+    </script>
+    @parent
+    @endsection
 <!--   Script Plugins -->
