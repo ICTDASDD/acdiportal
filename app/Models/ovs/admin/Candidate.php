@@ -20,5 +20,6 @@ class Candidate extends Model
         'information1',
         'information2',
         'candidateTypeID',
+        'votingPeriodID',
     ];
 }

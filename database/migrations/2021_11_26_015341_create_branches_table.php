@@ -16,6 +16,7 @@ class CreateBranchesTable extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->string('brCode');
             $table->string('brName');
+            $table->integer('isLocked');
         });
     }
 
