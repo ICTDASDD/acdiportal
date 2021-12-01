@@ -12,6 +12,7 @@ use App\Http\Controllers\ovs\admin\CandidateVotingLimitController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\UserController;
 use App\Http\Controllers\OVSElecomController;
+use App\Http\Controllers\ovs\canva\OVSCanvaController;
 use App\Http\Controllers\EmpController;
 //use App\Http\Controllers\dsbAdminController;
 //use App\Http\Controllers\dsbCreatorController;
@@ -165,7 +166,7 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 @include(base_path('routes/extended_route/ovs/admin/OVSadminExtend.php'));
 @include(base_path('routes/extended_route/ovs/elecom/OVSElecomAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/ba/OVSBranchAdminExtend.php'));
-
+@include(base_path('routes/extended_route/ovs/canva/OVSCanvaAdminExtend.php'));
 
 
 

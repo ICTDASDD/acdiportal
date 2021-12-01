@@ -34,13 +34,19 @@ class DashboardController extends Controller
                 return view('ovs.admin.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
-            // Online Voting System ICTD-Admin
+            // Online Voting SystemElecom
             elseif(Auth::user()->hasRole('elecom-admin')){
                 return view('ovs.elecom.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
+            // Online Voting System Branch Admin
             elseif(Auth::user()->hasRole('branch-officer')){
                 return view('ovs.ba.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
+            }
+
+            // Online Voting System Branch Admin
+            elseif(Auth::user()->hasRole('canv-officer')){
+                return view('ovs.canva.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
             // EMP
