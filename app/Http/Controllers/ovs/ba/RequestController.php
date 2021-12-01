@@ -170,6 +170,7 @@ class RequestController extends Controller
 
         }
 
+        //FOR ELECOM/CANVAS
         public function editStatus(Request $request){
 
             $id = $request->get('id');

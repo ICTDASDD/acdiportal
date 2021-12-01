@@ -349,7 +349,7 @@
                         "<button class='btn btn-success btn-sm editRequest' value='" + data.id + "'> " +
                         "  Edit " +
                         "</button> " +
-                          //for approve (elecom)
+                          //for approve (elecom/canvas)
                         "<button class='btn btn-info btn-sm editStatus' value='" + data.id + "'> " +
                         "  Edit Status " +
                         "</button> ";
