@@ -52,9 +52,9 @@ use App\Http\Controllers\ovs\admin\UserController;
         
         Route::get('ovs/adm/users/select2', [UserController::class, 'listBranchSelect2'])->name('users.select2'); 
         Route::get('ovs/adm/users/list', [UserController::class, 'listUser'])->name('users.list');   
-        Route::get('ovs/adm/users/add', [UserController::class, 'addUser'])->name('users.add');   
+        Route::POST('ovs/adm/users/add', [UserController::class, 'addUser'])->name('users.add');   
         Route::get('ovs/adm/users/edit', [UserController::class, 'editUser'])->name('users.edit');   
-        Route::get('ovs/adm/users/update', [UserController::class, 'updateUser'])->name('users.update');   
+        Route::POST('ovs/adm/users/update', [UserController::class, 'updateUser'])->name('users.update');   
         Route::get('ovs/adm/users/delete', [UserController::class, 'removeUser'])->name('users.delete');   
     
         Route::get('ovs/adm/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('branch.select2'); 
