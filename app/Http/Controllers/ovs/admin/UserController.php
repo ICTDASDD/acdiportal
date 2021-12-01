@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use DataTables;
 use Response;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 
 
 class UserController extends Controller
@@ -18,7 +19,6 @@ class UserController extends Controller
     
     public function listUser(Request $request)
     {
-
         if ($request->ajax()) {
             $data = DB::table('users')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
@@ -48,8 +48,9 @@ class UserController extends Controller
                     $actionBtn = "<center>". $row->emp_id. "</center>";
                     return $actionBtn;
                 })
-                ->rawColumns(['fullName','brName','description','email','emp_id'])
-            ->addIndexColumn()->make(true);
+                ->rawColumns(['avatar','fullName','brName','description','email','emp_id'])
+            //->addIndexColumn()->make(true);
+            ->make(true);
         }
     }
 
@@ -118,6 +119,7 @@ class UserController extends Controller
     public function addUser(Request $request)
     { 
         $validator = \Validator::make($request->all(), [
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=350,max_height=600',
             'brCode' => 'required',
             'name' => 'required',
             'mname' => 'required',
@@ -133,7 +135,13 @@ class UserController extends Controller
             return Response::json(['errors' => $validator->errors()->all()]);
         }
 
+        $lname = str_replace(' ', '_', $request->get('lname'));
+        $name = str_replace(' ', '_', $request->get('name'));
+        $mname = str_replace(' ', '_', $request->get('mname'));
+        $profilePictureName = $lname . '-' . $name . '-' . $mname .'.'.request()->avatar->getClientOriginalExtension();
+
         $user = new User([
+            'avatar' => $profilePictureName,
             'brCode' => $request->get('brCode'),
             'name' => $request->get('name'),
             'mname' => $request->get('mname'),
@@ -144,21 +152,12 @@ class UserController extends Controller
         ]);
         $user->save();
 
-        /*
-
-        $id = $request->get('emp_id');
-        $where = array('emp_id' => $id);
-        $users  = User::where($where)->first();
-
-        $data = DB::table('role_user')->insert(
-            [
-                'user_id' => $users->id,
-                'role_id' => $request->get('role_id'), 
-                'user_type' => "App\Models\User", 
-            ]
-            ); 
-            
-            */
+        if($user)
+        {
+            if($validator->passes()){
+                request()->avatar->move(public_path('material/img/user'), $profilePictureName);
+            }
+        }
             
         $user->attachRole($request->role_id);
             
@@ -167,23 +166,53 @@ class UserController extends Controller
 
     public function updateUser(User $user, Request $request)
     {
-        $validator = \Validator::make($request->all(), [
-            'brCode' => 'required',
-            'name' => 'required',
-            'mname' => 'required',
-            'lname' => 'required',
-            'emp_id' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role_id'=> 'required',
+        $isChanged = false;
+        $validator;
+        if(request()->avatar == "" || request()->avatar == NULL)
+        {
+            //NO CHANGES IN PROFILE PICTURE
+            $validator = \Validator::make($request->all(), [
+                'brCode' => 'required',
+                'name' => 'required',
+                'mname' => 'required',
+                'lname' => 'required',
+                'emp_id' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'role_id'=> 'required',
         ]);
+        } 
+        else 
+        {
+            $isChanged = true;
+            $validator = Validator::make($request->all(), [
+                'brCode' => 'required',
+                'name' => 'required',
+                'mname' => 'required',
+                'lname' => 'required',
+                'emp_id' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'role_id'=> 'required',
+            ]);
+        }
         
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->errors()->all()]);
         }
 
+        $lname = str_replace(' ', '_', $request->get('lname'));
+        $name = str_replace(' ', '_', $request->get('name'));
+        $mname = str_replace(' ', '_', $request->get('mname'));
+       
         $id = $request->get('id');
         $user = User::find($id);
+
+        if($isChanged)
+        {
+            $profilePictureName = $lname . '-' . $name . '-' . $mname .'.'.request()->avatar->getClientOriginalExtension();
+            $user->avatar = $profilePictureName;
+        }
 
         $user->brCode = $request->get('brCode');
         $user->name = $request->get('name');
@@ -194,16 +223,21 @@ class UserController extends Controller
         $user->password = Hash::make($request->get('password'));
         $user->save();
 
+        if($user)
+        {
+            if($validator->passes())
+            {
+                if($isChanged)
+                {
+                    unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
+                    
+                    request()->avatar->move(public_path('material/img/user'), $profilePictureName);
+                }
+            }
+        }
 
-      /*
-        $data = DB::table('role_user')
-        ->where('user_id', $id)
-          ->update(['role_id' => $request->get('role_id')]);
-      */
 
       $user->syncRoles([$request->input('role_id')], $id);
-
-       // $user->roles()->sync([$request->input('role_id')]);
         return Response::json(['success'=> true]);
     } 
 

@@ -32,6 +32,7 @@
                   <table id="userTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                     <thead>
                       <tr>
+                        <th style="text-align: center">Picture</th>
                         <th style="text-align: center">Name</th>
                         <th style="text-align: center">Branch Registered</th>                            
                         <th style="text-align: center">User Type</th>
@@ -43,6 +44,7 @@
 
                     <tfoot>
                       <tr>
+                        <th style="text-align: center">Picture</th>
                         <th style="text-align: center">Name</th>
                         <th style="text-align: center">Branch Registered</th>                            
                         <th style="text-align: center">User Type</th>
@@ -77,29 +79,32 @@
                     </button>
                   </div>
                   
-                  <form class="cmxform block-form block-form-default" id="userForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
-
+                 <!-- <form class="cmxform block-form block-form-default" id="userForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off"> -->
+                  <form class="cmxform block-form block-form-default" id="userForm" enctype="multipart/form-data" method="POST" action=""  autocomplete="off">
+                  @csrf <!-- {{ csrf_field() }} -->
                   <div class="modal-body">
 
-                      <input type="hidden" name="id" id="id" value="" />
-                    
-
-                      <div class="card-body col-lg-4 mx-auto">
+                      <div class="card-body col-lg-5 mx-auto">
                         <div class="fileinput text-center fileinput-new" data-provides="fileinput">
                           <div class="fileinput-new thumbnail img-circle">
-                            <img src="{{ asset('material/img/placeholder.jpg')}}"  alt="...">
+                            <img id="previewProfilePicture" src="{{ asset('material/img/placeholder.jpg')}}"  alt="...">
                           </div>
-                          <div class="fileinput-preview fileinput-exists thumbnail img-circle" style=""> </div>
+                          <div class="fileinput-preview fileinput-exists thumbnail img-circle" style=""></div>
                           <div>
-                            <span class="btn btn-round btn-rose btn-file btn-sm" >
+                            <span class="btn btn-round btn-rose btn-file">
                               <span class="fileinput-new">Add Photo</span>
                               <span class="fileinput-exists">Change</span>
-                              <input type="hidden" value="" name="..."><input type="file" name="">
+                              <input type="hidden" value="" name="..."><input id="avatar" type="file" name="avatar" required="true">
                             <div class="ripple-container"></div></span>
-                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists btn-sm" data-dismiss="fileinput">Remove<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 59.0156px; top: 31.6094px; background-color: rgb(255, 255, 255); transform: scale(15.5098);"></div></div></a>
+                            <br>
+                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput" id="removeProfilePicture"><i class="fa fa-times"></i> Remove<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 59.0156px; top: 31.6094px; background-color: rgb(255, 255, 255); transform: scale(15.5098);"></div></div></a>
                           </div>
+                          
+                          <div id="profilePicture_validate" class="text-danger"></div>
                         </div>
-                      </div>
+                      </div> 
+
+                      <input type="hidden" name="id" id="id" value="" />
 
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -227,6 +232,8 @@
 @parent
 
 <script>
+  let fileNameFromEdit = "";
+
   $(document).ready(function() {
 
    $('#role_id').select2();
@@ -257,8 +264,20 @@
     var userTable = $('#userTable').DataTable({
       processing: true,
       serverSide: true,
+      cache: false,
       ajax: "{{ route('users.list') }}",
       columns: [
+        {
+          'data': null,
+          'render': function (data) 
+          {
+              var x = "";
+              x = data.avatar;
+              var link = "{{ asset('material/img/user/')}}";
+              var timestamp = new Date().getTime();     
+              x = "<center><img src='"+ link + "/" + data.avatar + "?t=" + timestamp + "' style='max-width: 50px;'/></center>";
+              return x;
+        }},
           {
             data: 'fullName',
             name: 'fullName'
@@ -318,6 +337,11 @@
             {
               $('#id').val(data.id);
 
+              $('#avatar').prop('required',false);
+              $("#removeProfilePicture").trigger("click");
+              $("#previewProfilePicture").attr("src","{{ asset('material/img/user/')}}/" + data.avatar);
+              fileNameFromEdit = data.avatar;
+
               var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
             $('#brCode').append($option).trigger('change');
 
@@ -345,7 +369,14 @@
   
     
     $(document).on("click", "#addUser", function (e) {
+
+      $('#avatar').prop('required',true);
+
+      $('#removeProfilePicture').trigger('click');
+
         $('#id').val("0");
+
+        fileNameFromEdit = "";
 
         $('#brCode').val("");
         $('#name').val("");
@@ -361,6 +392,9 @@
         $('#btnSaveUser').removeClass('d-none').addClass('d-block');
         $('#btnUpdateUser').removeClass('d-block').addClass('d-none');
         $('#btnRemoveUser').removeClass('d-block').addClass('d-none');
+
+        $('#modalUser').modal('show');
+        $('#modalUser').focus();
         
     });
     
@@ -391,7 +425,7 @@
               $.ajax({
                   type: "GET",
                   url: "{{ route('users.delete') }}",
-                  data: { id : id},
+                  data: { id : id, fileNameFromEdit : fileNameFromEdit},
                   contentType: "application/json; charset=utf-8",
                   beforeSend:  function() {
                       swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
@@ -435,6 +469,11 @@
   
   function validateUserForm(action)
   {
+    var isRequired = false
+    if("Saving" == $('#userForm').attr('action'))
+    {
+      isRequired = true;
+    }
   $("#userForm").validate({
     ignore: 'input[type=hidden]',
     rules:{    
@@ -463,41 +502,49 @@
             required: true
         },             
     },
+    errorPlacement: function (error, element) {
+    var name = $(element).attr("id");
+      if(name == "avatar")
+      {
+        error.addClass("text-danger");
+        error.appendTo($("#" + name + "_validate"));
+      } else 
+      {
+        error.insertAfter(element); 
+      }
+  },  
     submitHandler: function(form){
       var id = $("#id").val();
-  
       var brSelect2 = $('#brCode').select2('data');
       var brCode = brSelect2[0].id;
-
       var name = $("#name").val();
       var mname = $("#mname").val();
       var lname = $("#lname").val();
       var emp_id = $("#emp_id").val();
       var email = $("#email").val();
       var password = $("#password").val();
-
       var role_id = $("#role_id").val();
+
+      let formData = new FormData(document.getElementById("userForm"));
+    formData.append('isAdding', isRequired);
+    formData.append('fileNameFromEdit', fileNameFromEdit);
+    formData.append('brCode', brCode);
+    formData.append('emp_id', emp_id);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('role_id', role_id);
     
   
       if("Saving" ==  $('#userForm').attr('action'))
       {
            
         $.ajax({
-            type: "GET",
+            type: "post",
             url: "{{ route('users.add') }}",
-            data: { 
-              brCode : brCode,
-              name : name,
-              mname  : mname,
-              lname  : lname,
-              emp_id  : emp_id,
-              email  : email,
-              password  : password,
-
-              role_id  : role_id,
-             
-            },
-            contentType: "application/json; charset=utf-8",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
             beforeSend:  function() {
                 swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
             },
@@ -508,6 +555,7 @@
                 swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
             },
             success: function (data) {
+               console.log(data);
                 swal.close();
   
                 if(data.errors)
@@ -534,22 +582,12 @@
       else 
       {
         $.ajax({
-            type: "GET",
+            type: "post",
             url: "{{ route('users.update') }}",
-            data: { 
-              id : id,
-              brCode : brCode,
-              name : name,
-              mname  : mname,
-              lname  : lname,
-              emp_id  : emp_id,
-              email  : email,
-              password  : password,
-
-              role_id  : role_id,
-            
-            },
-            contentType: "application/json; charset=utf-8",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
             beforeSend:  function() {
                 swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
             },
