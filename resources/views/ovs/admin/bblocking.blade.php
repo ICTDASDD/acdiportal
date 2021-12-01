@@ -27,14 +27,18 @@
                     <div class="card-icon">
                       <i class="material-icons">assignment</i>
                     </div>
-                    <h4 class="card-title">Branch Data</h4>
+                    <h4 class="card-title">Branch List 
+                      <button id="addCandidate" class="btn btn-success btn-sm btn-round" >
+                        <i class="material-icons">add</i> Add Branch
+                      </button>
+                    </h4>
                   </div>
                   <div class="card-body">
                     <div class="toolbar">
                       <!--        Here you can write extra buttons/actions for the toolbar              -->
                     </div>
                     <div class="material-datatables">
-                      <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                      <table id="branchTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                         <thead>
                           <tr>
                             <th style="text-align: center">BR-CODE</th>
@@ -49,59 +53,7 @@
                         </thead>
 
                         <tbody>
-                          <tr>
-                            <td style="text-align: center">01</td>
-                            <td style="text-align: center">CJVAB Branch</td>                            
-                            <td style="text-align: center">400</td>
-                            <td style="text-align: center">317</td>
-                            <td style="text-align: center">1</td>
-                            <td style="text-align: center">2</td>
-                            <td style="text-align: center" class="text-danger">Inactive</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <div class="togglebutton">
-                                <label>
-                                  <input type="checkbox" >
-                                  <span class="toggle"></span>
-                                </label>
-                              </div>
-                            </td>
-                          </tr> 
                           
-                          <tr>
-                            <td style="text-align: center">11</td>
-                            <td style="text-align: center">GHQ Branch</td>                            
-                            <td style="text-align: center">380</td>
-                            <td style="text-align: center">289</td>
-                            <td style="text-align: center">1</td>
-                            <td style="text-align: center">2</td>
-                            <td style="text-align: center" class="text-success">Active</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <div class="togglebutton">
-                                <label>
-                                  <input type="checkbox" checked="">
-                                  <span class="toggle"></span>
-                                </label>
-                              </div>
-                            </td>
-                          </tr>    
-
-                          <tr>
-                            <td style="text-align: center">10</td>
-                            <td style="text-align: center">Fort Bonifacio</td>                            
-                            <td style="text-align: center">300</td>
-                            <td style="text-align: center">287</td>
-                            <td style="text-align: center">1</td>
-                            <td style="text-align: center">2</td>
-                            <td style="text-align: center" class="text-success">Active</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <div class="togglebutton">
-                                <label>
-                                  <input type="checkbox" checked="">
-                                  <span class="toggle"></span>
-                                </label>
-                              </div>
-                            </td>
-                          </tr>    
                         </tbody>
 
 
@@ -172,51 +124,65 @@
 
 <script>
   $(document).ready(function() {
-    $('#datatables').DataTable({
-      "pagingType": "full_numbers",
-      "lengthMenu": [
-        [10, 25, 50, -1],
-        [10, 25, 50, "All"]
+    var branchTable = $('#branchTable').DataTable({
+      processing: true,
+      serverSide: true,
+      cache: false,
+      ajax: {
+          url: "{{ route('branch.list') }}",
+          //PASSING WITH DATA
+          /*dataType: 'json',
+          data: function (d) {
+                d.votingPeriodID = $('#selectVotingPeriod').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }*/
+          },
+      columns: [
+          {
+            data: 'brCode',
+            name: 'brCode'
+          },
+          {
+            data: 'brName',
+            name: 'brName'
+          },
+          {
+            data: 'brName',
+            name: 'brName'
+          }, 
+          {
+            data: 'brName',
+            name: 'brName'
+          },
+          {
+            data: 'brName',
+            name: 'brName'
+          },
+          {
+            data: 'brName',
+            name: 'brName'
+          },
+          {
+            data: 'isLocked',
+            name: 'isLocked'
+          },
+          {
+            'data': null,
+            'render': function (data) {
+                var x = "";
+                x = "<td style='text-align: right; max-width:250px;'>" +
+                              "<div class='togglebutton'>" +
+                                "<label>" +
+                                  "<input type='checkbox' >" +
+                                  "<span class='toggle'></span>" +
+                                "</label>" +
+                              "</div>" +
+                            "</td>" ;
+                    
+                return "<center>"+ x + "</center>";
+            }
+          },
       ],
-      responsive: true,
-      language: {
-        search: "INPUT",
-        searchPlaceholder: "Search records",
-      }
-    });
-
-    var table = $('#datatables').DataTable();
-
-    // Edit record
-
-    table.on('click', '.edit', function() {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
-      }
-
-      var data = table.row($tr).data();
-      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-    });
-
-    // Delete a record
-
-    table.on('click', '.remove', function(e) {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
-      }
-
-      table.row($tr).remove().draw();
-      e.preventDefault();
-    });
-
-    //Like record
-
-    table.on('click', '.like', function() {
-      alert('You clicked on Like button');
     });
   });
 </script>

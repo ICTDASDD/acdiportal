@@ -28,9 +28,14 @@
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="form-group">
-                      <h4 class="card-title">Candidate for SAGA </h4>
-                      <select id="selectVotingPeriod" class="form-control" style="width: 100%"  required="true">
-                      </select>
+                      <h4 class="card-title">Candidate for SAGA 
+                        
+                        <select id="selectVotingPeriod" class="form-control" style="width: 15%"  required="true">
+                        </select>
+                        <button id="addCandidate" class="btn btn-success btn-sm btn-round" >
+                          <i class="material-icons">add</i> Add Candidate
+                        </button>
+                      </h4>
                     </div>
                   </div>
                 </div>
@@ -71,9 +76,6 @@
               </div>
               <!-- end content-->
             </div>
-            <button id="addCandidate" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalCandidate">
-              <i class="material-icons">add</i> Add Candidate
-            </button>
 
             <div class="modal fade" id="modalCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalCandidate" aria-hidden="true">              
               <div class="modal-dialog">
@@ -85,12 +87,41 @@
                     </button>
                   </div>
                   
-                  <form class="cmxform block-form block-form-default" id="candidateForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
-
+                  <form class="cmxform block-form block-form-default" id="candidateForm" enctype="multipart/form-data" method="POST" action=""  autocomplete="off">
+                  @csrf <!-- {{ csrf_field() }} -->
                   <div class="modal-body">
 
+                      <div class="card-body col-lg-5 mx-auto">
+                        <div class="fileinput text-center fileinput-new" data-provides="fileinput">
+                          <div class="fileinput-new thumbnail img-circle">
+                            <img id="previewProfilePicture" src="{{ asset('material/img/placeholder.jpg')}}"  alt="...">
+                          </div>
+                          <div class="fileinput-preview fileinput-exists thumbnail img-circle" style=""></div>
+                          <div>
+                            <span class="btn btn-round btn-rose btn-file">
+                              <span class="fileinput-new">Add Photo</span>
+                              <span class="fileinput-exists">Change</span>
+                              <input type="hidden" value="" name="..."><input id="profilePicture" type="file" name="profilePicture" required="true">
+                            <div class="ripple-container"></div></span>
+                            <br>
+                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput" id="removeProfilePicture"><i class="fa fa-times"></i> Remove<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 59.0156px; top: 31.6094px; background-color: rgb(255, 255, 255); transform: scale(15.5098);"></div></div></a>
+                          </div>
+                          
+                          <div id="profilePicture_validate" class="text-danger"></div>
+                        </div>
+                      </div> 
+
                       <input type="hidden" name="candidateID" id="candidateID" value="" />
-                    
+                      
+                      <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <div class="form-group">
+                            <select id="selectVotingPeriod2" class="form-control" style="width: 100%"  required="true">
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
                       <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
@@ -154,25 +185,6 @@
                         
                       </div>
 
-                      <div class="card-body col-lg-5 mx-auto">
-                        <div class="fileinput text-center fileinput-new" data-provides="fileinput">
-                          <div class="fileinput-new thumbnail img-circle">
-                            <img src="{{ asset('material/img/placeholder.jpg')}}"  alt="...">
-                          </div>
-                          <div class="fileinput-preview fileinput-exists thumbnail img-circle" style=""></div>
-                          <div>
-                            <span class="btn btn-round btn-rose btn-file">
-                              <span class="fileinput-new">Add Photo</span>
-                              <span class="fileinput-exists">Change</span>
-                              <input type="hidden" value="" name="..."><input type="file" name="">
-                            <div class="ripple-container"></div></span>
-                            <br>
-                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 59.0156px; top: 31.6094px; background-color: rgb(255, 255, 255); transform: scale(15.5098);"></div></div></a>
-                          </div>
-                        </div>
-                      </div> 
-                                  
-                    
                   </div>
                   <div class="modal-footer">
                     <button id="btnSaveCandidate" type="submit" class="col btn btn-round btn-success d-block">  Save </button> 
@@ -231,6 +243,8 @@
 @include('ovs.admin.layouts.plugins.datatables')
 @parent
 <script>
+let fileNameFromEdit = "";
+
 $(document).ready(function() {
 
   var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
@@ -255,12 +269,41 @@ $(document).ready(function() {
         cache: true
     }
   }).on('change', function () {
+    
     var votingPeriod = $('#selectVotingPeriod').select2('data');
-    var votingPeriodID = votingPeriod[0].id;
+    var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+    $('#selectVotingPeriod2').append($option).trigger('change');
 
-    var candidateTable = $('#candidateTable').DataTable();
     candidateTable.ajax.reload();  
   });
+
+  var votingPeriodSelect2modal = $('#selectVotingPeriod2').select2({
+    placeholder: "Choose year",
+    dropdownParent: "#modalCandidate", //UNCOMMENT WHEN IN MODAL
+    minimumInputLength: -1,
+    allowClear: true,
+    ajax: {
+        url: "{{ route('votingPeriod.select2') }}",
+        delay: 250,
+        dataType: 'json',
+        data: function(params) {
+            return {
+                query: params.term, // search term
+            };
+        },
+        processResults: function(response) {
+            return {
+                results: response
+            };
+        },
+        cache: true
+    }
+  }).on('change', function () {
+    //candidateTable.ajax.reload();  
+  });
+
+  //DEFAULT SELECTED VALUE IN SELECT2
+  //$('#selectVotingPeriod').select2().select2('val', $('.select2 option:eq(1)').val());
 
   var candidateTypeSelect2 = $('#candidateTypeID').select2({
     placeholder: "Candidate For",
@@ -288,7 +331,16 @@ $(document).ready(function() {
   var candidateTable = $('#candidateTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('candidate.list') }}",
+    cache: false,
+    ajax: {
+        url: "{{ route('candidate.list') }}",
+        //PASSING WITH DATA
+        dataType: 'json',
+        data: function (d) {
+              d.votingPeriodID = $('#selectVotingPeriod').val() || ""
+              //d.search = $('input[type="search"]').val(),
+          }
+        },
     columns: [
         {
           'data': null,
@@ -296,8 +348,8 @@ $(document).ready(function() {
               var x = "";
               x = data.profilePicture;
               var link = "{{ asset('material/img/candidate/')}}";
-
-              x = "<center><img src='"+ link + "/" + data.profilePicture + "' style='max-width: 50px;'/></center>";
+              var timestamp = new Date().getTime();     
+              x = "<center><img src='"+ link + "/" + data.profilePicture + "?t=" + timestamp + "' style='max-width: 50px;'/></center>";
               return x;
           }
         },
@@ -330,12 +382,15 @@ $(document).ready(function() {
           }
         },
     ],
-    "fnServerParams": function (aoData) {
-        aoData.push({ "name": "votingPeriodID", "value": document.getElementById("votingPeriodID").value });
-    }
   });
 
   $('#candidateTable').on('click','.editCandidate',function(){
+    if(isValid())
+    {
+      swal({ title:"Unable to Edit!", text: "Please choose voting period", type: "info", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+      return;
+    }
+
     var candidateID = this.value;
 
     $.ajax({
@@ -364,6 +419,15 @@ $(document).ready(function() {
             //var $select = $($('#candidateTypeID').data('target'));
             //select2_search($select, data.candidateTypeName);
             
+            $('#profilePicture').prop('required',false);
+
+            $("#removeProfilePicture").trigger("click");
+            $("#previewProfilePicture").attr("src","{{ asset('material/img/candidate/')}}/" + data.profilePicture);
+            fileNameFromEdit = data.profilePicture;
+            $("#selectVotingPeriod2").prop('disabled', true);
+            
+            //$("#profilePicture").val(data.profilePicture);
+
             var $option = $("<option selected></option>").val(data.candidateTypeID).text(data.candidateTypeName);
             $('#candidateTypeID').append($option).trigger('change');
 
@@ -387,9 +451,41 @@ $(document).ready(function() {
     });   
   });
 
+  function isValid()
+  {
+      var votingPeriod = $('#selectVotingPeriod').select2('data');
+      var isValid = false;
+      try 
+      {
+        var votingPeriodID = votingPeriod[0].id;
+        if(votingPeriodID == null || votingPeriodID == "" )
+        {
+          return true;
+        }
+      } catch (ex)
+      {
+          return true;
+      }
+
+      return false;
+  }
   
   $(document).on("click", "#addCandidate", function (e) {
+      
+      if(isValid())
+      {
+        swal({ title:"Unable to Add!", text: "Please choose voting period", type: "info", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        return;
+      }
+
+      $('#profilePicture').prop('required',true);
+      $('#selectVotingPeriod2').prop('disabled', false);
+
+      $('#removeProfilePicture').trigger('click');
+      //$('#profilePicture').val("0");
       $('#candidateID').val("0");
+      
+      fileNameFromEdit = "";
 
       $('#candidateTypeID').val("");
       $('#lastName').val("");
@@ -402,6 +498,8 @@ $(document).ready(function() {
       $('#btnUpdateCandidate').removeClass('d-block').addClass('d-none');
       $('#btnRemoveCandidate').removeClass('d-block').addClass('d-none');
       
+      $('#modalCandidate').modal('show');
+      $('#modalCandidate').focus();
   });
   
   $(document).on("click", "#btnSaveCandidate", function (e) {
@@ -416,6 +514,7 @@ $(document).ready(function() {
   });
 
   $("#candidateForm").on("click", ".removeCandidate", function (e) {
+
       swal({
           title: 'Remove Candidate!',
           text: "Are you sure?",
@@ -431,7 +530,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "GET",
                 url: "{{ route('candidate.delete') }}",
-                data: { candidateID : candidateID},
+                data: { candidateID : candidateID, fileNameFromEdit : fileNameFromEdit},
                 contentType: "application/json; charset=utf-8",
                 beforeSend:  function() {
                     swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
@@ -475,9 +574,23 @@ $(document).ready(function() {
 
 function validateCandidateForm(action)
 {
-$("#candidateForm").validate({
-  ignore: 'input[type=hidden]',
-  rules:{    
+  var isRequired = false
+  if("Saving" == $('#candidateForm').attr('action'))
+  {
+    isRequired = true;
+  }
+
+  $("#candidateForm").validate({
+    ignore: 'input[type=hidden]',
+    rules:{    
+      /*'profilePicture':{
+          required: isRequired, 
+          accept: "image/jpeg, image/pjpeg"
+      },
+      */
+      'selectVotingPeriod2':{
+          required: true
+      },  
       'candidateTypeID':{
           required: true
       },   
@@ -495,10 +608,26 @@ $("#candidateForm").validate({
       },   
       'info2':{
           required: true
-      },       
+      },    
   },
+  errorPlacement: function (error, element) {
+    var name = $(element).attr("id");
+      if(name == "profilePicture")
+      {
+        error.addClass("text-danger");
+        error.appendTo($("#" + name + "_validate"));
+      } else 
+      {
+        error.insertAfter(element); 
+      }
+  },  
   submitHandler: function(form){
+
     var candidateID = $("#candidateID").val();
+
+    var votingPeriod = $('#selectVotingPeriod2').select2('data');
+    var votingPeriodIDD = votingPeriod[0].id;
+
     var candidateType = $('#candidateTypeID').select2('data');
     var candidateTypeID = candidateType[0].id;
     var lastName = $("#lastName").val();
@@ -507,21 +636,25 @@ $("#candidateForm").validate({
     var info1 = $("#info1").val();
     var info2 = $("#info2").val();
 
+    let formData = new FormData(document.getElementById("candidateForm"));
+    formData.append('isAdding', isRequired);
+    //formData.append('filename', filename);
+    formData.append('fileNameFromEdit', fileNameFromEdit);
+    formData.append('votingPeriodID', votingPeriodIDD);
+    formData.append('candidateTypeID', candidateTypeID);
+    formData.append('information1', info1);
+    formData.append('information2', info2);
+
     if("Saving" ==  $('#candidateForm').attr('action'))
     {
          
       $.ajax({
-          type: "GET",
+          type: "post",
           url: "{{ route('candidate.add') }}",
-          data: { 
-            candidateTypeID : candidateTypeID,
-            lastName : lastName,
-            firstName  : firstName,
-            middleName  : middleName,
-            information1  : info1,
-            information2  : info2,
-          },
-          contentType: "application/json; charset=utf-8",
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
           beforeSend:  function() {
               swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
           },
@@ -532,6 +665,7 @@ $("#candidateForm").validate({
               swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
           },
           success: function (data) {
+              console.log(data);
               swal.close();
 
               if(data.errors)
@@ -558,18 +692,12 @@ $("#candidateForm").validate({
     else 
     {
       $.ajax({
-          type: "GET",
+          type: "POST",
           url: "{{ route('candidate.update') }}",
-          data: { 
-            candidateID : candidateID,
-            candidateTypeID : candidateTypeID,
-            lastName : lastName,
-            firstName  : firstName,
-            middleName  : middleName,
-            information1  : info1,
-            information2  : info2,
-          },
-          contentType: "application/json; charset=utf-8",
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
           beforeSend:  function() {
               swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
           },
@@ -603,12 +731,6 @@ $("#candidateForm").validate({
           }
       });  
     }
-    /*
-    var candidateTable = $('#candidateTable').DataTable();
-    candidateTable.ajax.reload();  
-
-    $('#modalCandidate').modal('hide');
-    */
     return false;
   }
 });
