@@ -13,7 +13,7 @@ ACDIMPC OVS
 <div class="sidebar-wrapper">
 <div class="user">
 <div class="photo">
-  <img src="{{ asset('material/img/faces/ict.jpg')}}" />
+  <img src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}"  />
 </div>
 <div class="user-info">
   <a data-toggle="collapse" href="#collapseExample" class="username">

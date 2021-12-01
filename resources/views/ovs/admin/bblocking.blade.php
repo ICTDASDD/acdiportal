@@ -221,7 +221,7 @@
             if(data.success)
             {
               branchTable.ajax.reload();
-              swal({ title: "Successfully " + message + " Branch", text: "Please try again later.", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+              swal({ title: "Successfully " + message + " Branch", text: "Updated.", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
             } 
             else 
             {
