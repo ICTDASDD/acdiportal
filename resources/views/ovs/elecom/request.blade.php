@@ -1,14 +1,14 @@
-@extends('ovs.ba.layouts.app') 
+@extends('ovs.elecom.layouts.app') 
 
 @section('sidebar')
-@include('ovs.ba.layouts.sidebar')
+@include('ovs.elecom.layouts.sidebar')
 @parent
 @endsection
 
 
     <!-- Navbar -->
     @section('navbar')
-    @include('ovs.ba.layouts.navbar')
+    @include('ovs.elecom.layouts.navbar')
     @parent
     @endsection
     <!-- End Navbar  -->
@@ -259,14 +259,14 @@
 
     <!--footer -->
     @section('footer')
-    @include('ovs.ba.layouts.footer')
+    @include('ovs.elecom.layouts.footer')
     @parent
     @endsection
     <!--footer -->
 
     <!--side filter -->
     @section('sidefilter')
-    @include('ovs.ba.layouts.sidefilter')
+    @include('ovs.elecom.layouts.sidefilter')
     @parent
     @endsection
     <!-- side filter -->
@@ -280,14 +280,14 @@
 
 <!--   Script Plugins -->
     @section('adminplugin')
-    @include('ovs.ba.layouts.plugins.adminplugin')
+    @include('ovs.elecom.layouts.plugins.adminplugin')
     @parent
     @endsection
 <!--   Script Plugins -->
 
 <!--   dashboard Plugins -->
 @section('pageplugin')
-@include('ovs.ba.layouts.plugins.dplugin')
+@include('ovs.elecom.layouts.plugins.dplugin')
 
 
 <script>

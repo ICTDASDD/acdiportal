@@ -58,7 +58,7 @@
                             <td style="text-align: center">2</td>
                             <td style="text-align: center" class="text-success">Active</td>
                             <td style="text-align: right; max-width:250px;">
-                              <a href="{{route('OVSElecomBstatus-id')}}">
+                              <a href="{{route('OVSAdminBstatus-id')}}">
                               <button class="btn btn-success btn-sm">
                                 View
                               </button>
