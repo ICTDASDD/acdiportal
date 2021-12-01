@@ -25,13 +25,13 @@ ACDIMPC OVS
   <div class="collapse {{ $activeparents == 'Profile' ? ' show' : '' }}" id="collapseExample">
     <ul class="nav">
       <li class="nav-item {{ $title == 'Admin Profile' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('ElecomProfile.layout')}}">
+        <a class="nav-link" href="{{route('CanvaProfile.layout')}}">
           <span class="sidebar-mini"> MP </span>
           <span class="sidebar-normal"> My Profile </span>
         </a>
       </li>
       <li class="nav-item {{ $title == 'Admin Settings' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('ElecomSettings.layout')}}">
+        <a class="nav-link" href="{{route('CanvaSettings.layout')}}">
           <span class="sidebar-mini"> S </span>
           <span class="sidebar-normal"> Settings </span>
         </a>
@@ -50,7 +50,7 @@ ACDIMPC OVS
   </li>
 
   <li class="nav-item {{ $title == 'Branch Status' ? ' active' : '' }}">
-    <a  class="nav-link" href="{{route('ElecomBstatus.layout')}}">
+    <a  class="nav-link" href="{{route('CanvaBstatus.layout')}}">
       <i class="material-icons">analytics</i>
       <p> Branch Status</p>
     </a>
@@ -59,7 +59,7 @@ ACDIMPC OVS
   <hr>
 
   <li class="nav-item {{ $title == 'General Request' ? ' active' : '' }}">
-    <a  class="nav-link" href="{{route('ElecomRequest.layout')}}">
+    <a  class="nav-link" href="{{route('CanvaRequest.layout')}}">
       <i class="material-icons">question_answer</i>
       <p class="small"> Request </p>
     </a>

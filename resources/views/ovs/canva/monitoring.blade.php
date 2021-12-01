@@ -1,14 +1,14 @@
-@extends('ovs.admin.layouts.app') 
+@extends('ovs.canva.layouts.app') 
 
 @section('sidebar')
-@include('ovs.admin.layouts.sidebar')
+@include('ovs.canva.layouts.sidebar')
 @parent
 @endsection
 
 
     <!-- Navbar -->
     @section('navbar')
-    @include('ovs.admin.layouts.navbar')
+    @include('ovs.canva.layouts.navbar')
     @parent
     @endsection
     <!-- End Navbar -->
@@ -24,9 +24,9 @@
             </div>
             
             <div class="row">
-              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
+                  <div class="card-header card-header-info card-header-icon">
                     <div class="card-icon">
                       <img src="{{ asset('material/img/candidate/candidate1.jpg')}}" style="width: 100px; height:100px;"/>
                     </div>
@@ -60,7 +60,7 @@
 
               <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
+                  <div class="card-header card-header-warning card-header-icon">
                     <div class="card-icon">
                       <img src="{{ asset('material/img/candidate/candidate3.jpg')}}" style="width: 100px; height:100px;"/>
                     </div>
@@ -77,7 +77,7 @@
 
               <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
+                  <div class="card-header card-header-rose card-header-icon">
                     <div class="card-icon">
                       <img src="{{ asset('material/img/candidate/candidate4.jpg')}}" style="width: 100px; height:100px;"/>
                     </div>
@@ -94,7 +94,7 @@
 
               <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
+                  <div class="card-header card-header-primary card-header-icon">
                     <div class="card-icon">
                       <img src="{{ asset('material/img/candidate/candidate5.jpg')}}" style="width: 100px; height:100px;"/>
                     </div>
@@ -111,7 +111,7 @@
 
               <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
+                  <div class="card-header card-header-info card-header-icon">
                     <div class="card-icon">
                       <img src="{{ asset('material/img/candidate/candidate6.jpg')}}" style="width: 100px; height:100px;"/>
                     </div>
@@ -128,7 +128,7 @@
 
               <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
+                  <div class="card-header card-header-info card-header-icon">
                     <div class="card-icon">
                       <img src="{{ asset('material/img/candidate/candidate7.jpg')}}" style="width: 100px; height:100px;"/>
                     </div>
@@ -145,7 +145,7 @@
 
               <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
+                  <div class="card-header card-header-info card-header-icon">
                     <div class="card-icon">
                       <img src="{{ asset('material/img/candidate/candidate8.jpg')}}" style="width: 100px; height:100px;"/>
                     </div>
@@ -159,53 +159,9 @@
                   </div>
                 </div>
               </div>
+              
 
             </div>
-
-
-            <div class="header text-center ml-auto mr-auto">
-              <h3 class="title">Audit Committee</h3>
-              <p class="category">Data as of:</p>
-            </div>
-            
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-info card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate1.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. One (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-info card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate2.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Two (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            
 
             <div class="header text-center ml-auto mr-auto">
               <h3 class="title">Amendments Vote Counter</h3>
@@ -294,14 +250,14 @@
 
     <!--footer -->
     @section('footer')
-    @include('ovs.admin.layouts.footer')
+    @include('ovs.canva.layouts.footer')
     @parent
     @endsection
     <!--footer -->
 
     <!--side filter -->
     @section('sidefilter')
-    @include('ovs.admin.layouts.sidefilter')
+    @include('ovs.canva.layouts.sidefilter')
     @parent
     @endsection
     <!-- side filter -->
@@ -315,14 +271,14 @@
 
 <!--   Script Plugins -->
     @section('adminplugin')
-    @include('ovs.admin.layouts.plugins.adminplugin')
+    @include('ovs.canva.layouts.plugins.adminplugin')
     @parent
     @endsection
 <!--   Script Plugins -->
 
 <!--   dashboard Plugins -->
 @section('pageplugin')
-@include('ovs.admin.layouts.plugins.dplugin')
+@include('ovs.canva.layouts.plugins.dplugin')
 
 
 <script>

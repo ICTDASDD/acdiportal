@@ -1,14 +1,14 @@
-@extends('ovs.admin.layouts.app') 
+@extends('ovs.canva.layouts.app') 
 
 @section('sidebar')
-@include('ovs.admin.layouts.sidebar')
+@include('ovs.canva.layouts.sidebar')
 @parent
 @endsection
 
 
     <!-- Navbar -->
     @section('navbar')
-    @include('ovs.admin.layouts.navbar')
+    @include('ovs.canva.layouts.navbar')
     @parent
     @endsection
     <!-- End Navbar -->
@@ -19,12 +19,12 @@
           <div class="container-fluid">
             
             <div class="header text-center ml-auto mr-auto">
-              <h3 class="title">Board of Directors</h3>
+              <h3 class="title">Board of Directors (Branch Data)</h3>
               <p class="category">Data as of:</p>
             </div>
             
             <div class="row">
-              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+              <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                   <div class="card-header card-header-success card-header-icon">
                     <div class="card-icon">
@@ -164,7 +164,7 @@
 
 
             <div class="header text-center ml-auto mr-auto">
-              <h3 class="title">Audit Committee</h3>
+              <h3 class="title">Audit Committee (Branch Data)</h3>
               <p class="category">Data as of:</p>
             </div>
             
@@ -208,7 +208,7 @@
             
 
             <div class="header text-center ml-auto mr-auto">
-              <h3 class="title">Amendments Vote Counter</h3>
+              <h3 class="title">Amendments Vote Counter (Branch Data)</h3>
               <p class="category">Data as of:</p>
             </div>
 
@@ -294,14 +294,14 @@
 
     <!--footer -->
     @section('footer')
-    @include('ovs.admin.layouts.footer')
+    @include('ovs.canva.layouts.footer')
     @parent
     @endsection
     <!--footer -->
 
     <!--side filter -->
     @section('sidefilter')
-    @include('ovs.admin.layouts.sidefilter')
+    @include('ovs.canva.layouts.sidefilter')
     @parent
     @endsection
     <!-- side filter -->
@@ -315,14 +315,14 @@
 
 <!--   Script Plugins -->
     @section('adminplugin')
-    @include('ovs.admin.layouts.plugins.adminplugin')
+    @include('ovs.canva.layouts.plugins.adminplugin')
     @parent
     @endsection
 <!--   Script Plugins -->
 
 <!--   dashboard Plugins -->
 @section('pageplugin')
-@include('ovs.admin.layouts.plugins.dplugin')
+@include('ovs.canva.layouts.plugins.dplugin')
 
 
 <script>

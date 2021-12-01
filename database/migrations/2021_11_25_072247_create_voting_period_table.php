@@ -18,6 +18,7 @@ class CreateVotingPeriodTable extends Migration
             $table->string('cy');
             $table->date('startDate');
             $table->date('endDate');
+            $table->integer('isDefault');
             $table->timestamps();
         });
     }

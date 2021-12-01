@@ -193,13 +193,6 @@
           }, 1000);
   
         });
-        
-        md.initFormExtendedDatetimepickers();
-          if ($('.slider').length != 0) {
-            md.initSliders();
-          }
-        });
+      });
     });
-
-
   </script>

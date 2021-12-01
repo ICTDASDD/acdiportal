@@ -108,12 +108,12 @@ return [
             'profile' => 'r,u'
         ],
 
-        'gen-monitoring' => [
+        'branch-officer' => [
             'users' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
-
-        'branch-officer' => [
+        
+        'voting_device' => [
             'users' => 'c,r,u,d',
             'profile' => 'r,u'
         ]

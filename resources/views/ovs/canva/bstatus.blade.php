@@ -1,14 +1,14 @@
-@extends('ovs.elecom.layouts.app') 
+@extends('ovs.canva.layouts.app') 
 
 @section('sidebar')
-@include('ovs.elecom.layouts.sidebar')
+@include('ovs.canva.layouts.sidebar')
 @parent
 @endsection
 
 
     <!-- Navbar -->
     @section('navbar')
-    @include('ovs.elecom.layouts.navbar')
+    @include('ovs.canva.layouts.navbar')
     @parent
     @endsection
     <!-- End Navbar  -->
@@ -132,14 +132,14 @@
 
     <!--footer -->
     @section('footer')
-    @include('ovs.elecom.layouts.footer')
+    @include('ovs.canva.layouts.footer')
     @parent
     @endsection
     <!--footer -->
 
     <!--side filter -->
     @section('sidefilter')
-    @include('ovs.elecom.layouts.sidefilter')
+    @include('ovs.canva.layouts.sidefilter')
     @parent
     @endsection
     <!-- side filter -->
@@ -153,14 +153,14 @@
 
 <!--   Script Plugins -->
     @section('adminplugin')
-    @include('ovs.elecom.layouts.plugins.adminplugin')
+    @include('ovs.canva.layouts.plugins.adminplugin')
     @parent
     @endsection
 <!--   Script Plugins -->
 
 <!--   dashboard Plugins -->
 @section('pageplugin')
-@include('ovs.elecom.layouts.plugins.dplugin')
+@include('ovs.canva.layouts.plugins.dplugin')
 
 
 <script>

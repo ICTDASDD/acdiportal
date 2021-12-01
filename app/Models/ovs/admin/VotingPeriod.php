@@ -16,5 +16,6 @@ class VotingPeriod extends Model
         'cy',
         'startDate',
         'endDate',
+        //'isDefault',
     ];
 }
