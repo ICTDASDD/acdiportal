@@ -55,8 +55,8 @@
               </p>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-              <a class="dropdown-item" href="{{route('OVSElecomProfile')}}">Profile</a>
-              <a class="dropdown-item" href="{{route('OVSElecomSettings')}}">Settings</a>
+              <a class="dropdown-item" href="{{route('ElecomProfile.layout')}}">Profile</a>
+              <a class="dropdown-item" href="{{route('ElecomSettings.layout')}}">Settings</a>
               <div class="dropdown-divider"></div>
 
 

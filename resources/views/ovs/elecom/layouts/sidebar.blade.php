@@ -25,13 +25,13 @@ ACDIMPC OVS
   <div class="collapse {{ $activeparents == 'Profile' ? ' show' : '' }}" id="collapseExample">
     <ul class="nav">
       <li class="nav-item {{ $title == 'Admin Profile' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('OVSElecomProfile')}}">
+        <a class="nav-link" href="{{route('ElecomProfile.layout')}}">
           <span class="sidebar-mini"> MP </span>
           <span class="sidebar-normal"> My Profile </span>
         </a>
       </li>
       <li class="nav-item {{ $title == 'Admin Settings' ? ' active' : '' }}">
-        <a class="nav-link" href="{{route('OVSElecomSettings')}}">
+        <a class="nav-link" href="{{route('ElecomSettings.layout')}}">
           <span class="sidebar-mini"> S </span>
           <span class="sidebar-normal"> Settings </span>
         </a>
@@ -49,35 +49,21 @@ ACDIMPC OVS
     </a>
   </li>
 
-  <li class="nav-item {{ $activeparents == 'Monitoring' ? ' active' : '' }}">
-    <a class="nav-link" data-toggle="collapse" href="#dashboardMenu">
-      <i class="material-icons">visibility</i>
-      <p> Monitoring
-        <b class="caret"></b>
-      </p>
+  <li class="nav-item {{ $title == 'Branch Status' ? ' active' : '' }}">
+    <a  class="nav-link" href="{{route('ElecomBstatus.layout')}}">
+      <i class="material-icons">analytics</i>
+      <p> Branch Status</p>
     </a>
-    <div class="collapse {{ $activeparents == 'Monitoring' ? ' show' : '' }}" id="dashboardMenu">
-      <ul class="nav">
-        <li class="nav-item {{ $title == 'Branch Status' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('OVSElecomBstatus')}}">
-            <span class="sidebar-mini"><i class="material-icons">
-                analytics
-            </i></span>
-            <span class="sidebar-normal"> Branch Status </span>
-          </a>
-        </li>
-        <li class="nav-item {{ $title == 'System Log' ? ' active' : '' }}">
-          <a class="nav-link" href="{{route('OVSElecomSystemLog')}}">
-            <span class="sidebar-mini"><i class="material-icons">
-                receipt_long
-            </i></span>
-            <span class="sidebar-normal"> System Log</span>
-          </a>
-        </li>
-      </ul>
-    </div>
   </li>
 
+  <hr>
+
+  <li class="nav-item {{ $title == 'General Request' ? ' active' : '' }}">
+    <a  class="nav-link" href="{{route('ElecomRequest.layout')}}">
+      <i class="material-icons">question_answer</i>
+      <p class="small"> Request </p>
+    </a>
+  </li>
 
 
 </ul>

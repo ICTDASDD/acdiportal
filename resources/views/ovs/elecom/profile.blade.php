@@ -91,7 +91,7 @@
                 </a>
               </div>
               <div class="card-body">
-                <h6 class="card-category text-gray">ELECOM ADMIN</h6>
+                <h6 class="card-category text-gray">AHRIS ACCESS MANAGER</h6>
                 <h4 class="card-title"> {{Auth::user()->name}} {{Auth::user()->lname}}</h4>
                 <p class="card-description">
                   Super Administrator is responsible for assigning administrator access and role for each webapp. Generaly it controls and monitor active administrator in the system.
