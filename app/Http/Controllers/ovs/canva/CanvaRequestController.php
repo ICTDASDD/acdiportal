@@ -82,6 +82,18 @@ class CanvaRequestController extends Controller
         }
         
 
+        public function viewRequest(Request $request){
+
+            $id = $request->get('id');
+            $where = array('id' => $id);
+            $br_req = DB::table('branch_request')
+            ->join('branches', 'branch_request.brCode', '=', 'branches.brCode')
+            ->select('branch_request.*','branches.brName')
+            ->where($where)
+            ->first();
+            return Response::json($br_req);
+
+        }
 
         public function editRequest(Request $request){
 

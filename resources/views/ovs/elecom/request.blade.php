@@ -38,8 +38,7 @@
                             <th style="text-align: center">R. Date</th>
                             <th style="text-align: center">R. Branch</th>
                             <th style="text-align: center">User Type</th>
-                            <th style="text-align: center">Request Type</th>                            
-                            <th style="text-align: center">Request Info</th>
+                            <th style="text-align: center">Request Type</th>                                                        
                             <th style="text-align: center">Status</th>
                             <th style="text-align: center">Last Update</th>
                             <th style="text-align: center">Action</th>
@@ -51,8 +50,7 @@
                             <th style="text-align: center">R. Date</th>
                             <th style="text-align: center">R. Branch</th>
                             <th style="text-align: center">User Type</th>
-                            <th style="text-align: center">Request Type</th>                            
-                            <th style="text-align: center">Request Info</th>
+                            <th style="text-align: center">Request Type</th>                                                   
                             <th style="text-align: center">Status</th>
                             <th style="text-align: center">Last Update</th>
                             <th style="text-align: center">Action</th>
@@ -64,9 +62,7 @@
                              
                         </tbody>
 
-
-                        
-                        
+   
                       </table>
                     </div>
                   </div>
@@ -93,6 +89,18 @@
                                     <input type="hidden" name="id" id="id" value="" />
                                   
                                     <div class="row">
+
+                                      <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                          <input type="text" class="form-control" name="request_type" id="request_type" value="" disabled/>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                          <input type="text" class="form-control" name="request_info" id="request_info" value="" disabled/>
+                                        </div>
+                                      </div>
               
               
                                       <div class="col-lg-12 col-md-12 col-sm-12">
@@ -121,45 +129,45 @@
                             </div>
                           </div>
 
-                          {{-- EDIT STATUS MODAL --}}
-                      
-                          <div class="modal fade" id="modalEditStatus" tabindex="-1" role="dialog" aria-labelledby="myModalEditStatus" aria-hidden="true">                   
+                         
+
+                           {{-- VIEW REQUEST MODAL --}}
+                           <div class="modal fade" id="modalViewRequest" tabindex="-1" role="dialog" aria-labelledby="myViewModalRequest" aria-hidden="true">                   
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h4 class="modal-title text-info">Edit Request Status</h4>
+                                  <h4 class="modal-title text-info">Request Details</h4>
                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                     <i class="material-icons">clear</i>
                                   </button>
                                 </div>
                                 
-                                <form class="cmxform block-form block-form-default" id="statusForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
+                                <form class="cmxform block-form block-form-default" id="requestForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
                                   @CSRF
                                 <div class="modal-body">
               
                                     <input type="hidden" name="id" id="id" value="" />
                                   
                                     <div class="row">
-              
-              
+
                                       <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
-                                        <select id="elecom_status" name="elecom_status" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Status">
-                                          <option value="0" >PENDING</option>
-                                          <option value="1" >APPROVE</option>
-                                          <option value="2" >DENIED</option>
-                                        </select>
+                                          <input type="text" class="form-control" name="request_type2" id="request_type2" value="" disabled/>
+                                        </div>
                                       </div>
-                                    </div>
+
+                                      <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                          <input type="text" class="form-control" name="request_info2" id="request_info2" value="" disabled/>
+                                        </div>
+                                      </div>
               
-    
                                     </div>
-                                                
+                                          
                                 </div>
                                 <div class="modal-footer">
-                                  <button id="btnSaveStatus" type="submit" class="col btn btn-round btn-success d-block btn-sm">  Save </button> 
-                                  <button id="btnUpdateStatus" type="submit" class="col btn btn-round btn-success d-none btn-sm"> Update </button>
-                                  <button type="button" class="col btn btn-round btn-danger btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                                  
+                                  <button type="button" class="col btn btn-round btn-danger btn-secondary btn-sm" data-dismiss="modal">Close</button>
                                 </div>
                                           
                               </form>
@@ -167,8 +175,6 @@
                             </div>
                           </div>
 
-
-           
 
 
                 <!--  end card  -->
@@ -243,10 +249,6 @@
             name: 'request_type'
           },
           {
-            data: 'request_info',
-            name: 'request_info'
-          },
-          {
             data: 'elecom_status2',
             name: 'elecom_status2'
           },
@@ -270,7 +272,13 @@
               }
 
               else{
-                return " ";
+                var y = "";
+                y = 
+                    "<button class='btn btn-info btn-sm viewRequest' value='" + data.id + "'> " +
+                    "  VIEW " +
+                    "</button> " ;
+
+            return "<center>"+ y + "</center>";
               }
             }
           },
@@ -279,6 +287,51 @@
       ]
     });
   });
+
+
+  $('#requestTable').on('click','.viewRequest',function(){
+  var id = this.value;
+
+  $.ajax({
+      type: "GET",
+      url: "{{ route('elecom.request.view') }}",
+      data: { id : id },
+      contentType: "application/json; charset=utf-8",
+      beforeSend:  function() {
+          swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+      },
+      error: function (jqXHR, exception) {
+          swal.close();
+          
+          console.log(jqXHR.responseText);
+          swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+      },
+      success: function (data) {
+        swal.close();
+
+        if(data.id)
+        {
+          $('#id').val(data.id);
+
+        //   var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
+        // $('#brCode').append($option).trigger('change');
+
+        $('#request_info2').val(data.request_info);
+        $('#request_type2').val(data.request_type);
+        
+        
+          $('#btnSaveRequest').removeClass('d-block').addClass('d-none');
+          $('#btnUpdateRequest').removeClass('d-none').addClass('d-block');
+       
+          $('#modalViewRequest').modal('show');
+        } 
+        else 
+        {
+          swal({ title: "Unable to View", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        }
+      }
+  });   
+});
 
 
   $('#requestTable').on('click','.editRequest',function(){
@@ -309,6 +362,8 @@
             // $('#brCode').append($option).trigger('change');
 
             $('#elecom_status').val(data.elecom_status);
+            $('#request_info').val(data.request_info);
+            $('#request_type').val(data.request_type);
             
             
               $('#btnSaveRequest').removeClass('d-block').addClass('d-none');

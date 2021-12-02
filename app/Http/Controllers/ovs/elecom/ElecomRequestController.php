@@ -53,10 +53,7 @@ class ElecomRequestController extends Controller
                         $actionBtn = "<center>". $row->request_type. "</center>";
                         return $actionBtn;
                     })
-                    ->addColumn('request_info', function($row){
-                        $actionBtn = "<center>". $row->request_info. "</center>";
-                        return $actionBtn;
-                    })
+                    
                     ->addColumn('elecom_status2', function($data){
                         if($data->elecom_status == 1){
                             $actionBtn = "<center>".'APPROVED'. "</center>";
@@ -76,38 +73,27 @@ class ElecomRequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','elecom_status2','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
         
 
-        public function addRequest(Request $request){
+        
 
-            $validator = \Validator::make($request->all(), [
-                'request_type' => 'required',
-                'request_info' => 'required',
-            ]);
-            
-            if ($validator->fails()) {
-                return Response::json(['errors' => $validator->errors()->all()]);
-            }
-           // $user_id = Auth::user()->id;
 
-            $br_req = new Branch_Request([
-                'request_type' => $request->get('request_type'),
-                'request_info' => $request->get('request_info'),
-                'brCode' => Auth::user()->brCode,
-                'user_id' =>  Auth::user()->id,
-            ]);
-            // dd($br_req);
-            $br_req->save();
-            
-            return Response::json(['success'=> true]);    
+        public function viewRequest(Request $request){
 
+            $id = $request->get('id');
+            $where = array('id' => $id);
+            $br_req = DB::table('branch_request')
+            ->join('branches', 'branch_request.brCode', '=', 'branches.brCode')
+            ->select('branch_request.*','branches.brName')
+            ->where($where)
+            ->first();
+            return Response::json($br_req);
 
         }
-
 
         public function editRequest(Request $request){
 

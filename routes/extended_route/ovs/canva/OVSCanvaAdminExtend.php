@@ -10,7 +10,8 @@ Route::group(['middleware' => ['auth', 'role:canv-officer']], function() {
     Route::get('ovs/canva/request', [OVSCanvaAdminController::class, 'layoutRequest'])->name('CanvaRequest.layout');
     
     Route::get('ovs/canva/request/list', [CanvaRequestController::class, 'requestList'])->name('canva.request.list'); 
-    Route::get('ovs/canva/request/edit', [CanvaRequestController::class, 'editRequest'])->name('canva.request.edit');   
+    Route::get('ovs/canva/request/edit', [CanvaRequestController::class, 'editRequest'])->name('canva.request.edit'); 
+    Route::get('ovs/canva/request/view', [CanvaRequestController::class, 'viewRequest'])->name('canva.request.view');   
     Route::get('ovs/canva/request/update', [CanvaRequestController::class, 'updateRequest'])->name('canva.request.update'); 
 });
 
