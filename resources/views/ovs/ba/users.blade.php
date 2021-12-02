@@ -227,15 +227,15 @@
     var userTable = $('#userTable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: "{{ route('users.list') }}",
+      ajax: "{{ route('ba.users.list') }}",
       columns: [
           {
             data: 'name',
             name: 'name'
           },
           {
-            data: 'branch_of_operation',
-            name: 'branch_of_operation'
+            data: 'brName',
+            name: 'brName'
           },
           {
             data: 'description',
