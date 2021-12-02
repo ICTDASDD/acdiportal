@@ -1,13 +1,14 @@
-@extends('ovs.admin.layouts.app') 
+@extends('ovs.machine.layouts.app') 
 
 @section('sidebar')
-@include('ovs.admin.layouts.sidebar')
+@include('ovs.machine.layouts.sidebar')
 @parent
 @endsection
 
+
     <!-- Navbar -->
     @section('navbar')
-    @include('ovs.admin.layouts.navbar')
+    @include('ovs.machine.layouts.navbar')
     @parent
     @endsection
     <!-- End Navbar -->
@@ -32,7 +33,6 @@
                   <table id="userTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                     <thead>
                       <tr>
-                        <th style="text-align: center">Picture</th>
                         <th style="text-align: center">Name</th>
                         <th style="text-align: center">Branch Registered</th>                            
                         <th style="text-align: center">User Type</th>
@@ -44,7 +44,6 @@
 
                     <tfoot>
                       <tr>
-                        <th style="text-align: center">Picture</th>
                         <th style="text-align: center">Name</th>
                         <th style="text-align: center">Branch Registered</th>                            
                         <th style="text-align: center">User Type</th>
@@ -79,59 +78,50 @@
                     </button>
                   </div>
                   
-                 <!-- <form class="cmxform block-form block-form-default" id="userForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off"> -->
-                  <form class="cmxform block-form block-form-default" id="userForm" enctype="multipart/form-data" method="POST" action=""  autocomplete="off">
-                  @csrf <!-- {{ csrf_field() }} -->
+                  <form class="cmxform block-form block-form-default" id="userForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
+
                   <div class="modal-body">
 
-                      <div class="card-body col-lg-5 mx-auto">
+                      <input type="hidden" name="id" id="id" value="" />
+                    
+
+                      <div class="card-body col-lg-4 mx-auto">
                         <div class="fileinput text-center fileinput-new" data-provides="fileinput">
                           <div class="fileinput-new thumbnail img-circle">
-                            <img id="previewProfilePicture" src="{{ asset('material/img/placeholder.jpg')}}"  alt="...">
+                            <img src="{{ asset('material/img/placeholder.jpg')}}"  alt="...">
                           </div>
                           <div class="fileinput-preview fileinput-exists thumbnail img-circle" style=""></div>
                           <div>
-                            <span class="btn btn-round btn-rose btn-file">
+                            <span class="btn btn-round btn-rose btn-file btn-sm" >
                               <span class="fileinput-new">Add Photo</span>
                               <span class="fileinput-exists">Change</span>
-                              <input type="hidden" value="" name="..."><input id="avatar" type="file" name="avatar" required="true">
+                              <input type="hidden" value="" name="..."><input type="file" name="">
                             <div class="ripple-container"></div></span>
-                            <br>
-                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput" id="removeProfilePicture"><i class="fa fa-times"></i> Remove<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 59.0156px; top: 31.6094px; background-color: rgb(255, 255, 255); transform: scale(15.5098);"></div></div></a>
-                          </div>
-                          
-                          <div id="profilePicture_validate" class="text-danger"></div>
-                        </div>
-                      </div> 
-
-                      <input type="hidden" name="id" id="id" value="" />
-
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group">
-                            <select id="brCode" class ="form-control" style="width: 100%"  required="true">
-                            </select>
+                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists btn-sm" data-dismiss="fileinput">Remove<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 59.0156px; top: 31.6094px; background-color: rgb(255, 255, 255); transform: scale(15.5098);"></div></div></a>
                           </div>
                         </div>
                       </div>
 
+                      
                       <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                          <div class="form-group">
-                            <select id="role_id" class="form-control" style="width: 100%"  required="true" placeholder="User Type">
-                              <option value="" disabled selected>Select User Type</option>
-                              <option value="16">ICTD</option>
-                              <option value="17">ELECOM</option>
-                              <option value="18">CANVASSING</option>
-                              <option value="20">BRANCH OFFICER</option>                              
-                              <option value="19">Branch-Machine</option>
-                            </select>
-                          </div>
+
+
+                        <div class="col-sm-6">
+                          <select id="branch_of_operation" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Branch of Operation">
+                            <option value="TEST BRANCH" class="text-success">TEST BRANCH</option>
+                          </select>
                         </div>
-                      </div>
 
+                        <div class="col-sm-6">
+                          <select id="role_id" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="User Type">
+                            <option value="16">ICTD (VOTING)</option>
+                            <option value="17">ELECOM (VOTING)</option>
+                            <option value="18">CANVASSING (VOTING)</option>
+                            <option value="19">Gen. Public (VOTING)</option>
+                            <option value="20">Branch Office (VOTING)</option>
+                          </select>
+                        </div>
 
-                      <div class="row">
 
                         <div class="col-sm-4">
                           <div class="form-group">
@@ -201,14 +191,14 @@
 
     <!--footer -->
     @section('footer')
-    @include('ovs.admin.layouts.footer')
+    @include('ovs.machine.layouts.footer')
     @parent
     @endsection
     <!--footer -->
 
     <!--side filter -->
     @section('sidefilter')
-    @include('ovs.admin.layouts.sidefilter')
+    @include('ovs.machine.layouts.sidefilter')
     @parent
     @endsection
     <!-- side filter -->
@@ -222,70 +212,30 @@
 
 <!--   Script Plugins -->
     @section('adminplugin')
-    @include('ovs.admin.layouts.plugins.adminplugin')
+    @include('ovs.machine.layouts.plugins.adminplugin')
     @parent
     @endsection
 <!--   Script Plugins -->
 
 <!--   Wizard Plugins -->
 @section('pageplugin')
-@include('ovs.admin.layouts.plugins.datatables')
+@include('ovs.machine.layouts.plugins.datatables')
 @parent
 
 <script>
-  let fileNameFromEdit = "";
-
   $(document).ready(function() {
-
-   $('#role_id').select2();
-
-    var branchSelect2 = $('#brCode').select2({
-    placeholder: "Branch of Operation",
-    dropdownParent: "#modalUser" ,
-    minimumInputLength: -1,
-    allowClear: true,
-    ajax: {
-        url: "{{ route('users.select2') }}",
-        delay: 250,
-        dataType: 'json',
-        data: function(params) {
-            return {
-                query: params.term, // search term
-            };
-        },
-        processResults: function(response) {
-            return {
-                results: response
-            };
-        },
-        cache: true
-    }
-  });
-
     var userTable = $('#userTable').DataTable({
       processing: true,
       serverSide: true,
-      cache: false,
       ajax: "{{ route('users.list') }}",
       columns: [
-        {
-          'data': null,
-          'render': function (data) 
           {
-              var x = "";
-              x = data.avatar;
-              var link = "{{ asset('material/img/user/')}}";
-              var timestamp = new Date().getTime();     
-              x = "<center><img src='"+ link + "/" + data.avatar + "?t=" + timestamp + "' style='max-width: 50px;'/></center>";
-              return x;
-        }},
-          {
-            data: 'fullName',
-            name: 'fullName'
+            data: 'name',
+            name: 'name'
           },
           {
-            data: 'brName',
-            name: 'brName'
+            data: 'branch_of_operation',
+            name: 'branch_of_operation'
           },
           {
             data: 'description',
@@ -337,15 +287,7 @@
             if(data.id)
             {
               $('#id').val(data.id);
-
-              $('#avatar').prop('required',false);
-              $("#removeProfilePicture").trigger("click");
-              $("#previewProfilePicture").attr("src","{{ asset('material/img/user/')}}/" + data.avatar);
-              fileNameFromEdit = data.avatar;
-
-              var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
-            $('#brCode').append($option).trigger('change');
-
+           //   $('#branch_of_operation').val(data.branch_of_operation);
             $('#description').val(data.description);
             $('#name').val(data.name);
             $('#mname').val(data.mname);
@@ -370,16 +312,8 @@
   
     
     $(document).on("click", "#addUser", function (e) {
-
-      $('#avatar').prop('required',true);
-
-      $('#removeProfilePicture').trigger('click');
-
         $('#id').val("0");
-
-        fileNameFromEdit = "";
-
-        $('#brCode').val("");
+        $('#branch_of_operation').val("");
         $('#name').val("");
         $('#mname').val("");
         $('#lname').val("");
@@ -393,9 +327,6 @@
         $('#btnSaveUser').removeClass('d-none').addClass('d-block');
         $('#btnUpdateUser').removeClass('d-block').addClass('d-none');
         $('#btnRemoveUser').removeClass('d-block').addClass('d-none');
-
-        $('#modalUser').modal('show');
-        $('#modalUser').focus();
         
     });
     
@@ -426,7 +357,7 @@
               $.ajax({
                   type: "GET",
                   url: "{{ route('users.delete') }}",
-                  data: { id : id, fileNameFromEdit : fileNameFromEdit},
+                  data: { id : id},
                   contentType: "application/json; charset=utf-8",
                   beforeSend:  function() {
                       swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
@@ -470,18 +401,13 @@
   
   function validateUserForm(action)
   {
-    var isRequired = false
-    if("Saving" == $('#userForm').attr('action'))
-    {
-      isRequired = true;
-    }
   $("#userForm").validate({
     ignore: 'input[type=hidden]',
     rules:{    
       'id':{
             required: true
         }, 
-        'brCode':{
+        'branch_of_operation':{
             required: true
         },   
         'name':{
@@ -503,49 +429,38 @@
             required: true
         },             
     },
-    errorPlacement: function (error, element) {
-    var name = $(element).attr("id");
-      if(name == "avatar")
-      {
-        error.addClass("text-danger");
-        error.appendTo($("#" + name + "_validate"));
-      } else 
-      {
-        error.insertAfter(element); 
-      }
-  },  
     submitHandler: function(form){
       var id = $("#id").val();
-      var brSelect2 = $('#brCode').select2('data');
-      var brCode = brSelect2[0].id;
+      var branch_of_operation = $("#branch_of_operation").val();
       var name = $("#name").val();
       var mname = $("#mname").val();
       var lname = $("#lname").val();
       var emp_id = $("#emp_id").val();
       var email = $("#email").val();
       var password = $("#password").val();
-      var role_id = $("#role_id").val();
 
-      let formData = new FormData(document.getElementById("userForm"));
-    formData.append('isAdding', isRequired);
-    formData.append('fileNameFromEdit', fileNameFromEdit);
-    formData.append('brCode', brCode);
-    formData.append('emp_id', emp_id);
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('role_id', role_id);
+      var role_id = $("#role_id").val();
     
   
       if("Saving" ==  $('#userForm').attr('action'))
       {
            
         $.ajax({
-            type: "post",
+            type: "GET",
             url: "{{ route('users.add') }}",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
+            data: { 
+              branch_of_operation : branch_of_operation,
+              name : name,
+              mname  : mname,
+              lname  : lname,
+              emp_id  : emp_id,
+              email  : email,
+              password  : password,
+
+              role_id  : role_id,
+             
+            },
+            contentType: "application/json; charset=utf-8",
             beforeSend:  function() {
                 swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
             },
@@ -556,7 +471,6 @@
                 swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
             },
             success: function (data) {
-               console.log(data);
                 swal.close();
   
                 if(data.errors)
@@ -582,13 +496,23 @@
       } 
       else 
       {
+         
         $.ajax({
-            type: "post",
+            type: "GET",
             url: "{{ route('users.update') }}",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
+            data: { 
+              branch_of_operation : branch_of_operation,
+              name : name,
+              mname  : mname,
+              lname  : lname,
+              emp_id  : emp_id,
+              email  : email,
+              password  : password,
+
+              role_id  : role_id,
+            
+            },
+            contentType: "application/json; charset=utf-8",
             beforeSend:  function() {
                 swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
             },
