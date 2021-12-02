@@ -9,6 +9,7 @@ use App\Http\Controllers\ovs\admin\CandidateTypeController;
 use App\Http\Controllers\ovs\admin\CandidateVotingLimitController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\UserController;
+use App\Http\Controllers\ovs\admin\AdminRequestController;
     
     Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
         Route::get('ovs/adm/profile', [OVSAdminController::class, 'profile'])->name('OVSAdminProfile');
@@ -71,6 +72,11 @@ use App\Http\Controllers\ovs\admin\UserController;
         Route::get('ovs/adm/memlist', [OVSAdminController::class, 'memlist'])->name('OVSAdminMemberList');
         
         Route::get('ovs/adm/adduser', [OVSAdminController::class, 'adduser'])->name('OVSAdminAdduser');
+
+
+        Route::get('ovs/adm/request/list', [AdminRequestController::class, 'requestList'])->name('adm.request.list'); 
+        Route::get('ovs/adm/request/edit', [AdminRequestController::class, 'editRequest'])->name('adm.request.edit');   
+        Route::get('ovs/adm/request/update', [AdminRequestController::class, 'updateRequest'])->name('adm.request.update'); 
     });
 
 
