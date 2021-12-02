@@ -31,12 +31,12 @@ class RequestController extends Controller
                 ->join('users', 'users.id', '=', 'branch_request.user_id')
                 ->join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->join('branches', 'users.brCode', '=', 'branches.brCode')
+                ->join('branches', 'users.brCode', '=', 'branches.brCode')               
                 ->select('branch_request.*','roles.description','branches.brName')
+                ->where('branch_request.brCode','=', Auth::user()->brCode)
                 ->get();
                 return Datatables::of($data) 
-                ->addIndexColumn()
-                
+                ->addIndexColumn()                
                     ->addColumn('created_at', function($row){
                         $actionBtn = "<center>". $row->created_at . "</center>";
                         return $actionBtn;
@@ -138,6 +138,19 @@ class RequestController extends Controller
 
         }
 
+
+        public function viewRequest(Request $request){
+
+            $id = $request->get('id');
+            $where = array('id' => $id);
+            $br_req = DB::table('branch_request')
+            ->join('branches', 'branch_request.brCode', '=', 'branches.brCode')
+            ->select('branch_request.*','branches.brName')
+            ->where($where)
+            ->first();
+            return Response::json($br_req);
+
+        }
 
         public function editRequest(Request $request){
 

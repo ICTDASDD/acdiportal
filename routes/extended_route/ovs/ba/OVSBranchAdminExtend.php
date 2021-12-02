@@ -15,7 +15,8 @@ use App\Http\Controllers\ovs\ba\BAUserController;
 
         Route::get('ovs/ba/request/list', [RequestController::class, 'requestList'])->name('request.list');
         Route::get('ovs/ba/request/add', [RequestController::class, 'addRequest'])->name('request.add');   
-        Route::get('ovs/ba/request/edit', [RequestController::class, 'editRequest'])->name('request.edit');   
+        Route::get('ovs/ba/request/edit', [RequestController::class, 'editRequest'])->name('request.edit');
+        Route::get('ovs/ba/request/view', [RequestController::class, 'viewRequest'])->name('request.view');  
         Route::get('ovs/ba/request/update', [RequestController::class, 'updateRequest'])->name('request.update');   
         Route::get('ovs/ba/request/delete', [RequestController::class, 'removeRequest'])->name('request.delete'); 
         //for approve(elecom) 
