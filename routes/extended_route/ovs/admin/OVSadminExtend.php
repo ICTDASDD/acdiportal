@@ -75,7 +75,8 @@ use App\Http\Controllers\ovs\admin\AdminRequestController;
 
 
         Route::get('ovs/adm/request/list', [AdminRequestController::class, 'requestList'])->name('adm.request.list'); 
-        Route::get('ovs/adm/request/edit', [AdminRequestController::class, 'editRequest'])->name('adm.request.edit');   
+        Route::get('ovs/adm/request/edit', [AdminRequestController::class, 'editRequest'])->name('adm.request.edit');
+        Route::get('ovs/adm/request/view', [AdminRequestController::class, 'viewRequest'])->name('adm.request.view');   
         Route::get('ovs/adm/request/update', [AdminRequestController::class, 'updateRequest'])->name('adm.request.update'); 
     });
 
