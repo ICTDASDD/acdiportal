@@ -5,7 +5,6 @@
 @parent
 @endsection
 
-
     <!-- Navbar -->
     @section('navbar')
     @include('ovs.admin.layouts.navbar')
@@ -23,82 +22,39 @@
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">Amendment List</h4>
+                <h4 class="card-title">Amendment List 
+                  <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
+                  </select>
+                  <button id="addAmendment" class="btn btn-success btn-sm btn-round" >
+                    <i class="material-icons">add</i> Add Amendment
+                  </button>
+                </h4>
               </div>
               <div class="card-body">
                 <div class="toolbar">
                   <!--        Here you can write extra buttons/actions for the toolbar              -->
                 </div>
                 <div class="material-datatables">
-                  <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                  <table id="amendmentTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                     <thead>
                       <tr>
-                        <th style="text-align: left;  min-width:200px;">Amendment No.</th>
-                        <th style="text-align: center  min-width:250px;">Article No.</th>                            
+                        <th style="text-align: center">Amendment No.</th>
+                        <th style="text-align: center">Article No.</th>                            
                         <th style="text-align: center">Amendment Details</th>
-                        <th style="text-align: right; max-width:250px;">Action</th>
+                        <th style="text-align: center">Action</th>
                       </tr>
                     </thead>
 
                     <tfoot>
                       <tr>
-                        <th style="text-align: left;">Amendment No.</th>
+                        <th style="text-align: center">Amendment No.</th>
                         <th style="text-align: center">Article No.</th>                            
                         <th style="text-align: center">Amendment Details</th>
-                        <th style="text-align: right; max-width:250px;">Action</th>
+                        <th style="text-align: center">Action</th>
                       </tr>
                     </tfoot>
 
                     <tbody>
-
-                      <tr>
-                        <td style="text-align: left">01</td>                        
-                        <td style="text-align: justify">VII - lorem Ipsum</td>
-                        <td style="text-align: justify;" class="text-success"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-info btn-sm">
-                              View
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr>
-                      
-                      <tr>
-                        <td style="text-align: left">02</td>                        
-                        <td style="text-align: justify">III - lorem Ipsum</td>
-                        <td style="text-align: justify;" class="text-success"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
-                        <td style="text-align: right; max-width:250px;">
-                          <a href="">
-                            <button class="btn btn-success btn-sm">
-                              Update
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-info btn-sm">
-                              View
-                            </button>
-                          </a>
-                          <a href="">
-                            <button class="btn btn-danger btn-sm">
-                              Disable
-                            </button>
-                          </a>
-                        </td>
-                      </tr> 
-
-                      
-
                     </tbody>
 
                     
@@ -107,11 +63,86 @@
               </div>
               <!-- end content-->
             </div>
+
+            <div class="modal fade" id="modalAmendment" tabindex="-1" role="dialog" aria-labelledby="myModalAmendment" aria-hidden="true">                   
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title text-info">Information of amendment</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                      <i class="material-icons">clear</i>
+                    </button>
+                  </div>
+                  
+                 <!-- <form class="cmxform block-form block-form-default" id="userForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off"> -->
+                  <form class="cmxform block-form block-form-default" id="amendmentForm" enctype="multipart/form-data" method="POST" action=""  autocomplete="off">
+                  @csrf <!-- {{ csrf_field() }} -->
+                  <div class="modal-body">       
+
+                      <input type="hidden" name="id" id="id" value="" />
+
+                      <div class="row">
+
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group">
+                              <select id="selectVotingPeriod2" class="form-control" style="width: 100%"  required="true">
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <input id="amendmentNo" class="form-control" type="text" name="amendmentNo" placeholder="Amendment Number" required="true" />
+                            </div>
+                          </div>
+                          <label class="col-sm-3 label-on-right">
+                          </label>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <input id="articleNo" class="form-control" type="text" name="articleNo" placeholder="Article Number" required="true" />
+                            </div>
+                          </div>
+                          <label class="col-sm-3 label-on-right">
+                          </label>
+                        </div>
+  
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <input id="amendmentDetails" class="form-control" type="text" name="amendmentDetails" placeholder="Amendment Details" required="true" />
+                            </div>
+                          </div>
+                          <label class="col-sm-3 label-on-right">
+                          </label>
+                        </div>
+                        
+                      </div>
+
+                    
+                  </div>
+
+                  <div class="modal-footer">
+                    <button id="btnSaveAmendment" type="submit" class="col btn btn-round btn-success d-block">  Save </button> 
+                    <button id="btnUpdateAmendment" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
+                    <button id="btnRemoveAmendment" type="button" class="col btn btn-round  btn-danger d-none removeAmendment">Remove</button>
+                    <button type="button" class="col btn btn-round btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+                            
+                </form>
+                </div>
+              </div>
+            </div>
+
+
+
             <!--  end card  -->
           </div>
-          <button class="btn btn-success btn-round" data-toggle="modal" data-target="#AddAmendment">
-            <i class="material-icons">add</i> Add Amendment
-          </button>
           <!-- end col-md-12 -->
         </div>
         <!-- end row -->
@@ -152,5 +183,407 @@
 @section('pageplugin')
 @include('ovs.admin.layouts.plugins.datatables')
 @parent
+
+<script>
+
+
+  $(document).ready(function() {
+
+    var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
+      placeholder: "Choose year",
+      //dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+      minimumInputLength: -1,
+      allowClear: true,
+      ajax: {
+        url: "{{ route('votingPeriod.select2') }}",
+        delay: 250,
+        dataType: 'json',
+        data: function(params) {
+            return {
+                query: params.term, // search term
+            };
+        },
+        processResults: function(response) {
+            return {
+                results: response
+            };
+        },
+        cache: true
+      }
+    }).on('change', function () {
+      
+      var votingPeriod = $('#selectVotingPeriod').select2('data');
+      var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+      $('#selectVotingPeriod2').append($option).trigger('change');
+
+      amendmentTable.ajax.reload();  
+    });
+
+    var votingPeriodSelect2modal = $('#selectVotingPeriod2').select2({
+      placeholder: "Choose year",
+      dropdownParent: "#modalAmendment", //UNCOMMENT WHEN IN MODAL
+      minimumInputLength: -1,
+      allowClear: true,
+      ajax: {
+          url: "{{ route('votingPeriod.select2') }}",
+          delay: 250,
+          dataType: 'json',
+          data: function(params) {
+              return {
+                  query: params.term, // search term
+              };
+          },
+          processResults: function(response) {
+              return {
+                  results: response
+              };
+          },
+          cache: true
+      }
+    }).on('change', function () {
+    
+    });
+
+
+    var amendmentTable = $('#amendmentTable').DataTable({
+      processing: true,
+      serverSide: true,
+      cache: false,
+      ajax: {
+          url: "{{ route('amendment.list') }}",
+          //PASSING WITH DATA
+          dataType: 'json',
+          data: function (d) {
+                d.votingPeriodID = $('#selectVotingPeriod').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }
+          },
+      columns: [
+          {
+            data: 'amendmentNo',
+            name: 'amendmentNo'
+          },
+          {
+            data: 'articleNo',
+            name: 'articleNo'
+          },
+          {
+            data: 'amendmentDetails',
+            name: 'amendmentDetails'
+          }, 
+          {
+            'data': null,
+            'render': function (data) {
+                var x = "";
+                x = 
+                        "<button class='btn btn-success btn-sm editAmendment' value='" + data.id + "'> " +
+                        "  Edit " +
+                        "</button> " ;
+                    
+                return "<center>"+ x + "</center>";
+            }
+          },
+      ],
+    });
+  
+    $('#amendmentTable').on('click','.editAmendment',function(){
+
+      if(isValid())
+      {
+        swal({ title:"Unable to Edit!", text: "Please choose voting period", type: "info", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        return;
+      }
+
+      var id = this.value;
+  
+      $.ajax({
+          type: "GET",
+          url: "{{ route('amendment.edit') }}",
+          data: { id : id },
+          contentType: "application/json; charset=utf-8",
+          beforeSend:  function() {
+              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+          },
+          error: function (jqXHR, exception) {
+              swal.close();
+              
+              console.log(jqXHR.responseText);
+              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          },
+          success: function (data) {
+            swal.close();
+  
+            if(data.id)
+            {
+              $('#id').val(data.id);
+              $("#selectVotingPeriod2").prop('disabled', true);
+
+            //  $('#votingPeriodID').val(data.votingPeriodID);
+
+              $('#amendmentNo').val(data.amendmentNo);
+              $('#articleNo').val(data.articleNo);
+              $('#amendmentDetails').val(data.amendmentDetails);
+              
+              $('#btnSaveAmendment').removeClass('d-block').addClass('d-none');
+              $('#btnUpdateAmendment').removeClass('d-none').addClass('d-block');
+              $('#btnRemoveAmendment').removeClass('d-none').addClass('d-block');
+  
+              $('#modalAmendment').modal('show');
+            } 
+            else 
+            {
+              swal({ title: "Unable to Edit", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            }
+          }
+      });   
+    });
+
+    function isValid()
+    {
+      var votingPeriod = $('#selectVotingPeriod').select2('data');
+      var isValid = false;
+      try 
+      {
+        var votingPeriodID = votingPeriod[0].id;
+        if(votingPeriodID == null || votingPeriodID == "" )
+        {
+          return true;
+        }
+      } catch (ex)
+      {
+          return true;
+      }
+
+      return false;
+    }
+  
+    
+    $(document).on("click", "#addAmendment", function (e) {
+
+      if(isValid())
+      {
+        swal({ title:"Unable to Add!", text: "Please choose voting period", type: "info", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        return;
+      }
+
+      $('#id').val("0");
+      $('#votingPeriodID').val("");
+      $('#amendmentNo').val("");
+      $('#articleNo').val("");
+      $('#amendmentDetails').val("");
+
+      $('#btnSaveAmendment').removeClass('d-none').addClass('d-block');
+      $('#btnUpdateAmendment').removeClass('d-block').addClass('d-none');
+      $('#btnRemoveAmendment').removeClass('d-block').addClass('d-none');
+
+      $('#modalAmendment').modal('show');
+      $('#modalAmendment').focus();
+        
+    });
+    
+    $(document).on("click", "#btnSaveAmendment", function (e) {
+      
+        $('#amendmentForm').attr('action', 'Saving');
+        validateAmendmentForm();
+    });
+    
+    $(document).on("click", "#btnUpdateAmendment", function (e) {
+        $('#amendmentForm').attr('action', 'Updating');
+        validateAmendmentForm();
+    });
+  
+    $("#amendmentForm").on("click", ".removeAmendment", function (e) {
+        swal({
+            title: 'Remove amendment!',
+            text: "Are you sure?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+        }).then((result) => {
+            if (result.value) {
+              var id = $("#id").val();
+              
+              $.ajax({
+                  type: "GET",
+                  url: "{{ route('amendment.delete') }}",
+                  data: { id : id},
+                  contentType: "application/json; charset=utf-8",
+                  beforeSend:  function() {
+                      swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                  },
+                  error: function (jqXHR, exception) {
+                      swal.close();
+  
+                      console.log(jqXHR.responseText);
+                      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                  },
+                  success: function (data) {
+                      swal.close();
+  
+                      if(!data.success)
+                      {
+                        swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                      } 
+                      else 
+                      {
+                        swal({ title:"Successfully Remove!", text: "You remove amendment!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+  
+                        var amendmentTable = $('#amendmentTable').DataTable();
+                        amendmentTable.ajax.reload();  
+  
+                        $('#modalAmendment').modal('hide');
+                      }
+                  }
+              });   
+            } 
+        });
+    }); 
+  
+    $("#amendmentForm").bind("invalid-form.validate", function () {
+        // Do something useful e.g. display the Validation Summary in a popup dialog
+    });
+  
+    $('#amendmentForm').submit(function (evt) {
+        evt.preventDefault(); //prevents the default action
+    });
+  });
+  
+  function validateAmendmentForm(action)
+  {
+    var isRequired = false
+    if("Saving" == $('#amendmentForm').attr('action'))
+    {
+      isRequired = true;
+    }
+  $("#amendmentForm").validate({
+    ignore: 'input[type=hidden]',
+    rules:{     
+        'votingPeriodID':{
+            required: true
+        },   
+        'amendmentNo':{
+            required: true
+        },   
+        'articleNo':{
+            required: true
+        },   
+        'amendmentDetails':{
+            required: true
+        },              
+    },
+    submitHandler: function(form){
+      var id = $("#id").val();
+      var selectVotingPeriod2 = $('#selectVotingPeriod2').select2('data');
+      var votingPeriodID = selectVotingPeriod2[0].id;
+     // var votingPeriodID = $("#votingPeriodID").val();
+      var amendmentNo = $("#amendmentNo").val();
+      var articleNo = $("#articleNo").val();
+      var amendmentDetails = $("#amendmentDetails").val();
+   
+      let formData = new FormData(document.getElementById("amendmentForm"));
+      formData.append('isAdding', isRequired);
+      formData.append('votingPeriodID', votingPeriodID);
+      formData.append('amendmentNo', amendmentNo);
+      formData.append('articleNo', articleNo);
+      formData.append('amendmentDetails', amendmentDetails); 
+    
+      if("Saving" ==  $('#amendmentForm').attr('action'))
+      { 
+        $.ajax({
+            type: "post",
+            url: "{{ route('amendment.add') }}",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+                
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+               console.log(data);
+                swal.close();
+  
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+  
+                  swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Saved!", text: "You add new amendment!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+  
+                  var amendmentTable = $('#amendmentTable').DataTable();
+                  amendmentTable.ajax.reload();  
+  
+                  $('#modalAmendment').modal('hide');
+                }
+            }
+        });    
+      } 
+      else 
+      {
+        $.ajax({
+            type: "post",
+            url: "{{ route('amendment.update') }}",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend:  function() {
+                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+            },
+            error: function (jqXHR, exception) {
+                swal.close();
+  
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            },
+            success: function (data) {
+                swal.close();
+  
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
+  
+                  swal({ title:"Unable to Update!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Update!", text: "You update amendment!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+  
+                  var amendmentTable = $('#amendmentTable').DataTable();
+                  amendmentTable.ajax.reload();  
+  
+                  $('#modalAmendment').modal('hide');
+                }
+            }
+        });  
+      }
+     
+      return false;
+    
+    }
+  });
+} //function validateAmendmentForm(action)  
+
+
+  </script>
+
 @endsection
 <!--   Script Plugins -->
+

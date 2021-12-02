@@ -9,6 +9,7 @@ use App\Http\Controllers\ovs\admin\CandidateTypeController;
 use App\Http\Controllers\ovs\admin\CandidateVotingLimitController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\UserController;
+use App\Http\Controllers\ovs\admin\AmendmentController;
     
     Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
         Route::get('ovs/adm/profile', [OVSAdminController::class, 'profile'])->name('OVSAdminProfile');
@@ -53,16 +54,22 @@ use App\Http\Controllers\ovs\admin\UserController;
         
         Route::get('ovs/adm/users/select2', [UserController::class, 'listBranchSelect2'])->name('users.select2'); 
         Route::get('ovs/adm/users/list', [UserController::class, 'listUser'])->name('users.list');   
-        Route::POST('ovs/adm/users/add', [UserController::class, 'addUser'])->name('users.add');   
+        Route::post('ovs/adm/users/add', [UserController::class, 'addUser'])->name('users.add');   
         Route::get('ovs/adm/users/edit', [UserController::class, 'editUser'])->name('users.edit');   
-        Route::POST('ovs/adm/users/update', [UserController::class, 'updateUser'])->name('users.update');   
+        Route::post('ovs/adm/users/update', [UserController::class, 'updateUser'])->name('users.update');   
         Route::get('ovs/adm/users/delete', [UserController::class, 'removeUser'])->name('users.delete');   
+       
+        Route::get('ovs/adm/amendmentlist/list', [AmendmentController::class, 'listAmendment'])->name('amendment.list');
+        Route::post('ovs/adm/amendmentlist/add', [AmendmentController::class, 'addAmendment'])->name('amendment.add');
+        Route::get('ovs/adm/amendmentlist/edit', [AmendmentController::class, 'editAmendment'])->name('amendment.edit');
+        Route::post('ovs/adm/amendmentlist/update', [AmendmentController::class, 'updateAmendment'])->name('amendment.update');
+        Route::get('ovs/adm/amendmentlist/delete', [AmendmentController::class, 'removeAmendment'])->name('amendment.delete');
     
         Route::get('ovs/adm/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('branch.select2'); 
         Route::get('ovs/adm/branch/list', [BranchController::class, 'listBranch'])->name('branch.list');   
         Route::get('ovs/adm/branch/locking', [BranchController::class, 'lockingBranch'])->name('branch.locking');   
 
-        Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
+      //  Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
         
         Route::get('ovs/adm/bblocking', [OVSAdminController::class, 'bblocking'])->name('OVSAdminBranchBlocking');    
         Route::get('ovs/adm/member/list', [MemberController::class, 'listMember'])->name('member.list');   
