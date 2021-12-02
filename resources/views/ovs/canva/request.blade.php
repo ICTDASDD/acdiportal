@@ -295,7 +295,6 @@ var requestTable = $('#requestTable').DataTable({
      
   ]
 });
-});
 
 
 $('#requestTable').on('click','.viewRequest',function(){
@@ -390,13 +389,8 @@ $('#requestTable').on('click','.editRequest',function(){
 
 
 $(document).on("click", "#btnUpdateRequest", function (e) {
-        $('#requestForm').attr('action', 'Updating');
-        validateRequestForm();
-    });
-
-    $("#requestForm").on("click", ".removeRequest", function (e) {
-        swal({
-            title: 'Remove Request!',
+  swal({
+            title: 'Update Request!',
             text: "Are you sure?",
             type: 'warning',
             showCancelButton: true,
@@ -405,122 +399,9 @@ $(document).on("click", "#btnUpdateRequest", function (e) {
             confirmButtonText: 'Confirm'
         }).then((result) => {
             if (result.value) {
-              var id = $("#id").val();
-              
-              $.ajax({
-                  type: "GET",
-                  url: "{{ route('elecom.request.delete') }}",
-                  data: { id : id},
-                  contentType: "application/json; charset=utf-8",
-                  beforeSend:  function() {
-                      swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
-                  },
-                  error: function (jqXHR, exception) {
-                      swal.close();
-  
-                      console.log(jqXHR.responseText);
-                      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-                  },
-                  success: function (data) {
-                      swal.close();
-  
-                      if(!data.success)
-                      {
-                        swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-                      } 
-                      else 
-                      {
-                        swal({ title:"Successfully Remove!", text: "You removed a request!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-  
-                        var requestTable = $('#requestTable').DataTable();
-                        requestTable.ajax.reload();  
-  
-                        $('#modalRequest').modal('hide');
-                      }
-                  }
-              });   
-            } 
-        });
-    }); 
 
-  //   $("#requestForm").bind("invalid-form.validate", function () {
-  //       // Do something useful e.g. display the Validation Summary in a popup dialog
-  //   });
-  
-  //   $('#requestForm').submit(function (evt) {
-  //       evt.preventDefault(); //prevents the default action
-  //   });
-  // });
-  
-  function validateRequestForm(action)
-  {
-  $("#requestForm").validate({
-    ignore: 'input[type=hidden]',
-    rules:{    
-      'id':{
-            required: true
-        }, 
-                
-        'canvas_status':{
-            required: true
-        },  
-    },
-    submitHandler: function(form){
-      var id = $("#id").val();
-  
-      // var brSelect2 = $('#brCode').select2('data');
-      // var brCode = brSelect2[0].id;
-
-      var canvas_status = $("#canvas_status").val();
-      
-
-      if("Saving" ==  $('#requestForm').attr('action'))
-      {
-           
-        $.ajax({
-            type: "GET",
-            url: "{{ route('elecom.request.add') }}",
-            data: { 
-              request_type : request_type,
-              request_info : request_info,           
-             
-            },
-            contentType: "application/json; charset=utf-8",
-            beforeSend:  function() {
-                swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
-            },
-            error: function (jqXHR, exception) {
-                swal.close();
-                
-                console.log(jqXHR.responseText);
-                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-            },
-            success: function (data) {
-                swal.close();
-  
-                if(data.errors)
-                {
-                  var errorMessage= "";
-                  $.each(data.errors, function(key, value) {
-                    errorMessage = errorMessage + value + "\n";
-                  });
-  
-                  swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-                } 
-                else 
-                {
-                  swal({ title:"Successfully Saved!", text: "You add new request!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-  
-                  var requestTable = $('#requestTable').DataTable();
-                  requestTable.ajax.reload();  
-  
-                  $('#modalRequest').modal('hide');
-                }
-            }
-        });    
-      } 
-      else 
-      {
+              var canvas_status = $("#canvas_status").val();
+        var id = $("#id").val();
         $.ajax({
             type: "GET",
             url: "{{ route('canva.request.update') }}",
@@ -561,14 +442,23 @@ $(document).on("click", "#btnUpdateRequest", function (e) {
   
                   $('#modalRequest').modal('hide');
                 }
-            }
-        });  
-      }
-     
-      return false;
-    }
+              }
+            });
+          }
+        });
+    });
+
+
+    $("#requestForm").bind("invalid-form.validate", function () {
+        // Do something useful e.g. display the Validation Summary in a popup dialog
+    });
+  
+    $('#requestForm').submit(function (evt) {
+        evt.preventDefault(); //prevents the default action
+    });
   });
-  } 
+  
+  
   
 </script>
 

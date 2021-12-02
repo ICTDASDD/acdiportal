@@ -414,6 +414,55 @@
         validateRequestForm();
     });
 
+    $("#requestForm").on("click", ".removeRequest", function (e) {
+        swal({
+            title: 'Remove Request!',
+            text: "Are you sure?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+        }).then((result) => {
+            if (result.value) {
+              var id = $("#id").val();
+              
+              $.ajax({
+                  type: "GET",
+                  url: "{{ route('request.delete') }}",
+                  data: { id : id},
+                  contentType: "application/json; charset=utf-8",
+                  beforeSend:  function() {
+                      swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                  },
+                  error: function (jqXHR, exception) {
+                      swal.close();
+  
+                      console.log(jqXHR.responseText);
+                      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                  },
+                  success: function (data) {
+                      swal.close();
+  
+                      if(!data.success)
+                      {
+                        swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                      } 
+                      else 
+                      {
+                        swal({ title:"Successfully Remove!", text: "You remove a request!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+  
+                        var requestTable = $('#requestTable').DataTable();
+                        requestTable.ajax.reload();  
+  
+                        $('#modalRequest').modal('hide');
+                      }
+                  }
+              });   
+            } 
+        });
+    }); 
+
 
     $(document).on("click", "#btnUpdateRequest", function (e) {
         $('#requestForm').attr('action', 'Updating');
