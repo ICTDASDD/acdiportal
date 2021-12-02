@@ -11,9 +11,12 @@ use App\Http\Controllers\ovs\admin\CandidateTypeController;
 use App\Http\Controllers\ovs\admin\CandidateVotingLimitController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\UserController;
+use App\Http\Controllers\ovs\ba\RequestController;
 use App\Http\Controllers\OVSElecomController;
 use App\Http\Controllers\ovs\canva\OVSCanvaController;
 use App\Http\Controllers\EmpController;
+use App\Http\Controllers\ovs\elecom\ElecomRequestController;
+
 //use App\Http\Controllers\dsbAdminController;
 //use App\Http\Controllers\dsbCreatorController;
 //use App\Http\Controllers\dsbReportController;
@@ -167,7 +170,25 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 @include(base_path('routes/extended_route/ovs/elecom/OVSElecomAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/ba/OVSBranchAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/canva/OVSCanvaAdminExtend.php'));
+//@include(base_path('routes/extended_route/ba/RequestRoutes.php'));
+/*
+Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {
 
+    //Page Link and Layout
+    
+   
+    Route::get('ovs/ba/request/list', [RequestController::class, 'requestList'])->name('request.list');
+    Route::get('ovs/ba/request/add', [RequestController::class, 'addUser'])->name('request.add');   
+    Route::get('ovs/ba/request/edit', [RequestController::class, 'editUser'])->name('request.edit');   
+    Route::get('ovs/ba/request/update', [RequestController::class, 'updateUser'])->name('request.update');   
+    Route::get('ovs/ba/request/delete', [RequestController::class, 'removeUser'])->name('request.delete'); 
+
+  
+
+
+
+});
+*/
 
 
 require __DIR__.'/auth.php';
