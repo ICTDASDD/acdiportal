@@ -171,9 +171,6 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 @include(base_path('routes/extended_route/ovs/elecom/OVSElecomAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/ba/OVSBranchAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/canva/OVSCanvaAdminExtend.php'));
-<<<<<<< HEAD
-@include(base_path('routes/extended_route/ovs/machine/OVSMachineExtend.php'));
-=======
 //@include(base_path('routes/extended_route/ba/RequestRoutes.php'));
 /*
 Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {
@@ -186,7 +183,6 @@ Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {
     Route::get('ovs/ba/request/edit', [RequestController::class, 'editUser'])->name('request.edit');   
     Route::get('ovs/ba/request/update', [RequestController::class, 'updateUser'])->name('request.update');   
     Route::get('ovs/ba/request/delete', [RequestController::class, 'removeUser'])->name('request.delete'); 
->>>>>>> 526a87f77b468950e8a54a1975718dc8ab2bd27e
 
   
 

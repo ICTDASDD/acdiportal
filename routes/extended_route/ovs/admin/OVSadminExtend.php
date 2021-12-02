@@ -9,11 +9,8 @@ use App\Http\Controllers\ovs\admin\CandidateTypeController;
 use App\Http\Controllers\ovs\admin\CandidateVotingLimitController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\UserController;
-<<<<<<< HEAD
 use App\Http\Controllers\ovs\admin\AmendmentController;
-=======
 use App\Http\Controllers\ovs\admin\AdminRequestController;
->>>>>>> 526a87f77b468950e8a54a1975718dc8ab2bd27e
     
     Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
         Route::get('ovs/adm/profile', [OVSAdminController::class, 'profile'])->name('OVSAdminProfile');
