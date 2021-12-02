@@ -49,6 +49,11 @@ class DashboardController extends Controller
                 return view('ovs.canva.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
+            // Online Voting System Machine
+            elseif(Auth::user()->hasRole('branch-machine')){
+                return view('ovs.machine.dashboard',['title' => 'Onine Voting System', 'activeparents' => 'Dashboard']);
+            }
+
             // EMP
             elseif(Auth::user()->hasRole('emp')){
                 return view('emp.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
@@ -107,5 +112,20 @@ class DashboardController extends Controller
         //------------- Super Admin Navigation End-----------------//
 
         //---------------------------------------------------- Super Admin End ------------------------------------------//
+
+
+
+
+
+        public function logout(Request $request)
+                {
+                    Auth::logout();
+
+                    $request->session()->invalidate();
+
+                    $request->session()->regenerateToken();
+
+                    return redirect('/login');
+                }
 
 }

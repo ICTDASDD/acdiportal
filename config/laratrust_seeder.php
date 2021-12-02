@@ -108,8 +108,8 @@ return [
             'profile' => 'r,u'
         ],
 
-        'gen-monitoring' => [
-            'users' => 'c,r,u,d',
+        'branch-machine' => [
+            'users' => 'c,r,u',
             'profile' => 'r,u'
         ],
 

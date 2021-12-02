@@ -60,7 +60,7 @@
                     <option value="ictd-admin">ICTD (VOTING)</option>
                     <option value="elecom-admin">ELECOM (VOTING)</option>
                     <option value="canv-officer">CANVASSING (VOTING)</option>
-                    <option value="gen-monitoring">Gen. Public (VOTING)</option>
+                    <option value="branch-machine">Gen. Public (VOTING)</option>
                     <option value="branch-officer">Branch Office (VOTING)</option>
                     <option disabled="disabled">-------------</option>
                     <option value="emp">Emp_Log (ACDIMPC PORTAL)</option>

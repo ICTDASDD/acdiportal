@@ -43,6 +43,7 @@ Route::get('/dashboard', function () {
 //auth route for both 
 Route::group(['middleware' => ['auth']], function() { 
     Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
+    Route::get('/logout', 'App\Http\Controllers\DashboardController@logout')->name('logout');
 });
 
 //auth route for superadmin 
@@ -167,6 +168,7 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 @include(base_path('routes/extended_route/ovs/elecom/OVSElecomAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/ba/OVSBranchAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/canva/OVSCanvaAdminExtend.php'));
+@include(base_path('routes/extended_route/ovs/machine/OVSMachineExtend.php'));
 
 
 
