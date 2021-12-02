@@ -120,6 +120,9 @@ class CanvaRequestController extends Controller
             elseif ($request->canvas_status == 0 && $br_req->elecom_status == 0){
                 $br_req->status = 0 ;
             }
+            // elseif ($request->canvas_status == 1 && $br_req->elecom_status == 1){
+            //     $br_req->status = 1 ;
+            // }
             else{
                 $br_req->status = 0 ;
             }

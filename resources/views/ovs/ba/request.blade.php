@@ -62,83 +62,7 @@
                         </tfoot>
 
                         <tbody>
-                          {{-- <tr>
-                            <td style="text-align: left">10/21/2021 08:03:15</td>
-                            <td style="text-align: center">Lipa Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">Late Registration</td>
-                            <td style="text-align: center">Request for MIGS Late Registration 'S-15364486'</td>
-                            <td style="text-align: center" class="text-success">Granted</td>
-                            <td style="text-align: center">10/21/2021 08:25:00</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                                <button class="btn btn-info btn-sm">
-                                  View
-                                </button>
-                                </a>
-                            </td>
-                          </tr>
                           
-                          <tr>
-                            <td style="text-align: left">10/21/2021 08:35:18</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">Vote Cancellation</td>
-                            <td style="text-align: center">Request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center" class="text-danger">Denied</td>
-                            <td style="text-align: center">10/21/2021 08:37:55</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                              <button class="btn btn-info btn-sm">
-                                View
-                              </button>
-                              </a>
-                            </td>
-                          </tr> 
-
-                          <tr>
-                            <td style="text-align: left">10/21/2021 08:49:00</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">Vote Cancellation</td>
-                            <td style="text-align: center">Request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center" class="text-success">Granted</td>
-                            <td style="text-align: center">10/21/2021 09:00:00</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                              <button class="btn btn-info btn-sm">
-                                View
-                              </button>
-                              </a>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: left">10/21/2021 08:50:00</td>
-                            <td style="text-align: center">Tarlac Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">TVI</td>
-                            <td style="text-align: center">Request for Branch Temporary Voting Inactivity</td>
-                            <td style="text-align: center" class="text-success">--</td>
-                            <td style="text-align: center">--</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                              <button class="btn btn-primary btn-sm">
-                                Mark as Received
-                              </button>
-                              </a>
-                              <a href="">
-                                <button class="btn btn-success btn-sm">
-                                  Grant
-                                </button>
-                                </a>
-                                <a href="">
-                                  <button class="btn btn-danger btn-sm">
-                                    Deny
-                                  </button>
-                                  </a>
-                            </td>
-                          </tr> --}}
                              
                         </tbody>
 
@@ -332,8 +256,8 @@
             name: 'request_info'
           },
           {
-            data: 'status',
-            name: 'status'
+            data: 'status2',
+            name: 'status2'
           },
           {
             data: 'updated_at',
@@ -343,17 +267,20 @@
           {
             'data': null,
             'render': function (data) {
+
+              if(data.status == 0 ){
                 var x = "";
                 x = 
                         "<button class='btn btn-success btn-sm editRequest' value='" + data.id + "'> " +
                         "  Edit " +
-                        "</button> " +
-                          //for approve (elecom/canvas)
-                        "<button class='btn btn-info btn-sm editStatus' value='" + data.id + "'> " +
-                        "  Edit Status " +
-                        "</button> ";
+                        "</button> "  ;
                     
                 return "<center>"+ x + "</center>";
+              }
+
+              else {
+                return " ";
+              }
             }
           },
 
@@ -407,50 +334,7 @@
       });   
     });
 
-    //for edit status button
-    $('#requestTable').on('click','.editStatus',function(){
-      var id = this.value;
-  
-      $.ajax({
-          type: "GET",
-          url: "{{ route('request.edit.status') }}",
-          data: { id : id },
-          contentType: "application/json; charset=utf-8",
-          beforeSend:  function() {
-              swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
-          },
-          error: function (jqXHR, exception) {
-              swal.close();
-              
-              console.log(jqXHR.responseText);
-              swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-          },
-          success: function (data) {
-            swal.close();
-  
-            if(data.id)
-            {
-              $('#id').val(data.id);
-
-            //   var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
-            // $('#brCode').append($option).trigger('change');
-
-            $('#request_type').val(data.request_type);
-            $('#request_info').val(data.request_info);
-            
-              $('#btnSaveStatus').removeClass('d-block').addClass('d-none');
-              $('#btnUpdateStatus').removeClass('d-none').addClass('d-block');
-              $('#btnRemoveStatus').removeClass('d-none').addClass('d-block');
-  
-              $('#modalEditStatus').modal('show');
-            } 
-            else 
-            {
-              swal({ title: "Unable to Edit", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-            }
-          }
-      });   
-    });
+    
 
 
     $(document).on("click", "#addRequest", function (e) {
@@ -477,60 +361,7 @@
         validateRequestForm();
     });
 
-    //FOR UPDATE STATUS
-    $(document).on("click", "#btnUpdateStatus", function (e) {
-        $('#statusForm').attr('action', 'Updating');
-        validateRequestForm();
-    });
-  
-    $("#requestForm").on("click", ".removeRequest", function (e) {
-        swal({
-            title: 'Remove Request!',
-            text: "Are you sure?",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Confirm'
-        }).then((result) => {
-            if (result.value) {
-              var id = $("#id").val();
-              
-              $.ajax({
-                  type: "GET",
-                  url: "{{ route('request.delete') }}",
-                  data: { id : id},
-                  contentType: "application/json; charset=utf-8",
-                  beforeSend:  function() {
-                      swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
-                  },
-                  error: function (jqXHR, exception) {
-                      swal.close();
-  
-                      console.log(jqXHR.responseText);
-                      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-                  },
-                  success: function (data) {
-                      swal.close();
-  
-                      if(!data.success)
-                      {
-                        swal({ title:"Unable to Remove!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-                      } 
-                      else 
-                      {
-                        swal({ title:"Successfully Remove!", text: "You removed a request!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-  
-                        var requestTable = $('#requestTable').DataTable();
-                        requestTable.ajax.reload();  
-  
-                        $('#modalRequest').modal('hide');
-                      }
-                  }
-              });   
-            } 
-        });
-    }); 
+    
 
   //   $("#requestForm").bind("invalid-form.validate", function () {
   //       // Do something useful e.g. display the Validation Summary in a popup dialog

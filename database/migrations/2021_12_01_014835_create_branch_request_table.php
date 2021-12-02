@@ -19,9 +19,9 @@ class CreateBranchRequestTable extends Migration
             $table->string('user_id');
             $table->string('request_type');
             $table->string('request_info');
-            $table->boolean('status')->default(0);
-            $table->boolean('elecom_status')->default(0);
-            $table->boolean('canvas_status')->default(0); 
+            $table->integer('status')->default(0);
+            $table->integer('elecom_status')->default(0);
+            $table->integer('canvas_status')->default(0); 
             $table->timestamps();
         });
     }

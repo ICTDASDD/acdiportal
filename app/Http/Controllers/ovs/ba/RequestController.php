@@ -57,7 +57,7 @@ class RequestController extends Controller
                         $actionBtn = "<center>". $row->request_info. "</center>";
                         return $actionBtn;
                     })
-                    ->addColumn('status', function($data){
+                    ->addColumn('status2', function($data){
                         if($data->status == 1){
                             $actionBtn = "<center>".'APPROVED'. "</center>";
                             return $actionBtn;
@@ -76,7 +76,7 @@ class RequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','status','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','request_info','status2','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
