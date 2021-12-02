@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ovs\elecom;
+namespace App\Http\Controllers\ovs\canva;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 
-class ElecomRequestController extends Controller
+class CanvaRequestController extends Controller
 {
     //---------------------------------------------------- Online Voting System Branch Admin ------------------------------------------//
 
@@ -57,12 +57,12 @@ class ElecomRequestController extends Controller
                         $actionBtn = "<center>". $row->request_info. "</center>";
                         return $actionBtn;
                     })
-                    ->addColumn('elecom_status2', function($data){
-                        if($data->elecom_status == 1){
+                    ->addColumn('canvas_status2', function($data){
+                        if($data->canvas_status == 1){
                             $actionBtn = "<center>".'APPROVED'. "</center>";
                             return $actionBtn;
                         }
-                        elseif($data->elecom_status == 2){
+                        elseif($data->canvas_status == 2){
                             $actionBtn = "<center>".'DENIED'. "</center>";
                             return $actionBtn;
                         }
@@ -76,37 +76,11 @@ class ElecomRequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','request_info','canvas_status2','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
         
-
-        public function addRequest(Request $request){
-
-            $validator = \Validator::make($request->all(), [
-                'request_type' => 'required',
-                'request_info' => 'required',
-            ]);
-            
-            if ($validator->fails()) {
-                return Response::json(['errors' => $validator->errors()->all()]);
-            }
-           // $user_id = Auth::user()->id;
-
-            $br_req = new Branch_Request([
-                'request_type' => $request->get('request_type'),
-                'request_info' => $request->get('request_info'),
-                'brCode' => Auth::user()->brCode,
-                'user_id' =>  Auth::user()->id,
-            ]);
-            // dd($br_req);
-            $br_req->save();
-            
-            return Response::json(['success'=> true]);    
-
-
-        }
 
 
         public function editRequest(Request $request){
@@ -125,8 +99,8 @@ class ElecomRequestController extends Controller
         public function updateRequest(Request $request){
 
             $validator = \Validator::make($request->all(), [
-               
-                'elecom_status' => 'required',
+                
+                'canvas_status' => 'required',
                 
             ]);
             
@@ -136,14 +110,14 @@ class ElecomRequestController extends Controller
     
             $id = $request->get('id');
             $br_req = Branch_Request::find($id);
-           
-
-            $br_req->elecom_status = $request->get('elecom_status');
           
-            if ($request->elecom_status == 2 && $br_req->canvas_status == 2){
+
+            $br_req->canvas_status = $request->get('canvas_status');
+          
+            if ($request->canvas_status == 2 && $br_req->elecom_status == 2){
                 $br_req->status = 2 ;
             }
-            elseif ($request->elecom_status == 0 && $br_req->canvas_status == 0){
+            elseif ($request->canvas_status == 0 && $br_req->elecom_status == 0){
                 $br_req->status = 0 ;
             }
             else{
@@ -156,8 +130,9 @@ class ElecomRequestController extends Controller
     
         }
 
-       
- 
+        
+
+        
         //------------- Navigation End-----------------//
 
         //----------------------------------------------------  End ------------------------------------------//

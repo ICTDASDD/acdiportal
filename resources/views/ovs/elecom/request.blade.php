@@ -60,83 +60,7 @@
                         </tfoot>
 
                         <tbody>
-                          {{-- <tr>
-                            <td style="text-align: left">10/21/2021 08:03:15</td>
-                            <td style="text-align: center">Lipa Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">Late Registration</td>
-                            <td style="text-align: center">Request for MIGS Late Registration 'S-15364486'</td>
-                            <td style="text-align: center" class="text-success">Granted</td>
-                            <td style="text-align: center">10/21/2021 08:25:00</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                                <button class="btn btn-info btn-sm">
-                                  View
-                                </button>
-                                </a>
-                            </td>
-                          </tr>
-                          
-                          <tr>
-                            <td style="text-align: left">10/21/2021 08:35:18</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">Vote Cancellation</td>
-                            <td style="text-align: center">Request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center" class="text-danger">Denied</td>
-                            <td style="text-align: center">10/21/2021 08:37:55</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                              <button class="btn btn-info btn-sm">
-                                View
-                              </button>
-                              </a>
-                            </td>
-                          </tr> 
-
-                          <tr>
-                            <td style="text-align: left">10/21/2021 08:49:00</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">Vote Cancellation</td>
-                            <td style="text-align: center">Request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center" class="text-success">Granted</td>
-                            <td style="text-align: center">10/21/2021 09:00:00</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                              <button class="btn btn-info btn-sm">
-                                View
-                              </button>
-                              </a>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: left">10/21/2021 08:50:00</td>
-                            <td style="text-align: center">Tarlac Branch</td>                            
-                            <td style="text-align: center">Branch Admin</td>
-                            <td style="text-align: center">TVI</td>
-                            <td style="text-align: center">Request for Branch Temporary Voting Inactivity</td>
-                            <td style="text-align: center" class="text-success">--</td>
-                            <td style="text-align: center">--</td>
-                            <td style="text-align: right; max-width:250px;">
-                              <a href="">
-                              <button class="btn btn-primary btn-sm">
-                                Mark as Received
-                              </button>
-                              </a>
-                              <a href="">
-                                <button class="btn btn-success btn-sm">
-                                  Grant
-                                </button>
-                                </a>
-                                <a href="">
-                                  <button class="btn btn-danger btn-sm">
-                                    Deny
-                                  </button>
-                                  </a>
-                            </td>
-                          </tr> --}}
+                         
                              
                         </tbody>
 
@@ -149,9 +73,7 @@
                   <!-- end content-->
                 </div>
                        
-                      {{-- <button id="addRequest" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalRequest">
-                        <i class="material-icons">add</i> Add Request
-                      </button> --}}
+                     
 
                       {{-- ADD REQUEST MODAL --}}
                           <div class="modal fade" id="modalRequest" tabindex="-1" role="dialog" aria-labelledby="myModalRequest" aria-hidden="true">                   
@@ -184,12 +106,6 @@
                                     </div>
               
      
-                                      {{-- <div class="col-sm-12">
-                                        <div class="form-group">
-                                          <input id="request_info" class="form-control" type="text" name="request_info" placeholder="Request Info" required="true" />
-                                        </div>
-                                      </div> --}}
-
                                     </div>
                                                 
                                 </div>
@@ -331,8 +247,8 @@
             name: 'request_info'
           },
           {
-            data: 'elecom_status',
-            name: 'elecom_status'
+            data: 'elecom_status2',
+            name: 'elecom_status2'
           },
           {
             data: 'updated_at',
@@ -342,6 +258,7 @@
           {
             'data': null,
             'render': function (data) {
+              if(data.elecom_status == 0){
                 var x = "";
                 x = 
                         "<button class='btn btn-success btn-sm editRequest' value='" + data.id + "'> " +
@@ -349,6 +266,12 @@
                         "</button> " ;
                     
                 return "<center>"+ x + "</center>";
+
+              }
+
+              else{
+                return " ";
+              }
             }
           },
 
@@ -386,13 +309,11 @@
             // $('#brCode').append($option).trigger('change');
 
             $('#elecom_status').val(data.elecom_status);
-            // $('#request_type').val(data.request_type);
-            // $('#request_info').val(data.request_info);
+            
             
               $('#btnSaveRequest').removeClass('d-block').addClass('d-none');
               $('#btnUpdateRequest').removeClass('d-none').addClass('d-block');
-              // $('#btnRemoveRequest').removeClass('d-none').addClass('d-block');
-  
+           
               $('#modalRequest').modal('show');
             } 
             else 
