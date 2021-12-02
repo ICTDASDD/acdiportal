@@ -15,7 +15,7 @@ class AddEmpidAvatarLnameMnameToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('emp_id')->unique();
-            $table->string('avatar')->nullable();
+            $table->string('avatar')->default("default-avatar.png");
             $table->string('lname');
             $table->string('mname');
         });

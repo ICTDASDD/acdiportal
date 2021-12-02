@@ -14,6 +14,6 @@ class Branch extends Model
     protected $fillable = [
         'brCode',
         'brName',
-        //'isLocked',
+        'isLocked',
     ];
 }
