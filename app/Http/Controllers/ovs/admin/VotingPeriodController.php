@@ -64,6 +64,14 @@ class VotingPeriodController extends Controller
         return response()->json($result);
     }
 
+    public function defaultVotingPeriod()
+    {
+        $where = array('isDefault' => 1);
+        $votingPeriod  = VotingPeriod::where($where)->first();
+
+        return Response::json($votingPeriod);
+    }
+
     public function editVotingPeriod(Request $request)
     {
         $votingPeriodID = $request->get('votingPeriodID');

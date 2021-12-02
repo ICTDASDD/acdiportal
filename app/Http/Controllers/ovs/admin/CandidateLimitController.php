@@ -31,6 +31,35 @@ class CandidateLimitController extends Controller
         }
     }
 
+    public function defaultCandidateLimit(Request $request)
+    {
+        $votingPeriodID = $request->get('votingPeriodID');
+
+    	$data = DB::table('candidate_types')
+                    ->leftJoin('candidate_limits', function($join) use ($votingPeriodID)
+                    {
+                        $join->on('candidate_limits.candidateTypeID', '=', 'candidate_types.candidateTypeID');
+                        $join->where('candidate_limits.votingPeriodID','=', $votingPeriodID);
+                    })
+                    ->select('candidate_types.*',DB::raw('ISNULL(candidate_limits.candidateLimitCount, 0) AS candidateLimitCount'), DB::raw('ISNULL(candidate_limits.memberVotingLimitCount, 0) AS memberVotingLimitCount'))
+                    ->orderBy('candidate_types.candidateTypeID', 'asc')
+                    ->get();
+                
+        $candidateTypes = [];
+
+        if (count($data) > 0) {
+            foreach ($data as $row) {
+                $candidateTypes[] = array(
+                    "candidateTypeID" => $row->candidateTypeID,
+                    "candidateTypeName" => $row->candidateTypeName,
+                    "candidateLimitCount" => $row->candidateLimitCount,
+                    "memberVotingLimitCount" => $row->memberVotingLimitCount,
+                );
+            }
+        }
+        return response()->json($candidateTypes);
+    }
+
     public function editCandidateLimit(Request $request)
     {
         $candidateLimitID = $request->get('candidateLimitID');
