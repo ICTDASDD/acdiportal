@@ -233,8 +233,8 @@
           if(isaccumudating == true)
           {
             swal({
-              title: 'Accumodating other branch member!',
-              text: "Youre registering member of other branch?",
+              title: 'Accomodating other branch member!',
+              text: "You're registering member of other branch?",
               type: 'warning',
               showCancelButton: false,
               confirmButtonColor: '#3085d6',
