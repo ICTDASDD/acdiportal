@@ -8,7 +8,6 @@ use App\Http\Controllers\OVSAdminController;
 use App\Http\Controllers\ovs\admin\CandidateController;
 use App\Http\Controllers\ovs\admin\CandidateLimitController;
 use App\Http\Controllers\ovs\admin\CandidateTypeController;
-use App\Http\Controllers\ovs\admin\CandidateVotingLimitController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\UserController;
 use App\Http\Controllers\ovs\ba\RequestController;
@@ -155,7 +154,7 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
     Route::get('ovs/adm/bblocking', [OVSAdminController::class, 'bblocking'])->name('OVSAdminBranchBlocking');    
     Route::get('ovs/adm/eblocking', [OVSAdminController::class, 'eblocking'])->name('OVSAdminEntryBlocking');    
     Route::get('ovs/adm/memlist', [OVSAdminController::class, 'memlist'])->name('OVSAdminMemberList');
-    
+
     Route::get('ovs/adm/adduser', [OVSAdminController::class, 'adduser'])->name('OVSAdminAdduser');
 });
 
