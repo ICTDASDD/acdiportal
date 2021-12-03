@@ -87,6 +87,5 @@ class BranchController extends Controller
         {
             return Response::json(['success'=> false]);
         }
-
     }
 }

@@ -229,7 +229,10 @@ class UserController extends Controller
             {
                 if($isChanged)
                 {
-                    unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
+                    if($request->get('fileNameFromEdit') != "default-avatar.png")
+                    {
+                        unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
+                    }
                     
                     request()->avatar->move(public_path('material/img/user'), $profilePictureName);
                 }

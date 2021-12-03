@@ -63,6 +63,40 @@ class CandidateController extends Controller
         }
     }
 
+    public function defaultCandidate(Request $request)
+    {
+        $votingPeriodID = $request->get('votingPeriodID');
+        $candidateTypeID = $request->get('candidateTypeID');
+        $subDiv = $request->get('subDiv');
+
+    	$data = DB::table('candidates')
+                    ->join('candidate_types', 'candidates.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+                    ->select('candidates.*','candidate_types.candidateTypeName')
+                    ->where('candidates.votingPeriodID', $votingPeriodID)
+                    ->where('candidates.candidateTypeID', $candidateTypeID)
+                    ->orderBy('candidate_types.candidateTypeID', 'asc')
+                    ->get();
+                
+        $candidates = [];
+
+        if (count($data) > 0) {
+            foreach ($data as $row) {
+                $candidates[] = array(
+                    "subDiv" => $subDiv,
+                    "profilePicture" => $row->profilePicture,
+                    "lastName" => $row->lastName,
+                    "firstName" => $row->firstName,
+                    "middleName" => $row->middleName,
+                    "information1" => $row->information1,
+                    "information2" => $row->information2,
+                    "candidateTypeID" => $row->candidateTypeID,
+                    "candidateTypeName" => $row->candidateTypeName,
+                );
+            }
+        }
+        return response()->json($candidates);
+    }
+
     public function editCandidate(Request $request)
     {
         $candidateID = $request->get('candidateID');

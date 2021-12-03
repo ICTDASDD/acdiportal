@@ -144,7 +144,7 @@
           var votingPeriod = $('#selectVotingPeriod').select2('data');
           var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
           $('#selectVotingPeriod2').append($option).trigger('change');
-
+        
           memberTable.ajax.reload();  
         });
 
@@ -189,7 +189,9 @@
               }, 
               {
                 data: 'actionButton',
-                name: 'actionButton'
+                name: 'actionButton',
+                orderable: false, 
+                searchable: false
               }, 
               
               /*
@@ -218,7 +220,83 @@
               */
           ],
         });
+
+        $('#memberTable').on('click','.registerButton',function(){
+          var afsn = this.value
+          var fullName = $(this).data('fullname'); 
+          var isaccumudating = $(this).data('isaccumudating'); 
+          var votingPeriod = $('#selectVotingPeriod').select2('data');
+          var votingPeriodID = votingPeriod[0].id;
+          var votingPeriodDetails = votingPeriod[0].text;
+
+          //Auth::user()->brCode
+          if(isaccumudating == true)
+          {
+            swal({
+              title: 'Accumodating other branch member!',
+              text: "Youre registering member of other branch?",
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Confirm'
+            }).then((result) => {
+              if (result.value) {
+                register(afsn, fullName,isaccumudating, votingPeriodID );
+              }
+            });
+          } else 
+          {
+              register(afsn, fullName,isaccumudating, votingPeriodID);
+          }
+        });
       });
+
+      function register(afsn, fullName,isaccumudating, votingPeriodID)
+      {
+          swal({
+            title: 'Register ' + fullName + ' as Voter!',
+            text: "Are you sure?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+          }).then((result) => {
+            if (result.value) {
+              $.ajax({
+                  type: "GET",
+                  url: "{{ route('member.register') }}",
+                  data: { afsn : afsn, votingPeriodID : votingPeriodID },
+                  contentType: "application/json; charset=utf-8",
+                  beforeSend:  function() {
+                      swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                  },
+                  error: function (jqXHR, exception) {
+                      swal.close();
+
+                      console.log(jqXHR.responseText);
+                      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+                  },
+                  success: function (data) {
+                      swal.close();
+
+                      if(!data.success)
+                      {
+                        swal({ title:"Unable to Register!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+                      } 
+                      else 
+                      {
+                        swal({ title:"Successfully Registered!", text: "Member can vote now!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+
+                        var memberTable = $('#memberTable').DataTable();
+                        memberTable.ajax.reload(null, false);
+                      }
+                  }
+              });   
+            }
+          });
+      }
     </script>
     @parent
     @endsection

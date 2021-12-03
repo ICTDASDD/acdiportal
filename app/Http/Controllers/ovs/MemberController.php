@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
+use Carbon\Carbon;
 
 class MemberController extends Controller
 {
@@ -29,8 +30,7 @@ class MemberController extends Controller
             ->make(true);
             */
             
-            
-        
+            $totalFilteredRecord = $totalDataRecord = $draw_val = "";
             $columns = array( 
                 0 =>'FN', 
                 1 =>'MYBR',
@@ -38,7 +38,6 @@ class MemberController extends Controller
                 3=> 'SCNO',
                 4=> 'brRegistered',
                 5=> 'code',
-                6=> 'FN',
             );
             
             $votingPeriodID = "";
@@ -53,9 +52,11 @@ class MemberController extends Controller
                                 $join->on('GAData.AFSN', '=', 'member_registration.afsn');
                                 $join->where('member_registration.votingPeriodID','=', $votingPeriodID);
                             })
+                            ->leftJoin('branches AS registeredBranch', 'member_registration.brRegistered', '=', 'registeredBranch.brCode')
                             ->count();
 
-            $totalFiltered = $totalData; 
+            $totalDataRecord = $totalData;
+            $totalFilteredRecord = $totalData; 
 
             $limit = $request->input('length');
             $start = $request->input('start');
@@ -73,8 +74,8 @@ class MemberController extends Controller
                         })
                     ->leftJoin('branches AS registeredBranch', 'member_registration.brRegistered', '=', 'registeredBranch.brCode')
                     ->skip($start)
+                    ->take($limit)
                     ->orderBy($order,$dir)
-                    ->limit($limit)
                     ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
                     ->get();
             }
@@ -90,19 +91,34 @@ class MemberController extends Controller
                             $join->where('member_registration.votingPeriodID','=', $votingPeriodID);
                         })
                     ->leftJoin('branches AS registeredBranch', 'member_registration.brRegistered', '=', 'registeredBranch.brCode')
-                    ->skip($start)
-                    ->orderBy($order,$dir)
-                    ->limit($limit)
                     ->where('GAData.GN','LIKE',"%{$search}%")
                     ->orWhere('GAData.FN', 'LIKE',"%{$search}%")
                     ->orWhere('GAData.MN', 'LIKE',"%{$search}%")
                     ->orWhere('membershipBranch.brName', 'LIKE',"%{$search}%")
                     ->orWhere('GAData.AFSN', 'LIKE',"%{$search}%")
-                    ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%")
+                    ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%") 
+                    ->skip($start)
+                    ->take($limit)
+                    ->orderBy($order,$dir)
                     ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
                     ->get();
 
-                $totalFiltered = $posts->count();
+                $totalFilteredRecord = DB::table('GAData')
+                ->leftJoin('branches AS membershipBranch', 'GAData.MYBR', '=', 'membershipBranch.brCode')
+                ->leftJoin('member_registration', function($join) use ($votingPeriodID)
+                    {
+                        $join->on('GAData.AFSN', '=', 'member_registration.afsn');
+                        $join->where('member_registration.votingPeriodID','=', $votingPeriodID);
+                    })
+                ->leftJoin('branches AS registeredBranch', 'member_registration.brRegistered', '=', 'registeredBranch.brCode')
+                ->where('GAData.GN','LIKE',"%{$search}%")
+                ->orWhere('GAData.FN', 'LIKE',"%{$search}%")
+                ->orWhere('GAData.MN', 'LIKE',"%{$search}%")
+                ->orWhere('membershipBranch.brName', 'LIKE',"%{$search}%")
+                ->orWhere('GAData.AFSN', 'LIKE',"%{$search}%")
+                ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%") 
+                ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
+                ->get()->count();
             }
 
             $data = array();
@@ -112,9 +128,10 @@ class MemberController extends Controller
                 {
                     //$show =  route('posts.show',$post->id);
                     //$edit =  route('posts.edit',$post->id);
-
-                    $nestedData['brName'] = $post->brName;
-                    $nestedData['fullName'] = $post->FN . ", " . $post->GN . " " . $post->MN ;
+                    $brMembership = $post->brName;
+                    $nestedData['brName'] = $brMembership;
+                    $fullName = $post->FN . ", " . $post->GN . " " . $post->MN;
+                    $nestedData['fullName'] = $fullName;
                     $nestedData['AFSN'] = $post->AFSN;
                     $nestedData['SCNO'] = $post->SCNO;
                     $nestedData['brRegistered'] = $post->brRegistered;
@@ -124,19 +141,24 @@ class MemberController extends Controller
                     $button = "- - -";
                     if($votingPeriodID != "")
                     {
+                        $isFromOtherBranch = false;
                         $logBranch = Auth::user()->brCode;
                         if($post->MYBR != $logBranch)
-                        {
-                            $button = "<button class='btn btn-danger btn-sm requestButton' value='" . $post->SCNO . "'> " .
+                        {   
+                           /* $button = "<button class='btn btn-danger btn-sm requestButton' value='" . $post->AFSN . "' data-fullname='" . $fullName . "'> " .
                             "  Request " .
                             "</button> " ;
+                            */
+                            $isFromOtherBranch = true;
                         }
+                        /*
                         else 
                         {
-                            $button = "<button class='btn btn-success btn-sm registerButton' value='" . $post->SCNO . "'> " .
+                            */
+                            $button = "<button class='btn btn-success btn-sm registerButton' value='" . $post->AFSN . "' data-fullname='" . $fullName . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
                             "  Register " .
                             "</button> " ;
-                        }
+                        //}
                     }
 
                     if($post->brRegistered != "")
@@ -152,12 +174,40 @@ class MemberController extends Controller
 
             $json_data = array(
                 "draw"            => intval($request->input('draw')),  
-                "recordsTotal"    => intval($totalData),  
-                "recordsFiltered" => intval($totalFiltered), 
+                "recordsTotal"    => intval($totalDataRecord),  
+                "recordsFiltered" => intval($totalFilteredRecord), 
                 "data"            => $data   
                 );
 
             echo json_encode($json_data);
+        }
+    }
+    
+    public function registerMember(Request $request)
+    {
+        $afsn = $request->get('afsn');
+        $code = random_int(100000, 999999);
+        $votingPeriodID = $request->get('votingPeriodID');
+        $logUser = Auth::user()->id;
+        $logBr = Auth::user()->brCode;
+        
+        $member_registration = DB::table('member_registration')
+            ->insertGetId([
+                'afsn' => $afsn, 
+                'code' => $code,
+                'votingPeriodID' => $votingPeriodID,
+                'registeredBy' => $logUser,
+                'registeredOn' => Carbon::now(),
+                'brRegistered' => $logBr,
+            ]);
+            
+        if($member_registration)
+        {
+            return Response::json(['success'=> true]);
+        } 
+        else 
+        {
+            return Response::json(['success'=> false]);
         }
     }
 }

@@ -17,195 +17,15 @@
     <div class="content">
         <div class="content">
           <div class="container-fluid">
-            
-            <div class="header text-center ml-auto mr-auto">
-              <h3 class="title">Board of Directors</h3>
-              <p class="category">Data as of:</p>
-            </div>
-            
-            <div class="row">
-              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate1.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. One (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate2.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Two (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate3.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Three (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate4.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Four (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate5.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Five (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate6.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Six (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate7.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Seven (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate8.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Eight (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
 
             <div class="header text-center ml-auto mr-auto">
-              <h3 class="title">Audit Committee</h3>
-              <p class="category">Data as of:</p>
-            </div>
-            
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-info card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate1.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. One (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="card card-stats">
-                  <div class="card-header card-header-info card-header-icon">
-                    <div class="card-icon">
-                      <img src="{{ asset('material/img/candidate/candidate2.jpg')}}" style="width: 100px; height:100px;"/>
-                    </div>
-                    <p class="card-category">BGEN Candidate N. Two (RET)</p>
-                    <p class="card-category text-success small">Total Votes</p>  
-                    <h3 class="card-title">4073</h3>
-                  </div>
-                  <div class="card-footer">
-                    <div class="stats">                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <h2 class="title" id="cy"></h2>
+              <p class="category">Data as of: {{ Carbon\Carbon::now() }}</p>
             </div>
 
-            
+            <div id="mainDiv">
+
+            </div>
 
             <div class="header text-center ml-auto mr-auto">
               <h3 class="title">Amendments Vote Counter</h3>
@@ -327,6 +147,140 @@
 
 <script>
   $(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "{{ route('votingPeriod.default') }}",
+        //data: { votingPeriodID : votingPeriodID },
+        contentType: "application/json; charset=utf-8",
+        beforeSend:  function() {
+          swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+        },
+        error: function (jqXHR, exception) {
+          swal.close();
+            
+          console.log(jqXHR.responseText);
+          swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        },
+        success: function (data) {
+          //swal.close();
+
+          if(data.votingPeriodID)
+          {
+            $('#cy').html(data.cy);
+            /*
+            $('#votingPeriodID').val(data.votingPeriodID);
+            $('#startDate').val(data.startDate);
+            $('#endDate').val(data.endDate);
+            $('#isDefault').prop('checked', ((data.isDefault == 1) ? true : false));
+
+            $('#btnSaveVotingPeriod').removeClass('d-block').addClass('d-none');
+            $('#btnUpdateVotingPeriod').removeClass('d-none').addClass('d-block');
+            $('#btnRemoveVotingPeriod').removeClass('d-none').addClass('d-block');
+
+            $('#modalVotingPeriod').modal('show');
+            */
+            $.ajax({
+              type: "GET",
+              url: "{{ route('candidateLimit.default') }}",
+              data: { votingPeriodID : data.votingPeriodID },
+              contentType: "application/json; charset=utf-8",
+              beforeSend:  function() {
+                //swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+              },
+              error: function (jqXHR, exception) {
+                swal.close();
+              
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+              },
+              success: function (data2) {
+                //swal.close();
+                  
+                var myArr = JSON.parse(JSON.stringify(data2));
+                
+                for (var i = 0; i < $(myArr).toArray().length; i++) 
+                {
+
+                  var candidateTypeID = myArr[i].candidateTypeID.toString();
+                  var candidateTypeName = myArr[i].candidateTypeName.toString();
+
+                  var subDiv = "subDiv" + i;
+                  $("#mainDiv").append("" +
+                    "<div class='header text-center ml-auto mr-auto'>" +
+                      "<h3 class='title'>" + candidateTypeName + "</h3>" +
+                    "</div>" +
+            
+                    "<div class='row' id='" + subDiv + "'>" +
+                    "</div>" +
+                  "");
+                  
+                  $.ajax({
+                    type: "GET",
+                    url: "{{ route('candidate.default') }}",
+                    data: { 
+                      subDiv : subDiv, //FOR DESIGN
+                      votingPeriodID : data.votingPeriodID, 
+                      candidateTypeID :  candidateTypeID 
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend:  function() {
+                      //swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+                    },
+                    error: function (jqXHR, exception) {
+                      swal.close();
+                    
+                      console.log(jqXHR.responseText);
+                      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                    },
+                    success: function (data3) {
+                      swal.close();
+
+                      var myArr2 = JSON.parse(JSON.stringify(data3));
+                      
+                      for (var i2 = 0; i2 < $(myArr2).toArray().length; i2++) 
+                      {
+                        var subDiv = myArr2[i2].subDiv.toString();
+                        var profilePicture = myArr2[i2].profilePicture.toString();
+                        var lastName = myArr2[i2].lastName.toString();
+                        var firstName = myArr2[i2].firstName.toString();
+                        var middleName = myArr2[i2].middleName.toString();
+                        var information1 = myArr2[i2].information1.toString();
+                        var information2 = myArr2[i2].information2.toString();
+                        
+                        var imgPath = "{{ asset('material/img/candidate/')}}";
+                        $("#" + subDiv).append("" +
+                          "<div class='col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12'> " +
+                            "<div class='border  border-green card card-stats'> " +
+                              "<div class='card-header card-header-success card-header-icon'> " +
+                                "<div class='card-icon'> " +
+                                  "<img src='" + imgPath + "/" + profilePicture + "' style='width: 100px; height:100px;'/> " +
+                                "</div> " +
+                                "<p class='card-category'>" + lastName + ", " + firstName + "</p> " +
+                                "<p class='card-category text-success small'>Total Votes</p>   " +
+                                "<h3 class='card-title'>0</h3> " +
+                              "</div> " +
+                              "<div class='card-footer'> " +
+                                "<div class='stats'> " +                    
+                                "</div> " +
+                              "</div> " +
+                            "</div> " +
+                          "</div> " +
+                        "");
+                      }
+                    }
+                  });
+                }
+              }
+            });
+          } 
+          else 
+          {
+            swal.close();
+            swal({ title: "Error", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          }
+        }
+    });   
+
     $('#datatables').DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [
@@ -339,41 +293,9 @@
         searchPlaceholder: "Search records",
       }
     });
-
-    var table = $('#datatables').DataTable();
-
-    // Edit record
-
-    table.on('click', '.edit', function() {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
-      }
-
-      var data = table.row($tr).data();
-      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-    });
-
-    // Delete a record
-
-    table.on('click', '.remove', function(e) {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
-      }
-
-      table.row($tr).remove().draw();
-      e.preventDefault();
-    });
-
-    //Like record
-
-    table.on('click', '.like', function() {
-      alert('You clicked on Like button');
-    });
   });
+
+  
 </script>
 
 
