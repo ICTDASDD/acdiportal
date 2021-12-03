@@ -76,7 +76,7 @@
               </div>
               <!-- end content-->
             </div>
-////////////////////////////////////////////////////////
+
             <div class="modal fade" id="modalCandidate" tabindex="-1" role="dialog" aria-labelledby="myModalCandidate" aria-hidden="true">              
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -198,7 +198,7 @@
               </div>
             </div>
 
-///////////////////////////
+
 
             <!--  end card  -->
           </div>
