@@ -23,51 +23,43 @@
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">Branch MIGS List</h4>
+                <h4 class="card-title">Member List
+                  <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
+                  </select>
+
+                </h4>
               </div>
               <div class="card-body">
                 <div class="toolbar">
                   <!--        Here you can write extra buttons/actions for the toolbar              -->
                 </div>
                 <div class="material-datatables">
-                  <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                  <table id="memberTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                     <thead>
                       <tr>
-                        <th style="text-align: left">SCNO</th>
-                        <th style="text-align: left">AFSN</th>                            
-                        <th style="text-align: left">Last Name</th>
-                        <th style="text-align: left">Given Name</th>
-                        <th style="text-align: left">Middle Name</th>
-                        <th style="text-align: left">Status</th>
-                        <th style="text-align: right">Action</th>
+                        <th style="text-align: left">Name</th>
+                        <th style="text-align: center">Branch <BR>Membership</th>                            
+                        <th style="text-align: center">AFSN</th>
+                        <th style="text-align: center">SCNO</th>
+                        <th style="text-align: center">Branch <BR>Registered</th>
+                        <th style="text-align: center">Code</th>
+                        <th style="text-align: center">Action</th>
                       </tr>
                     </thead>
 
                     <tfoot>
                       <tr>
-                        <th style="text-align: left">SCNO</th>
-                        <th style="text-align: left">AFSN</th>                            
-                        <th style="text-align: left">Last Name</th>
-                        <th style="text-align: left">Given Name</th>
-                        <th style="text-align: left">Middle Name</th>
-                        <th style="text-align: left">Status</th>
-                        <th style="text-align: right">Action</th>
+                        <th style="text-align: left">Name</th>
+                        <th style="text-align: center">Branch <BR>Membership</th>                            
+                        <th style="text-align: center">AFSN</th>
+                        <th style="text-align: center">SCNO</th>
+                        <th style="text-align: center">Branch <BR>Registered</th>
+                        <th style="text-align: center">Code</th>
+                        <th style="text-align: center">Action</th>
                       </tr>
                     </tfoot>
 
                     <tbody>
-
-                      <tr>
-                        <td style="text-align: left">01-000780</td>
-                        <td style="text-align: left">D-734834</td>                            
-                        <td style="text-align: left">Dimapilis</td>
-                        <td style="text-align: left">Mark Lester</td>                        
-                        <td style="text-align: left">Morata</td>                        
-                        <td style="text-align: left">--</td>
-                        <td style="text-align: right" class="text-success">--</td>                        
-                      </tr> 
-
-                     
 
                     </tbody>
 
@@ -81,6 +73,9 @@
           </div>
           <!-- end col-md-12 -->
         </div>
+        <button class="btn btn-danger btn-round" data-toggle="modal" data-target="#AddCandidate">
+          <i class="material-icons">add</i> Late Registration Form
+        </button>
         
         <!-- end row -->
       </div>
@@ -119,6 +114,191 @@
 <!--   Wizard Plugins -->
 @section('pageplugin')
 @include('ovs.ba.layouts.plugins.datatables')
+
+<script>
+  $(document).ready(function() {
+
+    var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
+      placeholder: "Choose year",
+      //dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+      minimumInputLength: -1,
+      allowClear: true,
+      ajax: {
+          url: "{{ route('ba.votingPeriod.select2') }}",
+          delay: 250,
+          dataType: 'json',
+          data: function(params) {
+              return {
+                  query: params.term, // search term
+              };
+          },
+          processResults: function(response) {
+              return {
+                  results: response
+              };
+          },
+          cache: true
+      }
+    }).on('change', function () {
+      
+      var votingPeriod = $('#selectVotingPeriod').select2('data');
+      var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+      $('#selectVotingPeriod2').append($option).trigger('change');
+    
+      memberTable.ajax.reload();  
+    });
+
+    var memberTable = $('#memberTable').DataTable({
+      processing: true,
+      serverSide: true,
+      cache: false,
+      responsive: true,
+      ajax: {
+          url: "{{ route('ba.member.list') }}",
+          //PASSING WITH DATA
+          dataType: 'json',
+          data: function (d) {
+                d.votingPeriodID = $('#selectVotingPeriod').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }
+          },
+      columns: [
+          {
+            data: 'fullName',
+            name: 'fullName'
+          },
+          {
+            data: 'brName',
+            name: 'brName'
+          },
+          {
+            data: 'AFSN',
+            name: 'AFSN'
+          }, 
+          {
+            data: 'SCNO',
+            name: 'SCNO'
+          },
+          {
+            data: 'brRegistered',
+            name: 'brRegistered'
+          }, 
+          {
+            data: 'code',
+            name: 'code'
+          }, 
+          {
+            data: 'actionButton',
+            name: 'actionButton',
+            orderable: false, 
+            searchable: false
+          }, 
+          
+          /*
+          {
+            'data': null,
+            'render': function (data) {
+                var x = "";
+                var isLocked = "";
+                if(data.isLocked == "YES")
+                {
+                  isLocked ="checked";
+                }
+
+                x = "<td style='text-align: right; max-width:250px;'>" +
+                      "<div class='togglebutton'>" +
+                        "<label>" +
+                          "<input type='checkbox' class='branchLocking' value='" + data.brCode + "' " + isLocked + ">" +
+                          "<span class='toggle'></span>" +
+                        "</label>" +
+                      "</div>" +
+                    "</td>" ;
+                    
+                return "<center>"+ x + "</center>";
+            }
+          },
+          */
+      ],
+    });
+
+    $('#memberTable').on('click','.registerButton',function(){
+      var afsn = this.value
+      var fullName = $(this).data('fullname'); 
+      var isaccumudating = $(this).data('isaccumudating'); 
+      var votingPeriod = $('#selectVotingPeriod').select2('data');
+      var votingPeriodID = votingPeriod[0].id;
+      var votingPeriodDetails = votingPeriod[0].text;
+
+      //Auth::user()->brCode
+      if(isaccumudating == true)
+      {
+        swal({
+          title: 'Accomodating other branch member!',
+          text: "You're registering member of other branch?",
+          type: 'warning',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirm'
+        }).then((result) => {
+          if (result.value) {
+            register(afsn, fullName,isaccumudating, votingPeriodID );
+          }
+        });
+      } else 
+      {
+          register(afsn, fullName,isaccumudating, votingPeriodID);
+      }
+    });
+  });
+
+  function register(afsn, fullName,isaccumudating, votingPeriodID)
+  {
+      swal({
+        title: 'Register ' + fullName + ' as Voter!',
+        text: "Are you sure?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+              type: "GET",
+              url: "{{ route('ba.member.register') }}",
+              data: { afsn : afsn, votingPeriodID : votingPeriodID },
+              contentType: "application/json; charset=utf-8",
+              beforeSend:  function() {
+                  swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+              },
+              error: function (jqXHR, exception) {
+                  swal.close();
+
+                  console.log(jqXHR.responseText);
+                  swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+              },
+              success: function (data) {
+                  swal.close();
+
+                  if(!data.success)
+                  {
+                    swal({ title:"Unable to Register!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+                  } 
+                  else 
+                  {
+                    swal({ title:"Successfully Registered!", text: "Member can vote now!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+
+                    var memberTable = $('#memberTable').DataTable();
+                    memberTable.ajax.reload(null, false);
+                  }
+              }
+          });   
+        }
+      });
+  }
+</script>
+
 @parent
 @endsection
 <!--   Script Plugins -->

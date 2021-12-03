@@ -3,7 +3,11 @@
 use App\Http\Controllers\ovs\ba\OVSBranchAdminController;
 use App\Http\Controllers\ovs\ba\RequestController;
 use App\Http\Controllers\ovs\ba\BAUserController;
-    
+use App\Http\Controllers\ovs\admin\VotingPeriodController;
+use App\Http\Controllers\ovs\admin\CandidateLimitController;
+use App\Http\Controllers\ovs\admin\CandidateController;
+use App\Http\Controllers\ovs\MemberController; 
+
     Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {
 
         //Page Link and Layout
@@ -30,6 +34,19 @@ use App\Http\Controllers\ovs\ba\BAUserController;
         Route::get('ovs/ba/users/update', [BAUserController::class, 'updateUser'])->name('ba.users.update');   
         Route::get('ovs/ba/users/delete', [BAUserController::class, 'removeUser'])->name('ba.users.delete'); 
 
+        //for dashboard
+        // Route::get('ovs/ba/votingperiod/default', [BAVotingPeriodController::class, 'defaultVotingPeriod'])->name('ba.votingPeriod.default');
+        // Route::get('ovs/ba/candidatelimit/default', [BACandidateLimitController::class, 'defaultCandidateLimit'])->name('ba.candidateLimit.default');
+        // Route::get('ovs/ba/candidatelist/default', [BACandidateController::class, 'defaultCandidate'])->name('ba.candidate.default');
+    
+        Route::get('ovs/ba/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('ba.candidate.default');
+        Route::get('ovs/ba/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('ba.votingPeriod.default');
+        Route::get('ovs/ba/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('ba.candidateLimit.default');
+    
+        //for register migs
+        Route::get('ovs/ba/votingperiod/select2', [VotingPeriodController::class, 'listVotingPeriodSelect2'])->name('ba.votingPeriod.select2');
+        Route::get('ovs/ba/member/list', [MemberController::class, 'listMember'])->name('ba.member.list');
+        Route::get('ovs/ba/member/register', [MemberController::class, 'registerMember'])->name('ba.member.register');
     });
 
 
