@@ -82,6 +82,7 @@ class CandidateController extends Controller
         if (count($data) > 0) {
             foreach ($data as $row) {
                 $candidates[] = array(
+                    "isNoCandidateFound" => "false",
                     "subDiv" => $subDiv,
                     "profilePicture" => $row->profilePicture,
                     "lastName" => $row->lastName,
@@ -93,7 +94,14 @@ class CandidateController extends Controller
                     "candidateTypeName" => $row->candidateTypeName,
                 );
             }
+        } else 
+        {
+            $candidates[] = array(
+                "isNoCandidateFound" => "true",
+                "subDiv" => $subDiv
+            );
         }
+
         return response()->json($candidates);
     }
 

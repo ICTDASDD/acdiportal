@@ -27,13 +27,13 @@
 
             </div>
 
-            <div class="header text-center ml-auto mr-auto">
+            <div class="header text-center ml-auto mr-auto d-none">
               <h3 class="title">Amendments Vote Counter</h3>
               <p class="category">Data as of:</p>
             </div>
 
 
-            <div class="row">
+            <div class="row d-none">
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header card-header-primary card-header-icon">
@@ -240,35 +240,62 @@
                       for (var i2 = 0; i2 < $(myArr2).toArray().length; i2++) 
                       {
                         var subDiv = myArr2[i2].subDiv.toString();
-                        var profilePicture = myArr2[i2].profilePicture.toString();
-                        var lastName = myArr2[i2].lastName.toString();
-                        var firstName = myArr2[i2].firstName.toString();
-                        var middleName = myArr2[i2].middleName.toString();
-                        var information1 = myArr2[i2].information1.toString();
-                        var information2 = myArr2[i2].information2.toString();
-                        
-                        var imgPath = "{{ asset('material/img/candidate/')}}";
-                        $("#" + subDiv).append("" +
-                          "<div class='col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12'> " +
-                            "<div class='border  border-green card card-stats'> " +
-                              "<div class='card-header card-header-success card-header-icon'> " +
-                                "<div class='card-icon'> " +
-                                  "<img src='" + imgPath + "/" + profilePicture + "' style='width: 100px; height:100px;'/> " +
+                        var isNoCandidateFound = myArr2[i2].isNoCandidateFound.toString();
+
+                        if(isNoCandidateFound == "true")
+                        {
+                          $("#" + subDiv).append("" +
+                          "<div class='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> " +
+                            "<div class='card'> " +
+                              "<div class='header text-center ml-auto mr-auto'>" +
+                                "<h4 class='title'>NO CANDIDATE FOUND!</h4>" +
+                              "</div>" + 
+                            "</div> " +
+                          "</div> " +
+                          "");
+                        } 
+                        else 
+                        {
+                          var profilePicture = myArr2[i2].profilePicture.toString();
+                          var lastName = myArr2[i2].lastName.toString();
+                          var firstName = myArr2[i2].firstName.toString();
+                          var middleName = myArr2[i2].middleName.toString();
+                          var information1 = myArr2[i2].information1.toString();
+                          var information2 = myArr2[i2].information2.toString();
+                          
+                          var imgPath = "{{ asset('material/img/candidate/')}}";
+                          $("#" + subDiv).append("" +
+                            "<div class='col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12'> " +
+                              "<div class='card card-stats'> " +
+                                "<div class='card-header card-header-success card-header-icon'> " +
+                                  "<div class='card-icon'> " +
+                                    "<img src='" + imgPath + "/" + profilePicture + "' style='width: 100px; height:100px;'/> " +
+                                  "</div> " +
+                                  "<p class='card-category'>" + lastName + ", " + firstName + "</p> " +
+                                  "<p class='card-category text-success small'>Total Votes</p>   " +
+                                  "<h3 class='card-title'>0</h3> " +
                                 "</div> " +
-                                "<p class='card-category'>" + lastName + ", " + firstName + "</p> " +
-                                "<p class='card-category text-success small'>Total Votes</p>   " +
-                                "<h3 class='card-title'>0</h3> " +
-                              "</div> " +
-                              "<div class='card-footer'> " +
-                                "<div class='stats'> " +                    
+                                "<div class='card-footer'> " +
+                                  "<div class='stats'> " +                    
+                                  "</div> " +
                                 "</div> " +
                               "</div> " +
                             "</div> " +
-                          "</div> " +
-                        "");
+                          "");
+                        }
                       }
                     }
                   });
+                }
+
+                if($(myArr).toArray().length == 0)
+                {
+                  swal.close();
+                  $("#mainDiv").append("" +
+                    "<div class='header text-center ml-auto mr-auto'>" +
+                      "<h3 class='title'>NO CANDIDATE TYPE FOUND!</h3>" +
+                    "</div>" +
+                  "");
                 }
               }
             });
@@ -276,7 +303,9 @@
           else 
           {
             swal.close();
-            swal({ title: "Error", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+            
+            $('#cy').html("NO VOTING PERIOD FOUND!");
+            //swal({ title: "Error", text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
           }
         }
     });   

@@ -58,14 +58,14 @@ ACDIMPC OVS
     </a>
     <div class="collapse {{ $activeparents == 'Monitoring' ? ' show' : '' }}" id="dashboardMenu">
       <ul class="nav">
-        <li class="nav-item {{ $title == 'Branch Status' ? ' active' : '' }}">
+       <!-- <li class="nav-item {{ $title == 'Branch Status' ? ' active' : '' }}">
           <a class="nav-link" href="{{route('OVSAdminBstatus')}}">
             <span class="sidebar-mini"><i class="material-icons">
                 analytics
             </i></span>
             <span class="sidebar-normal"> Branch Status </span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item {{ $title == 'System Log' ? ' active' : '' }}">
           <a class="nav-link" href="{{route('OVSAdminSystemLog')}}">
             <span class="sidebar-mini"><i class="material-icons">

@@ -22,7 +22,11 @@
                 <div class="card-icon">
                   <i class="material-icons">assignment</i>
                 </div>
-                <h4 class="card-title">User List</h4>
+                <h4 class="card-title">User List
+                  <button id="addUser" class="btn btn-sm btn-success btn-round" data-toggle="modal" data-target="#modalUser">
+                    <i class="material-icons">add</i> Add user
+                  </button>
+                </h4>
               </div>
               <div class="card-body">
                 <div class="toolbar">
@@ -65,9 +69,6 @@
               </div>
               <!-- end content-->
             </div>
-            <button id="addUser" class="btn btn-success btn-round" data-toggle="modal" data-target="#modalUser">
-              <i class="material-icons">add</i> Add user
-            </button>
 
             <div class="modal fade" id="modalUser" tabindex="-1" role="dialog" aria-labelledby="myModalUser" aria-hidden="true">                   
               <div class="modal-dialog">
@@ -100,7 +101,7 @@
                             <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput" id="removeProfilePicture"><i class="fa fa-times"></i> Remove<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 59.0156px; top: 31.6094px; background-color: rgb(255, 255, 255); transform: scale(15.5098);"></div></div></a>
                           </div>
                           
-                          <div id="profilePicture_validate" class="text-danger"></div>
+                          <div id="avatar_validate" class="text-danger"></div>
                         </div>
                       </div> 
 

@@ -16,93 +16,6 @@
     @section('main-content')
     <div class="content">
       <div class="container-fluid">
-        <!-- CANDIDATE TYPE -->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header card-header-primary card-header-icon">
-                <div class="card-icon">
-                  <i class="material-icons">assignment</i>
-                </div>
-                <h4 class="card-title">Candidate Type
-                  <button id="addCandidateType" class="btn btn-sm btn-success btn-round" data-toggle="modal" data-target="#modalCandidateType">
-                    <i class="material-icons">add</i> Add Candidate Type
-                  </button>
-                </h4>
-              </div>
-              <div class="card-body">
-                <div class="toolbar">
-                  <!--        Here you can write extra buttons/actions for the toolbar              -->
-                </div>
-                <div class="material-datatables">
-                  <table id="candidateTypeTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th style="text-align: center; max-width:250px;">Action</th>
-                      </tr>
-                    </thead>
-
-                    <tfoot>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th style="text-align: center; max-width:250px;">Action</th>
-                      </tr>
-                    </tfoot>
-
-                    <tbody>
-
-                    </tbody>
-                  </table>
-
-                  
-                </div>
-                
-              </div>
-              <!-- end content-->
-            </div>
-
-            <div class="modal fade" id="modalCandidateType" tabindex="-1" role="dialog" aria-labelledby="myModalCandidateType" aria-hidden="true">              
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title text-info">Information of Candidate Type</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                      <i class="material-icons">clear</i>
-                    </button>
-                  </div>
-                  
-                  <form class="cmxform block-form block-form-default" id="candidateTypeForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
-
-                  <div class="modal-body">
-                      <input id="candidateTypeID" class="form-control" type="hidden" name="candidateTypeID" placeholder="Candidate Type ID" disabled />
-                          
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <div class="form-group">
-                            <input id="candidateTypeName" class="form-control" type="text" name="candidateTypeName" placeholder="Candidate Type Name" required="true" />
-                          </div>
-                        </div>
-                        <label class="col-sm-3 label-on-right">
-                        </label>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button id="btnSaveCandidateType" type="submit" class="col btn btn-round btn-success d-block"> Save </button> 
-                    <button id="btnUpdateCandidateType" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
-                    <button id="btnRemoveCandidateType" type="button" class="col btn btn-round  btn-danger d-none removeCandidateType"> Remove </button>
-                    <button type="button" class="col btn btn-round btn-secondary" data-dismiss="modal"> Cancel </button>
-                  </div>    
-                </form>
-                </div>
-              </div>
-            </div>
-            <!--  end card  -->
-          </div>
-          <!-- end col-md-12 -->
-        </div>
         <!-- VOTING PERIOD -->
         <div class="row">
           <div class="col-md-12">
@@ -228,6 +141,94 @@
           </div>
           <!-- end col-md-12 -->
         </div>
+        <!-- CANDIDATE TYPE -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">assignment</i>
+                </div>
+                <h4 class="card-title">Candidate Type
+                  <button id="addCandidateType" class="btn btn-sm btn-success btn-round" data-toggle="modal" data-target="#modalCandidateType">
+                    <i class="material-icons">add</i> Add Candidate Type
+                  </button>
+                </h4>
+              </div>
+              <div class="card-body">
+                <div class="toolbar">
+                  <!--        Here you can write extra buttons/actions for the toolbar              -->
+                </div>
+                <div class="material-datatables">
+                  <table id="candidateTypeTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th style="text-align: center; max-width:250px;">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tfoot>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th style="text-align: center; max-width:250px;">Action</th>
+                      </tr>
+                    </tfoot>
+
+                    <tbody>
+
+                    </tbody>
+                  </table>
+
+                  
+                </div>
+                
+              </div>
+              <!-- end content-->
+            </div>
+
+            <div class="modal fade" id="modalCandidateType" tabindex="-1" role="dialog" aria-labelledby="myModalCandidateType" aria-hidden="true">              
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title text-info">Information of Candidate Type</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                      <i class="material-icons">clear</i>
+                    </button>
+                  </div>
+                  
+                  <form class="cmxform block-form block-form-default" id="candidateTypeForm" enctype="application/x-www-form-urlencoded" method="POST" action=""  autocomplete="off">
+
+                  <div class="modal-body">
+                      <input id="candidateTypeID" class="form-control" type="hidden" name="candidateTypeID" placeholder="Candidate Type ID" disabled />
+                          
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <input id="candidateTypeName" class="form-control" type="text" name="candidateTypeName" placeholder="Candidate Type Name" required="true" />
+                          </div>
+                        </div>
+                        <label class="col-sm-3 label-on-right">
+                        </label>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="btnSaveCandidateType" type="submit" class="col btn btn-round btn-success d-block"> Save </button> 
+                    <button id="btnUpdateCandidateType" type="submit" class="col btn btn-round btn-success d-none"> Update </button>
+                    <button id="btnRemoveCandidateType" type="button" class="col btn btn-round  btn-danger d-none removeCandidateType"> Remove </button>
+                    <button type="button" class="col btn btn-round btn-secondary" data-dismiss="modal"> Cancel </button>
+                  </div>    
+                </form>
+                </div>
+              </div>
+            </div>
+            <!--  end card  -->
+          </div>
+          <!-- end col-md-12 -->
+        </div>
+        
         <!-- CANDIDATE LIMIT -->
         <div class="row">
           <div class="col-md-12">
