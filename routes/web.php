@@ -170,6 +170,7 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
 @include(base_path('routes/extended_route/ovs/elecom/OVSElecomAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/ba/OVSBranchAdminExtend.php'));
 @include(base_path('routes/extended_route/ovs/canva/OVSCanvaAdminExtend.php'));
+@include(base_path('routes/extended_route/ovs/machine/OVSMachineExtend.php'));
 //@include(base_path('routes/extended_route/ba/RequestRoutes.php'));
 /*
 Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {

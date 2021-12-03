@@ -27,7 +27,7 @@ The above copyright notice and this permission notice shall be included in all c
     <title>ACDIMPC EPORTAL</title>
     </head>
 
-    <body class="sidebar-mini"  style="background-image: url({{ asset('material/img/login2.png')}} ); background-size: cover; background-position: top center;">
+    <body class="sidebar-mini"  style="background-image: url({{ asset('material/img/login.jpg')}} ); background-size: cover; background-position: top center;">
         
         <div class="wrapper ">
             @section('sidebar')

@@ -72,44 +72,29 @@
                         </div>
                       </span>
 
-                      <br>
-
-
-                      <span class="bmd-form-group h3">
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <input class="form-check-input" type="checkbox" value="" required> First Checkbox
+                      <div class="col-md-12 ml-auto mr-auto">
+                        <div class="card">
+                          <div class="card-body text-center">
+                            <span class="bmd-form-group small center">
+                              <div class="input-group">
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="" required> I Accept Terms and Condition, Please <a href="#"> Clik here </a> for info
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
+                                  </label>
+                                </div>               
+                              </div>
                             </span>
                           </div>
-                          <input type="password" class="form-control text-center" placeholder="6-Digit Generated CODE">  
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="material-icons"></i>
-                            </span>
-                          </div>                        
                         </div>
-                      </span>
-
-                      <br>
-
-                      <span class="bmd-form-group h3">
-                        <div class="input-group">
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="form-check-input" type="checkbox" value="" required> First Checkbox
-                              <span class="form-check-sign">
-                                <span class="check"></span>
-                              </span>
-                            </label>
-                          </div>               
-                        </div>
-                      </span>
+                      </div>
 
 
                     </div>
                     <div class="card-footer justify-content-center">
-                      <a href="#pablo" class="btn btn-info btn-link btn-lg">Proceed</a>
+                      <a href="{{route('Votinglayout')}}" class="btn btn-info btn-link btn-lg">Proceed</a>
                     </div>
                   </div>
                 </form>
