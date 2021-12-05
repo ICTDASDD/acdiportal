@@ -21,11 +21,11 @@
 
             <br><br>
             <div class="header text-center ml-auto mr-auto">
-              <h3 class="title">ACDI-MPC SAGA 2022</h3>
+              <h3 class="title" id="cy">ACDI MPC</h3>
               <p class="category">{{Auth::user()->brCode}}</p>
             </div>
             
-            <div class="row">
+            <div class="row d-none" id="loginDiv">
               <div class="col-lg-4 col-md-8 col-sm-6 ml-auto mr-auto">
                 <form class="form" method="" action="">
                   <div class="card card-login card-hidden">
@@ -44,7 +44,7 @@
                               <i class="material-icons">fingerprint</i>
                             </span>
                           </div>
-                          <input type="text" class="form-control text-center"  center placeholder="AFSN">
+                          <input id="afsn" type="text" class="form-control text-center"  center placeholder="AFSN">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
                               <i class="material-icons"></i>
@@ -63,7 +63,7 @@
                               <i class="material-icons">password</i>
                             </span>
                           </div>
-                          <input type="password" class="form-control text-center" placeholder="6-Digit Generated CODE">  
+                          <input id="code" type="password" class="form-control text-center" placeholder="6-Digit Generated CODE">  
                           <div class="input-group-prepend">
                             <span class="input-group-text">
                               <i class="material-icons"></i>
@@ -79,7 +79,7 @@
                               <div class="input-group">
                                 <div class="form-check">
                                   <label class="form-check-label">
-                                    <input class="form-check-input" type="checkbox" value="" required> I Accept Terms and Condition, Please <a href="#"> Clik here </a> for info
+                                    <input id="isAgree" class="form-check-input" type="checkbox" value="" required> I Accept Terms and Condition, Please <a href="#"> Clik here </a> for info
                                     <span class="form-check-sign">
                                       <span class="check"></span>
                                     </span>
@@ -94,7 +94,7 @@
 
                     </div>
                     <div class="card-footer justify-content-center">
-                      <a href="{{route('Votinglayout')}}" class="btn btn-info btn-link btn-lg">Proceed</a>
+                      <input id="btnProceed" type="button" class="btn btn-info btn-link btn-lg" value="Proceed">
                     </div>
                   </div>
                 </form>
@@ -145,52 +145,78 @@
 
 <script>
   $(document).ready(function() {
-    $('#datatables').DataTable({
-      "pagingType": "full_numbers",
-      "lengthMenu": [
-        [10, 25, 50, -1],
-        [10, 25, 50, "All"]
-      ],
-      responsive: true,
-      language: {
-        search: "INPUT",
-        searchPlaceholder: "Search records",
+    $.ajax({
+      type: "GET",
+      url: "{{ route('machine.votingPeriod.default') }}",
+      //data: { votingPeriodID : votingPeriodID },
+      contentType: "application/json; charset=utf-8",
+      beforeSend:  function() {
+        swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+      },
+      error: function (jqXHR, exception) {
+        swal.close();
+          
+        console.log(jqXHR.responseText);
+        swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+      },
+      success: function (data) {
+        swal.close();
+        //var xx = "{{ session('votingPeriodID') }}";
+        if(data.votingPeriodID)
+        {
+          $('#cy').html(data.cy);
+          $('#loginDiv').addClass("d-block").fadeIn(500);
+        } 
+        else 
+        {
+          $('#cy').html("ACDI MPC - Not Available");
+          $('#loginDiv').addClass("d-none");
+        }
       }
     });
 
-    var table = $('#datatables').DataTable();
+    $('#btnProceed').on('click', function(){
+      var afsn = $('#afsn').val();
+      var code = $('#code').val();
+      var isAgree = $('#isAgree').is(":checked");
 
-    // Edit record
-
-    table.on('click', '.edit', function() {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
+      if(!isAgree)
+      {
+        swal({ title: "Unable to Proceed", text: "Please accept the terms and condition to proceed.", type: "warning", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+        return;
       }
 
-      var data = table.row($tr).data();
-      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+      $.ajax({
+        type: "GET",
+        url: "{{ route('machine.memberLogin') }}",
+        data: { afsn : afsn, code :code },
+        contentType: "application/json; charset=utf-8",
+        beforeSend:  function() {
+          swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+        },
+        error: function (jqXHR, exception) {
+          swal.close();
+          
+          console.log(jqXHR.responseText);
+          swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+        },
+        success: function (data) {
+          swal.close();
+
+          if(data.success)
+          {
+            swal({ title: "Account Verified", text: "Redirecting to voting..", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+            window.open("{{ route('Votinglayout') }}","_self").delay(1000);
+          } 
+          else 
+          {
+            swal({ title: data.title, text: data.message, type: data.icon, buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+          }
+        }
+        
+      });   
     });
-
-    // Delete a record
-
-    table.on('click', '.remove', function(e) {
-      $tr = $(this).closest('tr');
-
-      if ($($tr).hasClass('child')) {
-        $tr = $tr.prev('.parent');
-      }
-
-      table.row($tr).remove().draw();
-      e.preventDefault();
-    });
-
-    //Like record
-
-    table.on('click', '.like', function() {
-      alert('You clicked on Like button');
-    });
+  
   });
 </script>
 

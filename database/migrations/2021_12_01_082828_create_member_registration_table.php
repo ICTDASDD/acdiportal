@@ -21,6 +21,7 @@ class CreateMemberRegistrationTable extends Migration
             $table->string("registeredBy");
             $table->datetime("registeredOn", $precision = 0);
             $table->string("brRegistered");
+            $table->integer("isVoted")->default(0);
 
         });
     }

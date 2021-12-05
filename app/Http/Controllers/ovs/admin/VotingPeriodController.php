@@ -69,6 +69,16 @@ class VotingPeriodController extends Controller
         $where = array('isDefault' => 1);
         $votingPeriod  = VotingPeriod::where($where)->first();
 
+        if($votingPeriod)
+        {
+            session(['votingPeriodID' => $votingPeriod->votingPeriodID]);
+            session(['cy' => $votingPeriod->cy]);
+        } else 
+        {
+            session(['votingPeriodID' => 0]);
+            session(['votingPeriodID' => ""]);
+        }
+
         return Response::json($votingPeriod);
     }
 

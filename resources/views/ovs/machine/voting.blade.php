@@ -19,365 +19,25 @@
         <div class="col-md-10 col-12 mr-auto ml-auto">
           <!--      Wizard container        -->
           <div class="wizard-container">
+            <!--card-wizard-->
             <div class="card card-wizard" data-color="blue" id="wizardProfile">
-              <form action="" method="">
+              <form id="votingForm" action="" method="">
                 <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
                 <div class="card-header text-center">
                   <h3 class="card-title">
-                    ACDI-MPC SAGA 2022
+                    {{ session('cy') }}
                   </h3>
-                  <h5 class="card-description">Welcome, {{Auth::user()->name}} {{Auth::user()->lname}} of {{Auth::user()->brCode}} (AFSN)</h5>
+                  <h5 class="card-description">Welcome {{ session('mrFULLNAME') }}, ({{ session('mrAFSN') }}) of {{ session('mrBrMembership') }}. You're registered voter in  {{ session('mrBrRegistered') }}</h5>
                 </div>
                 <div class="wizard-navigation">
-                  <ul class="nav nav-pills">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#candidate" data-toggle="tab" role="tab">
-                        Board of Director
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#committee" data-toggle="tab" role="tab">
-                        Committee
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#address" data-toggle="tab" role="tab">
-                        Elecom Officer
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#address" data-toggle="tab" role="tab">
-                        Amendments
-                      </a>
-                    </li>
+                  <ul class="nav nav-pills" id="candidateTypeDiv">
+                   
                   </ul>
                 </div>
                 <div class="card-body">
 
-                  <div class="tab-content">
+                  <div class="tab-content"  id="candidateListDiv">
 
-                    <!-- candidate -->
-                    <div class="tab-pane active" id="candidate">
-                      <h5 class="info-text"> Select (7) Board of Directors</h5>
-                      <br>
-                      <div class="row justify-content-center">
-                        
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #4caf50;">
-                            <div class="card-avatar" style="border:4px solid #4caf50; background-color:#4caf50; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves...
-                              </p>
-                              <button class="btn btn-success  btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>                        
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999; width:250px;">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-
-                    <!-- comittee -->
-                    <div class="tab-pane" id="committee">
-                      <h5 class="info-text"> What are you doing? (checkboxes) </h5>
-                      <div class="row justify-content-center">
-                        
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #4caf50;">
-                            <div class="card-avatar" style="border:4px solid #4caf50; background-color:#4caf50">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves...
-                              </p>
-                              <button class="btn btn-success  btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>                        
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="card card-profile" style="border:4px solid #999999;">
-                            <div class="card-avatar" style="border:4px solid #999999; background-color:#999999">
-                              <a href="#pablo">
-                                <img class="img" src="{{ asset('material/img/user/') . '/'. Auth::user()->avatar}}" >
-                              </a>
-                            </div>
-                            <div class="card-body">
-                              <h4 class="card-title">Alec Thompson</h4>
-                              <p class="card-description">
-                                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like the back is...
-                              </p>
-                              <button class="btn btn-default btn-round">
-                                <i class="material-icons">star</i> VOTE
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                    <div class="tab-pane" id="address">
-                      <div class="row justify-content-center">
-                        <div class="col-sm-12">
-                          <h5 class="info-text"> Are you living in a nice area? </h5>
-                        </div>
-                        <div class="col-sm-7">
-                          <div class="form-group">
-                            <label>Street Name</label>
-                            <input type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="col-sm-3">
-                          <div class="form-group">
-                            <label>Street No.</label>
-                            <input type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="col-sm-5">
-                          <div class="form-group">
-                            <label>City</label>
-                            <input type="text" class="form-control">
-                          </div>
-                        </div>
-                        <div class="col-sm-5">
-                          <div class="form-group select-wizard">
-                            <label>Country</label>
-                            <select class="selectpicker" data-size="7" data-style="select-with-transition" title="Single Select">
-                              <option value="Afghanistan"> Afghanistan </option>
-                              <option value="Albania"> Albania </option>
-                              <option value="Algeria"> Algeria </option>
-                              <option value="American Samoa"> American Samoa </option>
-                              <option value="Andorra"> Andorra </option>
-                              <option value="Angola"> Angola </option>
-                              <option value="Anguilla"> Anguilla </option>
-                              <option value="Antarctica"> Antarctica </option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div class="card-footer">
@@ -424,6 +84,207 @@
 
 <!--   Wizard Plugins -->
 @section('pageplugin')
+<script>
+
+$(document).ready(function() {
+  let votingPeriodID = "{{ session('votingPeriodID') }}";
+  $.ajax({
+    type: "GET",
+    url: "{{ route('machine.candidateLimit.default') }}",
+    data: { votingPeriodID : votingPeriodID },
+    contentType: "application/json; charset=utf-8",
+    beforeSend:  function() {
+      swal({ title: 'Getting candidate list..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+    },
+    error: function (jqXHR, exception) {
+      swal.close();
+    
+      console.log(jqXHR.responseText);
+      swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+    },
+    success: function (data2) {
+      //swal.close();
+        
+      var myArr = JSON.parse(JSON.stringify(data2));
+       
+      for (var i = 0; i < $(myArr).toArray().length; i++) 
+      {
+        var candidateTypeID = myArr[i].candidateTypeID.toString();
+        var candidateTypeName = myArr[i].candidateTypeName.toString();
+        var memberVotingLimitCount = myArr[i].memberVotingLimitCount.toString();
+        
+        var isActive = "";
+        if(i == 0)
+        {
+          isActive = "active";
+        }
+        var subDiv = "subDiv" + i;
+        $("#candidateTypeDiv").append("" +
+          "<li class='nav-item' style='pointer-events: none;'> " + 
+            "<a class='nav-link " + isActive + "' href='#" + subDiv + "' data-toggle='tab' role='tab' > " + 
+              "" + candidateTypeName  +
+            "</a> " + 
+          "</li> " + 
+        "");
+
+        $("#candidateListDiv").append("" +
+          "<div class='tab-pane " + isActive + "' id='" + subDiv + "'>"+
+            "<input type='hidden' id='" + subDiv + "_mvlc' value='" + memberVotingLimitCount + "'>" +
+            "<input type='hidden' id='" + subDiv + "_ctn' value='" + candidateTypeName + "'>" +
+            "<h5 class='info-text' id='"+ subDiv +"_display'> Select (" + memberVotingLimitCount + ") " +  candidateTypeName + "</h5>" +
+              "<br>" +
+              "<div class='row justify-content-center' id='" + subDiv+ "_sub'>" +
+              "</div>" +
+          "</div>" +
+        "");
+        
+        $.ajax({
+          type: "GET",
+          url: "{{ route('machine.candidate.default') }}",
+          data: { 
+            subDiv : subDiv, //FOR DESIGN
+            votingPeriodID : votingPeriodID, 
+            candidateTypeID :  candidateTypeID 
+          },
+          contentType: "application/json; charset=utf-8",
+          beforeSend:  function() {
+            //swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+          },
+          error: function (jqXHR, exception) {
+            swal.close();
+          
+            console.log(jqXHR.responseText);
+            swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+          },
+          success: function (data3) {
+            swal.close();
+
+            var myArr2 = JSON.parse(JSON.stringify(data3));
+            
+            for (var i2 = 0; i2 < $(myArr2).toArray().length; i2++) 
+            {
+              var subDiv = myArr2[i2].subDiv.toString();
+              var isNoCandidateFound = myArr2[i2].isNoCandidateFound.toString();
+
+              if(isNoCandidateFound == "true")
+              {
+                $("#" + subDiv +"_sub").append("" +
+                "<div class='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12'> " +
+                  "<div class='card'> " +
+                    "<div class='header text-center ml-auto mr-auto'>" +
+                      "<h4 class='title'>NO CANDIDATE FOUND!</h4>" +
+                    "</div>" + 
+                  "</div> " +
+                "</div> " +
+                "");
+              } 
+              else 
+              {
+                var profilePicture = myArr2[i2].profilePicture.toString();
+                var lastName = myArr2[i2].lastName.toString();
+                var firstName = myArr2[i2].firstName.toString();
+                var middleName = myArr2[i2].middleName.toString();
+                var information1 = myArr2[i2].information1.toString();
+                var information2 = myArr2[i2].information2.toString();
+                
+                var imgPath = "{{ asset('material/img/candidate/')}}";
+
+                var cardDiv = subDiv + "_card_" + i2;
+                var avatarDiv = subDiv + "_avatar_" + i2;
+                var btnDiv = subDiv + "_btn_" + i2;
+                $("#" + subDiv + "_sub").append("" +
+                  "<div class='col-md-3'>" +
+                    "<div id='" + cardDiv + "' class='card card-profile voting-not-selected'>" +
+                      "<div id='" + avatarDiv + "' class='card-avatar voting-not-selected-photo'>" +
+                        "<img class='img' src='"+imgPath+"/" + profilePicture+ "' >" +
+                      "</div>" +
+                      "<div class='card-body'>" +
+                        "<h4 class='card-title'>"+ lastName +", " + firstName + " " + middleName + "</h4>" +
+                        "<p class='card-description'>" +
+                          information1 +
+                        "</p>" +
+                        "<div id='" + btnDiv + "' class='validate_selected btn btn-default btn-round'>" +
+                          "<i class='material-icons'>star</i> VOTE" +
+                        "</div>" +
+                      "</div>" +
+                    "</div>" +
+                  "</div>" +
+                "");
+              }
+            }
+          }
+        });
+        
+        if($(myArr).toArray().length == (i + 1))
+        {
+          demo.initMaterialWizard();
+        }
+      }
+
+      if($(myArr).toArray().length == 0)
+      {
+        swal.close();
+        /*
+        $("#mainDiv").append("" +
+          "<div class='header text-center ml-auto mr-auto'>" +
+            "<h3 class='title'>NO CANDIDATE TYPE FOUND!</h3>" +
+          "</div>" +
+        "");
+        */
+      } 
+    }
+  });
+
+  $(".nav-tabs a[data-toggle=tab]").on("click", function(e) {
+    if ($(this).hasClass("disabled")) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  $('#votingForm').on('click','.validate_selected',function(){
+    var id = this.id;
+    var split_id = id.split("_");
+
+    var ctn = $("#"+split_id[0] + "_ctn").val();
+    var mvlc = $("#"+split_id[0] + "_mvlc").val();
+    
+    if($("#"+split_id[0] + "_btn_"+ split_id[2]).hasClass("btn-success"))
+    {
+      mvlc++;
+
+      $("#"+split_id[0] + "_btn_"+ split_id[2]).addClass("btn-default").removeClass("btn-success");
+      $("#"+split_id[0] + "_card_"+ split_id[2]).addClass("voting-not-selected").removeClass("voting-selected");
+      $("#"+split_id[0] + "_avatar_"+ split_id[2]).addClass("voting-not-selected-photo").removeClass("voting-selected-photo");
+      
+      $("#"+split_id[0] + "_mvlc").val(mvlc);
+      $("#"+split_id[0] + "_display").html("Select (" + mvlc + ") " + ctn);
+    } 
+    else 
+    {
+      
+      if (mvlc != 0)
+      {
+        mvlc--;
+
+        $("#"+split_id[0] + "_btn_"+ split_id[2]).addClass("btn-success").removeClass("btn-default");
+        $("#"+split_id[0] + "_card_"+ split_id[2]).addClass("voting-selected").removeClass("voting-not-selected");
+        $("#"+split_id[0] + "_avatar_" + split_id[2]).addClass("voting-selected-photo").removeClass("voting-not-selected-photo");
+
+        $("#"+split_id[0] + "_mvlc").val(mvlc);
+        $("#"+split_id[0] + "_display").html("Select (" + mvlc + ") " + ctn);
+      } 
+      else 
+      {
+        swal({ title: "Reach maximum vote \nfor "+ ctn, text: "Proceed to next step", type: "info", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+            
+      }
+    }
+
+  });
+});
+</script>
+
 @include('ovs.machine.layouts.wizard')
 @parent
 @endsection

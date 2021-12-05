@@ -25,6 +25,21 @@ The above copyright notice and this permission notice shall be included in all c
     <link href="{{ asset('material/css/material-dashboard.css?v=2.2.2') }}" rel="stylesheet" />
     
     <title>ACDIMPC EPORTAL</title>
+
+    <style>
+        .voting-selected {
+            border:4px solid #4caf50;
+        }
+        .voting-selected-photo {
+            border:4px solid #4caf50; background-color:#4caf50; width:250px;
+        }
+        .voting-not-selected {
+            border:4px solid #999999;
+        }
+        .voting-not-selected-photo {
+            border:4px solid #999999; background-color:#999999; width:250px;
+        }
+    </style>
     </head>
 
     <body class="sidebar-mini"  style="background-image: url({{ asset('material/img/login.jpg')}} ); background-size: cover; background-position: top center;">
