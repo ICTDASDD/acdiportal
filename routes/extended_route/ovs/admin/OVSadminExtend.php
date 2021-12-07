@@ -21,6 +21,7 @@ use App\Http\Controllers\ovs\admin\AdminRequestController;
     
         Route::get('ovs/adm/systemlog', [OVSAdminController::class, 'systemlog'])->name('OVSAdminSystemLog');
         Route::get('ovs/adm/request', [OVSAdminController::class, 'request'])->name('OVSAdminRequest');
+        Route::get('ovs/adm/reports', [OVSAdminController::class, 'reports'])->name('OVSAdminReports');
     
         Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'layoutCandidate'])->name('candidate.layout');
         Route::get('ovs/adm/votingconfiguration', [OVSAdminController::class, 'layoutVotingConfiguration'])->name('votingConfiguration.layout');

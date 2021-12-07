@@ -18,6 +18,8 @@
         <div class="content">
           <div class="container-fluid">
 
+            <a href="/ovs/adm/reports" class="btn btn-primary btn-lg">Download/Print Report</a>
+
             <div class="header text-center ml-auto mr-auto">
               <h2 class="title" id="cy"></h2>
               <p class="category">Data as of: {{ Carbon\Carbon::now() }}</p>
