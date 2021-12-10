@@ -8,7 +8,7 @@
 	<meta name="author" content="David Grzyb">
     <meta name="description" content="">
 
-    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         .body-bg {
@@ -73,7 +73,6 @@
         </div>
     </div>
 </div>
-
 
 
 </body>

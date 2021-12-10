@@ -88,6 +88,28 @@ use App\Http\Controllers\ovs\admin\AdminRequestController;
         Route::get('ovs/adm/request/edit', [AdminRequestController::class, 'editRequest'])->name('adm.request.edit');
         Route::get('ovs/adm/request/view', [AdminRequestController::class, 'viewRequest'])->name('adm.request.view');   
         Route::get('ovs/adm/request/update', [AdminRequestController::class, 'updateRequest'])->name('adm.request.update'); 
+
+
+        Route::get('ovs/adm/profile', [OVSAdminController::class, 'profile'])->name('OVSAdminProfile');
+        Route::get('ovs/adm/settings', [OVSAdminController::class, 'settings'])->name('OVSAdminSettings');
+        Route::get('ovs/adm/bstatus', [OVSAdminController::class, 'bstatus'])->name('OVSAdminBstatus');
+    
+        //change this with the value of brcode
+        Route::get('ovs/adm/bstatus-id', [OVSAdminController::class, 'bstatusid'])->name('OVSAdminBstatus-id');
+    
+        Route::get('ovs/adm/systemlog', [OVSAdminController::class, 'systemlog'])->name('OVSAdminSystemLog');
+        Route::get('ovs/adm/request', [OVSAdminController::class, 'request'])->name('OVSAdminRequest');
+    
+        Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'layoutCandidate'])->name('candidate.layout');
+        Route::get('ovs/adm/votingconfiguration', [OVSAdminController::class, 'layoutVotingConfiguration'])->name('votingConfiguration.layout');
+        Route::get('ovs/adm/users', [OVSAdminController::class, 'layoutUser'])->name('users.layout');    
+       
+        Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
+        Route::get('ovs/adm/bblocking', [OVSAdminController::class, 'bblocking'])->name('OVSAdminBranchBlocking');    
+        Route::get('ovs/adm/eblocking', [OVSAdminController::class, 'eblocking'])->name('OVSAdminEntryBlocking');    
+        Route::get('ovs/adm/memlist', [OVSAdminController::class, 'memlist'])->name('OVSAdminMemberList');
+    
+        Route::get('ovs/adm/adduser', [OVSAdminController::class, 'adduser'])->name('OVSAdminAdduser');
     });
 
 

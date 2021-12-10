@@ -135,6 +135,7 @@ Route::group(['middleware' => ['auth', 'role:emp']], function() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //auth route for ovs admin
+/*
 Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
     Route::get('ovs/adm/profile', [OVSAdminController::class, 'profile'])->name('OVSAdminProfile');
     Route::get('ovs/adm/settings', [OVSAdminController::class, 'settings'])->name('OVSAdminSettings');
@@ -156,7 +157,7 @@ Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
     Route::get('ovs/adm/memlist', [OVSAdminController::class, 'memlist'])->name('OVSAdminMemberList');
 
     Route::get('ovs/adm/adduser', [OVSAdminController::class, 'adduser'])->name('OVSAdminAdduser');
-});
+}); */
 
 
 //auth route for ovs elecom
