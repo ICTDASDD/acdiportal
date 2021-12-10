@@ -25,6 +25,10 @@ class OVSCanvaAdminController extends Controller
             return view('ovs.canva.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
         }
 
+        public function reports(){
+            return view('ovs.canva.reports',['title' => 'Reports', 'activeparents' => 'Dashboard']);
+        }
+
         public function bstatus(){
             return view('ovs.canva.bstatus',['title' => 'Branch Status', 'activeparents' => 'User']);
         }
