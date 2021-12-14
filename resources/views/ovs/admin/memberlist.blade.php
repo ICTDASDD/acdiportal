@@ -223,7 +223,7 @@
 
         $('#memberTable').on('click','.registerButton',function(){
           var afsn = this.value
-          var fullName = $(this).data('fullname'); 
+          var fullName = $(this).data('fullname');           
           var isaccumudating = $(this).data('isaccumudating'); 
           var votingPeriod = $('#selectVotingPeriod').select2('data');
           var votingPeriodID = votingPeriod[0].id;
@@ -242,7 +242,7 @@
               confirmButtonText: 'Confirm'
             }).then((result) => {
               if (result.value) {
-                register(afsn, fullName,isaccumudating, votingPeriodID );
+                register(afsn, fullName,isaccumudating, votingPeriodID);
               }
             });
           } else 
@@ -280,23 +280,41 @@
                   },
                   success: function (data) {
                       swal.close();
-
+   
                       if(!data.success)
                       {
                         swal({ title:"Unable to Register!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
                       } 
                       else 
-                      {
+                      {           
                         swal({ title:"Successfully Registered!", text: "Member can vote now!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
-
                         var memberTable = $('#memberTable').DataTable();
                         memberTable.ajax.reload(null, false);
+
+                        var a = window.open('', '', 'height=500, width=500');
+                       a.document.write('<html>'); 
+                       a.document.write('<body > <h4>REGISTRATION DETAILS ');                     
+                       a.document.write('<br><body > <p>Name: ');
+                       a.document.write(fullName);
+                       a.document.write('<br><body > <p>AFSN: ');
+                       a.document.write(afsn);
+                       a.document.write('<br><body > <p>Code: ');
+                       a.document.write(data.code);
+                       a.document.write('<br>');
+                       a.document.write('</body></html>');                                     
+                       a.print();                      
+                       a.close();
+                       
+
                       }
                   }
               });   
             }
           });
       }
+
+     
+ 
     </script>
     @parent
     @endsection

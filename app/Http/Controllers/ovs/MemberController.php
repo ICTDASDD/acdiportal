@@ -203,7 +203,10 @@ class MemberController extends Controller
             
         if($member_registration)
         {
-            return Response::json(['success'=> true]);
+            return Response::json([
+                'success'=> true,
+                'code' => $code
+            ]);
         } 
         else 
         {
