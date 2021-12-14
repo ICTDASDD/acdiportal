@@ -14,7 +14,11 @@ class Amendment extends Model
     protected $fillable = [
         'votingPeriodID',
         'amendmentNo',
-        'articleNo',
-        'amendmentDetails',
+        'articleDetails',
+        'presentProvision',
+        'proposedRevision',
+        'proposedProvision',
+        'rationale',
+        'question',
     ];
 }

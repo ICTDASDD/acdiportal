@@ -37,15 +37,31 @@ class AmendmentController extends Controller
                     $actionBtn = "<center>". $row->amendmentNo. "</center>";
                     return $actionBtn;
                 })
-                ->addColumn('articleNo', function($row){
-                    $actionBtn = "<center>". $row->articleNo. "</center>";
+                ->addColumn('articleDetails', function($row){
+                    $actionBtn = "<center>". $row->articleDetails. "</center>";
                     return $actionBtn;
                 })
-                ->addColumn('amendmentDetails', function($row){
-                    $actionBtn = "<center>". $row->amendmentDetails. "</center>";
+                ->addColumn('presentProvision', function($row){
+                    $actionBtn = "<center>". $row->presentProvision. "</center>";
                     return $actionBtn;
                 })
-                ->rawColumns(['amendmentNo','articleNo','amendmentDetails'])
+                ->addColumn('proposedRevision', function($row){
+                    $actionBtn = "<center>". $row->proposedRevision. "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('proposedProvision', function($row){
+                    $actionBtn = "<center>". $row->proposedProvision. "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('rationale', function($row){
+                    $actionBtn = "<center>". $row->rationale. "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('question', function($row){
+                    $actionBtn = "<center>". $row->question. "</center>";
+                    return $actionBtn;
+                })
+                ->rawColumns(['amendmentNo','articleDetails','presentProvision', 'proposedRevision', 'proposedProvision', 'rationale', 'question'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -118,8 +134,12 @@ class AmendmentController extends Controller
         $validator = \Validator::make($request->all(), [
             'votingPeriodID' => 'required',
             'amendmentNo' => 'required',
-            'articleNo' => 'required',
-            'amendmentDetails' => 'required',
+            'articleDetails' => 'required',
+            'presentProvision' => 'required',
+            'proposedRevision' => 'required',
+            'proposedProvision' => 'required',
+            'rationale' => 'required',
+            'question' => 'required',
         ]);
         
         if ($validator->fails()) {
@@ -129,8 +149,12 @@ class AmendmentController extends Controller
         $amendment = new Amendment([
             'votingPeriodID' => $request->get('votingPeriodID'),
             'amendmentNo' => $request->get('amendmentNo'),
-            'articleNo' => $request->get('articleNo'),
-            'amendmentDetails' => $request->get('amendmentDetails'),
+            'articleDetails' => $request->get('articleDetails'),
+            'presentProvision' => $request->get('presentProvision'),
+            'proposedRevision' => $request->get('proposedRevision'),
+            'proposedProvision' => $request->get('proposedProvision'),
+            'rationale' => $request->get('rationale'),
+            'question' => $request->get('question'),
         ]);
         $amendment->save();
             
@@ -143,8 +167,12 @@ class AmendmentController extends Controller
         $validator = \Validator::make($request->all(), [
             'votingPeriodID' => 'required',
             'amendmentNo' => 'required',
-            'articleNo' => 'required',
-            'amendmentDetails' => 'required',
+            'articleDetails' => 'required',
+            'presentProvision' => 'required',
+            'proposedRevision' => 'required',
+            'proposedProvision' => 'required',
+            'rationale' => 'required',
+            'question' => 'required',
         ]);
         
         if ($validator->fails()) {
@@ -156,8 +184,12 @@ class AmendmentController extends Controller
 
         $amendment->votingPeriodID = $request->get('votingPeriodID');
         $amendment->amendmentNo = $request->get('amendmentNo');
-        $amendment->articleNo = $request->get('articleNo');
-        $amendment->amendmentDetails = $request->get('amendmentDetails');
+        $amendment->articleDetails = $request->get('articleDetails');
+        $amendment->presentProvision = $request->get('presentProvision');
+        $amendment->proposedRevision = $request->get('proposedRevision');
+        $amendment->proposedProvision = $request->get('proposedProvision');
+        $amendment->rationale = $request->get('rationale');
+        $amendment->question = $request->get('question');
         $amendment->save();
 
         return Response::json(['success'=> true]);

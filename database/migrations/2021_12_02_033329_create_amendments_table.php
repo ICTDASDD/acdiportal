@@ -17,8 +17,12 @@ class CreateAmendmentsTable extends Migration
             $table->id();
             $table->integer('votingPeriodID');
             $table->integer('amendmentNo');
-            $table->string('articleNo');
-            $table->string('amendmentDetails');
+            $table->string('articleDetails');
+            $table->string('presentProvision');
+            $table->string('proposedRevision');
+            $table->string('proposedProvision');
+            $table->string('rationale');
+            $table->string('question');
             $table->timestamps();
         });
     }

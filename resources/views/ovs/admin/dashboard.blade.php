@@ -20,7 +20,7 @@
 
             <div class="header text-center ml-auto mr-auto">
               <h2 class="title" id="cy"></h2>
-              <p class="category">Data as of: {{ Carbon\Carbon::now() }}</p>
+              <p class="category">Data as of: {{ Carbon\Carbon::now()->timezone('Asia/Manila') }}</p>
             </div>
 
             <div id="mainDiv">
@@ -33,64 +33,80 @@
             </div>
 
 
-            <div class="row d-none">
+            <div class="row">
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header card-header-primary card-header-icon">
                     <div class="card-icon">
                       <i class="material-icons">assignment</i>
                     </div>
-                    <h4 class="card-title">Sample Table for Amenment Monitoring</h4>
+                    <h4 class="card-title">Consolidated</h4>
                   </div>
                   <div class="card-body">
                     <div class="toolbar">
                       <!--        Here you can write extra buttons/actions for the toolbar              -->
                     </div>
                     <div class="material-datatables">
-                      <table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-                        <thead>
+                      <!--<table width="100%" border="1" cellspacing="3" cellpadding="3"> -->
+                        <table id="amendmentTable" class="table table-striped table-no-bordered" cellspacing="0" width="100%" style="width:100%">
+                        <tbody>
                           <tr>
+                            <th>PARTICULAR</th>
+                            <th style="text-align: center">ARTICLE DETAILS</th>
                             <th style="text-align: center">MIGS</th>
                             <th style="text-align: center">REGISTERED MIGS</th>
                             <th style="text-align: center">% REGISTERED</th>
-                            <th style="text-align: center">Amendment No.</th>
-                            <th style="text-align: center">Total YES</th>
-                            <th style="text-align: center">Total NO</th>
+                            <th style="text-align: center">YES</th>
+                            <th style="text-align: center">NO</th>
                             <th style="text-align: center">% YES VOTES</th>
                           </tr>
-                        </thead>
-                        <tfoot>
                           <tr>
-                            <th style="text-align: center" >MIGS</th>
-                            <th style="text-align: center">REGISTERED MIGS</th>
-                            <th style="text-align: center">% REGISTERED</th>
-                            <th style="text-align: center">Amendment No.</th>
-                            <th style="text-align: center">Total YES</th>
-                            <th style="text-align: center">Total NO</th>
-                            <th style="text-align: center">% YES VOTES</th>
+                            <td  style="text-align: left; vertical-align: middle; font-size: 12px; font-weight:bold; color: #0B5AB9" >AMENDMENT 1</td>
+                            <td  style="text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold; " >1</td>
+                            <td style="text-align: center; vertical-align: middle; font-size: 16px; font-weight:bold;" rowspan="2">
+                              <?php  
+                                $migs = \DB::table('GAData')->count();
+                                echo $migs;
+                               ?>
+                            </td>
+                          <td style="text-align: center; vertical-align: middle;font-size: 16px; font-weight:bold;" rowspan="2">
+                            <?php
+                              $regMigs = DB::table('GAData')
+                              ->join('member_registration', 'member_registration.afsn', '=', 'GAData.afsn')
+                              ->count();
+                              echo $regMigs;
+                            ?>
+                          </td>
+                          
+                          <td style="text-align: center; vertical-align: middle;font-size: 16px; font-weight:bold;" rowspan="2">
+                          
+                               
+                          </td>
+                          
+                          
+                          
+                            <td style="text-align: center; color: #0B5AB9"></td>
+                            <td style="text-align: center; color: #0B5AB9"></td>
+                            <td style="text-align: center; vertical-align:middle; font-weight: bold; color: #0B5AB9">
+                          
+                         
+                          
+                          </td>
+                          
+                          
+                          
                           </tr>
-                        </tfoot>
-                        <tbody>
-                          <tr>
-                            <td style="text-align: center"  rowspan="3">4775</th>
-                            <td style="text-align: center" rowspan="3">4075</th>
-                            <td style="text-align: center" rowspan="3">98%</th>
-                            <td style="text-align: center">Amendment 1 - Article I</th>
-                            <td style="text-align: center">4050</th>
-                            <td style="text-align: center">25</th>
-                            <td style="text-align: center">95%</th>
-                          </tr>
-                          <tr>
-                            <td style="text-align: center">Amendment 2 - Article II</th>
-                            <td style="text-align: center">4050</th>
-                            <td style="text-align: center">25</th>
-                            <td style="text-align: center">95%</th>
-                          </tr>
-                          <tr>
-                            <td style="text-align: center">Amendment 3 - Article III</th>
-                            <td style="text-align: center">4050</th>
-                            <td style="text-align: center">25</th>
-                            <td style="text-align: center">95%</th>
+                          
+                        <tr>
+                            <td  style="text-align: left; vertical-align: middle; font-size: 12px; font-weight:bold; color: #46BF0D" >AMENDMENT 2</td>
+                              <td  style="text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;" >  2</td>
+                            <td style="text-align: center; color: #46BF0D"></td>
+                            <td style="text-align: center; color: #46BF0D"></td>
+                            <td style="text-align: center; vertical-align:middle; font-weight: bold; color: #46BF0D">
+                         
+                          
+                          </td>
+                          
                           </tr>
                         </tbody>
                       </table>
@@ -102,7 +118,6 @@
               </div>
               <!-- end col-md-12 -->
             </div>
-
 
             
 

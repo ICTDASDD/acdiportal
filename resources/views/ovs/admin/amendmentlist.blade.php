@@ -39,8 +39,12 @@
                     <thead>
                       <tr>
                         <th style="text-align: center">Amendment No.</th>
-                        <th style="text-align: center">Article No.</th>                            
-                        <th style="text-align: center">Amendment Details</th>
+                        <th style="text-align: center">Article Details</th>                            
+                        <th style="text-align: center">Present Provision</th>
+                        <th style="text-align: center">Proposed Revision</th>
+                        <th style="text-align: center">Proposed Provision</th>
+                        <th style="text-align: center">Rationale</th>
+                        <th style="text-align: center">Question</th>
                         <th style="text-align: center">Action</th>
                       </tr>
                     </thead>
@@ -48,8 +52,12 @@
                     <tfoot>
                       <tr>
                         <th style="text-align: center">Amendment No.</th>
-                        <th style="text-align: center">Article No.</th>                            
-                        <th style="text-align: center">Amendment Details</th>
+                        <th style="text-align: center">Article Details</th>                            
+                        <th style="text-align: center">Present Provision</th>
+                        <th style="text-align: center">Proposed Revision</th>
+                        <th style="text-align: center">Proposed Provision</th>
+                        <th style="text-align: center">Rationale</th>
+                        <th style="text-align: center">Question</th>
                         <th style="text-align: center">Action</th>
                       </tr>
                     </tfoot>
@@ -105,7 +113,7 @@
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
-                              <input id="articleNo" class="form-control" type="text" name="articleNo" placeholder="Article Number" required="true" />
+                              <input id="articleDetails" class="form-control" type="text" name="articleDetails" placeholder="Article Number" required="true" />
                             </div>
                           </div>
                           <label class="col-sm-3 label-on-right">
@@ -115,7 +123,47 @@
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
-                              <input id="amendmentDetails" class="form-control" type="text" name="amendmentDetails" placeholder="Amendment Details" required="true" />
+                              <input id="presentProvision" class="form-control" type="text" name="presentProvision" placeholder="Present Provision" required="true" />
+                            </div>
+                          </div>
+                          <label class="col-sm-3 label-on-right">
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <input id="proposedRevision" class="form-control" type="text" name="proposedRevision" placeholder="Proposed Revision" required="true" />
+                            </div>
+                          </div>
+                          <label class="col-sm-3 label-on-right">
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <input id="proposedProvision" class="form-control" type="text" name="proposedProvision" placeholder="Proposed Provision" required="true" />
+                            </div>
+                          </div>
+                          <label class="col-sm-3 label-on-right">
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <input id="rationale" class="form-control" type="text" name="rationale" placeholder="Rationale" required="true" />
+                            </div>
+                          </div>
+                          <label class="col-sm-3 label-on-right">
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <input id="question" class="form-control" type="text" name="question" placeholder="Question" required="true" />
                             </div>
                           </div>
                           <label class="col-sm-3 label-on-right">
@@ -264,12 +312,28 @@
             name: 'amendmentNo'
           },
           {
-            data: 'articleNo',
-            name: 'articleNo'
+            data: 'articleDetails',
+            name: 'articleDetails'
           },
           {
-            data: 'amendmentDetails',
-            name: 'amendmentDetails'
+            data: 'presentProvision',
+            name: 'presentProvision'
+          }, 
+          {
+            data: 'proposedRevision',
+            name: 'proposedRevision'
+          }, 
+          {
+            data: 'proposedProvision',
+            name: 'proposedProvision'
+          }, 
+          {
+            data: 'rationale',
+            name: 'rationale'
+          }, 
+          {
+            data: 'question',
+            name: 'question'
           }, 
           {
             'data': null,
@@ -321,8 +385,12 @@
             //  $('#votingPeriodID').val(data.votingPeriodID);
 
               $('#amendmentNo').val(data.amendmentNo);
-              $('#articleNo').val(data.articleNo);
-              $('#amendmentDetails').val(data.amendmentDetails);
+              $('#articleDetails').val(data.articleDetails);
+              $('#presentProvision').val(data.presentProvision);
+              $('#proposedRevision').val(data.proposedRevision);
+              $('#proposedProvision').val(data.proposedProvision);
+              $('#rationale').val(data.rationale);
+              $('#question').val(data.question);
               
               $('#btnSaveAmendment').removeClass('d-block').addClass('d-none');
               $('#btnUpdateAmendment').removeClass('d-none').addClass('d-block');
@@ -369,8 +437,12 @@
       $('#id').val("0");
       $('#votingPeriodID').val("");
       $('#amendmentNo').val("");
-      $('#articleNo').val("");
-      $('#amendmentDetails').val("");
+      $('#articleDetails').val("");
+      $('#presentProvision').val("");
+      $('#proposedRevision').val("");
+      $('#proposedProvision').val("");
+      $('#rationale').val("");
+      $('#question').val("");
 
       $('#btnSaveAmendment').removeClass('d-none').addClass('d-block');
       $('#btnUpdateAmendment').removeClass('d-block').addClass('d-none');
@@ -466,10 +538,22 @@
         'amendmentNo':{
             required: true
         },   
-        'articleNo':{
+        'articleDetails':{
             required: true
         },   
-        'amendmentDetails':{
+        'presentProvision':{
+            required: true
+        },  
+        'proposedRevision':{
+            required: true
+        },  
+        'proposedProvision':{
+            required: true
+        },  
+        'rationale':{
+            required: true
+        },  
+        'question':{
             required: true
         },              
     },
@@ -479,15 +563,23 @@
       var votingPeriodID = selectVotingPeriod2[0].id;
      // var votingPeriodID = $("#votingPeriodID").val();
       var amendmentNo = $("#amendmentNo").val();
-      var articleNo = $("#articleNo").val();
-      var amendmentDetails = $("#amendmentDetails").val();
+      var articleDetails = $("#articleDetails").val();
+      var presentProvision = $("#presentProvision").val();
+      var proposedRevision = $("#proposedRevision").val();
+      var proposedProvision = $("#proposedProvision").val();
+      var rationale = $("#rationale").val();
+      var question = $("#question").val();
    
       let formData = new FormData(document.getElementById("amendmentForm"));
       formData.append('isAdding', isRequired);
       formData.append('votingPeriodID', votingPeriodID);
       formData.append('amendmentNo', amendmentNo);
-      formData.append('articleNo', articleNo);
-      formData.append('amendmentDetails', amendmentDetails); 
+      formData.append('articleDetails', articleDetails);
+      formData.append('presentProvision', presentProvision); 
+      formData.append('proposedRevision', proposedRevision);
+      formData.append('proposedProvision', proposedProvision);
+      formData.append('rationale', rationale);
+      formData.append('question', question); 
     
       if("Saving" ==  $('#amendmentForm').attr('action'))
       { 
