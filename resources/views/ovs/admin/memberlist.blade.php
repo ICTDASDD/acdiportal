@@ -303,7 +303,7 @@
                        a.document.write('<br>');
                        a.document.write('</body></html>');                                     
                        a.print();                      
-                       a.document.close();
+                       a.close();
                        
 
                       }
@@ -313,12 +313,8 @@
           });
       }
 
-      function printInfo(){}
-      
-
-  
-
      
+ 
     </script>
     @parent
     @endsection
