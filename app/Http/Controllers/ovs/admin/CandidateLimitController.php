@@ -39,9 +39,10 @@ class CandidateLimitController extends Controller
                     ->leftJoin('candidate_limits', function($join) use ($votingPeriodID)
                     {
                         $join->on('candidate_limits.candidateTypeID', '=', 'candidate_types.candidateTypeID');
-                        $join->where('candidate_limits.votingPeriodID','=', $votingPeriodID);
+                        //$join->where('candidate_limits.votingPeriodID','=', $votingPeriodID);
                     })
                     ->select('candidate_types.*',DB::raw('ISNULL(candidate_limits.candidateLimitCount, 0) AS candidateLimitCount'), DB::raw('ISNULL(candidate_limits.memberVotingLimitCount, 0) AS memberVotingLimitCount'))
+                    ->where('candidate_limits.votingPeriodID','=', $votingPeriodID)
                     ->orderBy('candidate_types.candidateTypeID', 'asc')
                     ->get();
                 

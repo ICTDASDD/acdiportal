@@ -51,6 +51,42 @@ class AmendmentController extends Controller
         }
     }
 
+    public function defaultAmendment(Request $request)
+    {
+        $votingPeriodID = $request->get('votingPeriodID');
+
+    	$data = DB::table('amendments')
+                    ->select('amendments.*')
+                    ->where('amendments.votingPeriodID', $votingPeriodID)
+                    ->orderBy('amendments.amendmentNo', 'asc')
+                    ->get();
+                
+        $amendments = [];
+
+        if (count($data) > 0) {
+            foreach ($data as $row) {
+                $amendments[] = array(
+                    "isNoAmendmentFound" => "false",
+                    "amendmentID" => $row->id,
+                    "amendmentNo" => $row->amendmentNo,
+                    "articleDetails" => $row->articleDetails,
+                    "presentProvision" => $row->presentProvision,
+                    "proposedRevision" => $row->proposedRevision,
+                    "proposedProvision" => $row->proposedProvision,
+                    "rationale" => $row->rationale,
+                    "question" => $row->question,
+                );
+            }
+        } else 
+        {
+            $amendments[] = array(
+                "isNoAmendmentFound" => "true",
+            );
+        }
+
+        return response()->json($amendments);
+    }
+
    public function editAmendment(Request $request)
     {
         $id = $request->get('id');

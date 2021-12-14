@@ -44,7 +44,7 @@
                               <i class="material-icons">fingerprint</i>
                             </span>
                           </div>
-                          <input id="afsn" type="text" class="form-control text-center"  center placeholder="AFSN">
+                          <input id="afsn" type="text" class="form-control text-center" center placeholder="AFSN" autocomplete="off">
                           <div class="input-group-prepend">
                             <span class="input-group-text">
                               <i class="material-icons"></i>
@@ -205,8 +205,20 @@
 
           if(data.success)
           {
-            swal({ title: "Account Verified", text: "Redirecting to voting..", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
-            window.open("{{ route('Votinglayout') }}","_self").delay(1000);
+            swal({
+              allowOutsideClick : false, 
+              title: "Account Verified", 
+              text: "", 
+              type: "success", 
+              buttonsStyling: false, 
+              confirmButtonClass: "btn btn-success",
+              confirmButtonText: "Proceed to Vote",
+            }).then((result) => {
+              if(result)
+              { 
+                window.open("{{ route('Votinglayout') }}","_self");
+              }
+            }); 
           } 
           else 
           {
