@@ -197,7 +197,7 @@ class MemberController extends Controller
                 'code' => $code,
                 'votingPeriodID' => $votingPeriodID,
                 'registeredBy' => $logUser,
-                'registeredOn' => Carbon::now(),
+                'registeredOn' => Carbon::now()->timezone('Asia/Manila'),
                 'brRegistered' => $logBr,
             ]);
             

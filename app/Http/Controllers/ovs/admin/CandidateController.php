@@ -84,6 +84,7 @@ class CandidateController extends Controller
                 $candidates[] = array(
                     "isNoCandidateFound" => "false",
                     "subDiv" => $subDiv,
+                    "candidateID" => $row->candidateID,
                     "profilePicture" => $row->profilePicture,
                     "lastName" => $row->lastName,
                     "firstName" => $row->firstName,
