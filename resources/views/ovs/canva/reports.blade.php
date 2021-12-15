@@ -1,14 +1,14 @@
-@extends('ovs.admin.layouts.app') 
+@extends('ovs.canva.layouts.app') 
 
 @section('sidebar')
-@include('ovs.admin.layouts.sidebar')
+@include('ovs.canva.layouts.sidebar')
 @parent
 @endsection
 
 
     <!-- Navbar -->
     @section('navbar')
-    @include('ovs.admin.layouts.navbar')
+    @include('ovs.canva.layouts.navbar')
     @parent
     @endsection
     <!-- End Navbar -->
@@ -87,14 +87,14 @@
 
    <!--footer -->
    @section('footer')
-   @include('ovs.admin.layouts.footer')
+   @include('ovs.canva.layouts.footer')
    @parent
    @endsection
    <!--footer -->
 
    <!--side filter -->
    @section('sidefilter')
-   @include('ovs.admin.layouts.sidefilter')
+   @include('ovs.canva.layouts.sidefilter')
    @parent
    @endsection
    <!-- side filter -->
@@ -108,14 +108,14 @@
 
 <!--   Script Plugins -->
    @section('adminplugin')
-   @include('ovs.admin.layouts.plugins.adminplugin')
+   @include('ovs.canva.layouts.plugins.adminplugin')
    @parent
    @endsection
 <!--   Script Plugins -->
 
 <!--   Wizard Plugins -->
 @section('pageplugin')
-@include('ovs.admin.layouts.plugins.datatables')
+@include('ovs.canva.layouts.plugins.datatables')
 @parent
 <script>
 let fileNameFromEdit = "";

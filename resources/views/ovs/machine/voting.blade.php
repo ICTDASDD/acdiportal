@@ -690,7 +690,7 @@ $(document).ready(function() {
         {
           //for ballot printing       
           var divToPrint=document.getElementById("summaryTable");
-            newWin= window.open("");
+            newWin= window.open('', '', 'height=500, width=500');
             newWin.document.write(divToPrint.outerHTML);
             newWin.document.write("<style> td:nth-child(1){display:none;} </style>");
             newWin.print();
