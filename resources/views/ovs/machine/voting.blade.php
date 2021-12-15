@@ -593,7 +593,10 @@ $(document).ready(function() {
 
         $("#amendmentTable > tbody:last").append("" +
           "<tr>" +
-            "<td width='70%' style='text-align: center'>" +
+            "<td width='1%'>" +
+              " " + 
+            "</td>" +
+            "<td width='69%' style='text-align: center'>" +
               question + 
             "</td>" +
             "<td width='30%'>" +
@@ -671,6 +674,7 @@ $(document).ready(function() {
       },
       contentType: "application/json; charset=utf-8",
       beforeSend:  function() {
+
         swal({ title: 'Vote Submitting..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
       },
       error: function (jqXHR, exception) {
@@ -684,6 +688,15 @@ $(document).ready(function() {
         
         if(data.success)
         {
+          //for ballot printing       
+          var divToPrint=document.getElementById("summaryTable");
+            newWin= window.open("");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.document.write("<style> td:nth-child(1){display:none;} </style>");
+            newWin.print();
+            newWin.close();
+            //end
+
           swal({ 
             allowOutsideClick : false,
             title: "Vote Submitted", 
@@ -694,7 +707,7 @@ $(document).ready(function() {
             confirmButtonText: 'Back to Members Login',
           }).then((result) => {
             if(result)
-            {
+            {                
               window.open("{{ route('dashboard') }}","_self");
             }
           }); 
