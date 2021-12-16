@@ -293,15 +293,23 @@
 
                         var a = window.open('', '', 'height=500, width=500');
                        a.document.write('<html>'); 
-                       a.document.write('<body > <h4>REGISTRATION DETAILS ');                     
-                       a.document.write('<br><body > <p>Name: ');
-                       a.document.write(fullName);
-                       a.document.write('<br><body > <p>AFSN: ');
-                       a.document.write(afsn);
-                       a.document.write('<br><body > <p>Code: ');
-                       a.document.write(data.code);
-                       a.document.write('<br>');
-                       a.document.write('</body></html>');                                     
+                       a.document.write('<body><h4> REGISTRATION DETAILS </h4>');
+                       a.document.write('<table name= "detailsTable" border ="1" cellspacing = "1" callpadding = "5">'); 
+                       a.document.write('<tr>');                     
+                       a.document.write('<td> Name: </td>');
+                       a.document.write('<td>' + fullName + '</td>');
+                       a.document.write('</tr>'); 
+                       a.document.write('<tr>');   
+                       a.document.write('<td> AFSN: </td>');
+                       a.document.write('<td>' + afsn + '</td>');
+                       a.document.write('</tr>');
+                       a.document.write('<tr>'); 
+                       a.document.write('<td> Code: </td>');
+                       a.document.write('<td>' + data.code + '</td>');
+                       a.document.write('</tr>');
+                       a.document.write('<table>');
+                       a.document.write('</body></html>'); 
+                       a.style.textAlign = "center";                                    
                        a.print();                      
                        a.close();
                        
