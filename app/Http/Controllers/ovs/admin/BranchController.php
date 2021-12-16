@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\Branch;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 
@@ -80,6 +81,26 @@ class BranchController extends Controller
             ->update(['isLocked' => $isLocked]);
 
         if($branches)
+        {
+            return Response::json(['success'=> true]);
+        } 
+        else 
+        {
+            return Response::json(['success'=> false]);
+        }
+    }
+
+    public function checkBranchLocking(Request $request)
+    {
+        $candidateID = Auth::user()->brCode;
+        $where = array('brCode' => $candidateID);
+        //$candidate  = Candidate::where($where)->first();
+        $branches = DB::table('branches')
+            ->select('branches.isLocked')
+            ->where($where)
+            ->first();
+
+        if($branches->isLocked == "1")
         {
             return Response::json(['success'=> true]);
         } 

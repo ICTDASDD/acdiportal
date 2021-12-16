@@ -150,7 +150,7 @@ class VotingPeriodController extends Controller
         }
 
         $isDefault = 0;
-        if($request->get('isDefault') == true)
+        if($request->get('isDefault') == "true")
         {
             //SET ALL TO DEFAULT 0
             DB::table('voting_periods')->update(['isDefault' => "0"]);

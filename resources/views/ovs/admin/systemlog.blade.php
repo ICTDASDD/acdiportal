@@ -188,7 +188,7 @@
                       <!--        Here you can write extra buttons/actions for the toolbar              -->
                     </div>
                     <div class="material-datatables">
-                      <table id="datatables-voting-log" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                      <table id="votingLogs" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                         <thead>
                           <tr>
                             <th style="text-align: center">Log Time</th>
@@ -200,94 +200,6 @@
                         </thead>
 
                         <tbody>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:05:31</td>
-                            <td style="text-align: center">GHQ Branch</td>                            
-                            <td style="text-align: center">S-10001010</td>
-                            <td style="text-align: center">Login to Voting System</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:09:31</td>
-                            <td style="text-align: center">GHQ Branch</td>                            
-                            <td style="text-align: center">S-10001010</td>
-                            <td style="text-align: center">Vote Submitted</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:11:31</td>
-                            <td style="text-align: center">GHQ Branch</td>                            
-                            <td style="text-align: center">S-1555555</td>
-                            <td style="text-align: center">Login to Voting System</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:16:31</td>
-                            <td style="text-align: center">GHQ Branch</td>                            
-                            <td style="text-align: center">S-1555555</td>
-                            <td style="text-align: center">Vote Submitted</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:32:31</td>
-                            <td style="text-align: center">Lipa Branch</td>                            
-                            <td style="text-align: center">S-15364486</td>
-                            <td style="text-align: center">Login to Voting System</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:33:31</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">S-12345678</td>
-                            <td style="text-align: center">Login to Voting System</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:34:31</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">S-12345678</td>
-                            <td style="text-align: center">Vote Submitted</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr class="text-danger">
-                            <td style="text-align: center">10/21/2021 09:00:00</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">S-12345678</td>
-                            <td style="text-align: center">Vote Rollover</td>
-                            <td style="text-align: center">Complete</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:35:31</td>
-                            <td style="text-align: center">Lipa Branch</td>                            
-                            <td style="text-align: center">S-15364486</td>
-                            <td style="text-align: center">Vote Submitted</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 09:05:31</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">S-12345678</td>
-                            <td style="text-align: center">Login to Voting System</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 09:08:31</td>
-                            <td style="text-align: center">CDO Branch</td>                            
-                            <td style="text-align: center">S-12345678</td>
-                            <td style="text-align: center">Vote Submitted</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
 
                         </tbody>
 
@@ -356,6 +268,82 @@
 @section('pageplugin')
 @include('ovs.admin.layouts.plugins.dplugin')
 @include('ovs.admin.layouts.plugins.datatables')
+<script>
+  $(document).ready(function() {
+    var votingLogsDataTables = $('#votingLogs').DataTable({
+      processing: true,
+      serverSide: true,
+      cache: false,
+      responsive: true,
+      ajax: {
+          headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+          },
+          url: "{{ route('systemLog.votingLogs') }}",
+          //PASSING WITH DATA
+          type: 'POST',
+          dataType: 'json',
+          /*
+          data: function (d) {
+                d.votingPeriodID = $('#selectVotingPeriod').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }
+            */
+          },
+          
+      columns: [
+          {
+            data: 'logTime',
+            name: 'logTime'
+          },
+          {
+            data: 'brRegistered',
+            name: 'brRegistered'
+          },
+          {
+            data: 'afsn',
+            name: 'afsn'
+          }, 
+          {
+            data: 'description',
+            name: 'description'
+          },
+          {
+            data: 'status',
+            name: 'status'
+          } 
+         
+          /*
+          {
+            'data': null,
+            'render': function (data) {
+                var x = "";
+                var isLocked = "";
+                if(data.isLocked == "YES")
+                {
+                  isLocked ="checked";
+                }
+
+                x = "<td style='text-align: right; max-width:250px;'>" +
+                      "<div class='togglebutton'>" +
+                        "<label>" +
+                          "<input type='checkbox' class='branchLocking' value='" + data.brCode + "' " + isLocked + ">" +
+                          "<span class='toggle'></span>" +
+                        "</label>" +
+                      "</div>" +
+                    "</td>" ;
+                    
+                return "<center>"+ x + "</center>";
+            }
+          },
+          */
+      ],
+    });
+  });
+
+</script>
+
+
 
 @parent
 @endsection

@@ -1,5 +1,4 @@
 @extends('ovs.admin.layouts.app') 
-
 @section('sidebar')
 @include('ovs.admin.layouts.sidebar')
 @parent
@@ -307,7 +306,7 @@ $(document).ready(function() {
 
   var candidateTypeSelect2 = $('#candidateTypeID').select2({
     placeholder: "Candidate For",
-    dropdownParent: "#modalCandidate" ,
+    dropdownParent: $("#modalCandidate"),
     minimumInputLength: -1,
     allowClear: true,
     ajax: {
@@ -484,10 +483,9 @@ $(document).ready(function() {
       $('#removeProfilePicture').trigger('click');
       //$('#profilePicture').val("0");
       $('#candidateID').val("0");
-      
       fileNameFromEdit = "";
 
-      $('#candidateTypeID').val("");
+      $('#candidateTypeID').val("").trigger('change');
       $('#lastName').val("");
       $('#firstName').val("");
       $('#middleName').val("");
@@ -570,6 +568,7 @@ $(document).ready(function() {
   $('#candidateForm').submit(function (evt) {
       evt.preventDefault(); //prevents the default action
   });
+
 });
 
 function validateCandidateForm(action)
@@ -579,9 +578,10 @@ function validateCandidateForm(action)
   {
     isRequired = true;
   }
-
+    
   $("#candidateForm").validate({
-    ignore: 'input[type=hidden]',
+    ignore:  'input[type=hidden]',
+    
     rules:{    
       /*'profilePicture':{
           required: isRequired, 
@@ -612,14 +612,14 @@ function validateCandidateForm(action)
   },
   errorPlacement: function (error, element) {
     var name = $(element).attr("id");
-      if(name == "profilePicture")
-      {
-        error.addClass("text-danger");
-        error.appendTo($("#" + name + "_validate"));
-      } else 
-      {
-        error.insertAfter(element); 
-      }
+    if(name == "profilePicture")
+    {
+      error.addClass("text-danger");
+      error.appendTo($("#" + name + "_validate"));
+    } else 
+    {
+      error.insertAfter(element); 
+    }
   },  
   submitHandler: function(form){
 

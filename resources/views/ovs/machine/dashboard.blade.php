@@ -145,9 +145,10 @@
 
 <script>
   $(document).ready(function() {
+
     $.ajax({
       type: "GET",
-      url: "{{ route('machine.votingPeriod.default') }}",
+      url: "{{ route('machine.branch.locking') }}",
       //data: { votingPeriodID : votingPeriodID },
       contentType: "application/json; charset=utf-8",
       beforeSend:  function() {
@@ -157,23 +158,63 @@
         swal.close();
           
         console.log(jqXHR.responseText);
-        swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
       },
       success: function (data) {
         swal.close();
         //var xx = "{{ session('votingPeriodID') }}";
-        if(data.votingPeriodID)
-        {
-          $('#cy').html(data.cy);
-          $('#loginDiv').addClass("d-block").fadeIn(500);
-        } 
+        if(data.success)
+        {  
+          swal({ title: "Branch Locked", text: "Voting currently not available", type: "warning", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+        
+            $('#cy').addClass("d-none");
+            $('#loginDiv').addClass("d-none");
+          } 
         else 
         {
-          $('#cy').html("ACDI MPC - Not Available");
-          $('#loginDiv').addClass("d-none");
+          getVotingPeriod();
         }
       }
     });
+
+    function getVotingPeriod()
+    {
+      $.ajax({
+        type: "GET",
+        url: "{{ route('machine.votingPeriod.default') }}",
+        //data: { votingPeriodID : votingPeriodID },
+        contentType: "application/json; charset=utf-8",
+        beforeSend:  function() {
+          swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+        },
+        error: function (jqXHR, exception) {
+          swal.close();
+            
+          console.log(jqXHR.responseText);
+          swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+        },
+        success: function (data) {
+          swal.close();
+          //var xx = "{{ session('votingPeriodID') }}";
+          if(data.votingPeriodID)
+          {
+            $('#cy').html(data.cy);
+            $('#cy').addClass("d-block");
+            $('#loginDiv').addClass("d-block").fadeIn(500);
+          } 
+          else 
+          {
+            swal({ title: "No Voting Period Available", text: "Voting currently not available", type: "warning", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+        
+            $('#cy').html("ACDI MPC - Not Available");
+            $('#cy').addClass("d-none");
+            $('#loginDiv').addClass("d-none");
+          }
+        }
+      });
+    }
+
+    
 
     $('#btnProceed').on('click', function(){
       var afsn = $('#afsn').val();
