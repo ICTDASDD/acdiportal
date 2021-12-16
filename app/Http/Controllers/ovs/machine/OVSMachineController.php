@@ -73,6 +73,15 @@ class OVSMachineController extends Controller
                                 'mrCode' => $member_registration->code,
                             ]);
 
+                            $voting_logs = DB::table('voting_logs')
+                            ->insertGetId([
+                                'created_at' => Carbon::now()->timezone('Asia/Manila'),
+                                'brRegistered' => $member_registration->brRegistered, 
+                                'afsn' => $afsn, 
+                                'description' => "Login to Voting System",
+                                'status' =>  "Done",
+                            ]);
+
                             return Response::json([
                                 'success'=> true,
                             ]);
@@ -152,6 +161,7 @@ class OVSMachineController extends Controller
 
             $votingPeriodID = session("votingPeriodID");
             $afsn =session("mrAFSN");
+            $brRegistered =session("mrBrRegistered");
             $mrID =session("mrID");
             $code =session("mrCode");
 
@@ -217,6 +227,15 @@ class OVSMachineController extends Controller
                             $updateMemberRegistration = DB::table('member_registration')
                                 ->where('id', $mrID)
                                 ->update(['isVoted' => 1]);
+
+                            $voting_logs = DB::table('voting_logs')
+                            ->insertGetId([
+                                'created_at' => Carbon::now()->timezone('Asia/Manila'),
+                                'brRegistered' => $brRegistered, 
+                                'afsn' => $afsn, 
+                                'description' => "Vote Submitted",
+                                'status' =>  "Done",
+                            ]);
 
                             //$votingPeriodID = session("votingPeriodID");
                             //$afsn = $request->get('afsn');

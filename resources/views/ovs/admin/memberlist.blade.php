@@ -154,8 +154,12 @@
           cache: false,
           responsive: true,
           ajax: {
+              headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+              },
               url: "{{ route('member.list') }}",
               //PASSING WITH DATA
+              type: 'POST',
               dataType: 'json',
               data: function (d) {
                     d.votingPeriodID = $('#selectVotingPeriod').val() || ""

@@ -10,6 +10,7 @@ use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\UserController;
 use App\Http\Controllers\ovs\admin\AmendmentController;
 use App\Http\Controllers\ovs\admin\AdminRequestController;
+use App\Http\Controllers\ovs\admin\SystemLogController;
     
     Route::group(['middleware' => ['auth', 'role:ictd-admin']], function() {
         Route::get('ovs/adm/profile', [OVSAdminController::class, 'profile'])->name('OVSAdminProfile');
@@ -76,7 +77,7 @@ use App\Http\Controllers\ovs\admin\AdminRequestController;
       //  Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
         
         Route::get('ovs/adm/bblocking', [OVSAdminController::class, 'bblocking'])->name('OVSAdminBranchBlocking');    
-        Route::get('ovs/adm/member/list', [MemberController::class, 'listMember'])->name('member.list');   
+        Route::POST('ovs/adm/member/list', [MemberController::class, 'listMember'])->name('member.list');   
         Route::get('ovs/adm/member/register', [MemberController::class, 'registerMember'])->name('member.register');
     
         Route::get('ovs/adm/eblocking', [OVSAdminController::class, 'eblocking'])->name('OVSAdminEntryBlocking');    
@@ -99,6 +100,7 @@ use App\Http\Controllers\ovs\admin\AdminRequestController;
         Route::get('ovs/adm/bstatus-id', [OVSAdminController::class, 'bstatusid'])->name('OVSAdminBstatus-id');
     
         Route::get('ovs/adm/systemlog', [OVSAdminController::class, 'systemlog'])->name('OVSAdminSystemLog');
+        Route::POST('ovs/adm/systemlog/votinglog', [SystemLogController::class, 'votingLogs'])->name('systemLog.votingLogs');   
         Route::get('ovs/adm/request', [OVSAdminController::class, 'request'])->name('OVSAdminRequest');
     
         Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'layoutCandidate'])->name('candidate.layout');
