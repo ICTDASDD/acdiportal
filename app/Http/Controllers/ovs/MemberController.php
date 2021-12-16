@@ -163,7 +163,10 @@ class MemberController extends Controller
 
                     if($post->brRegistered != "")
                     {
-                        $button = "<div class='text-info'><b>Registered</b></div>";
+                        $button = "<div class='text-info'><b>Registered</b></div>
+                        <button class='btn btn-info btn-sm reprintButton' value='" . $post->AFSN . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
+                            "  Re-print " .
+                            "</button>";
                     }
 
                     $nestedData['actionButton'] = "<center>". $button . "</center>";
