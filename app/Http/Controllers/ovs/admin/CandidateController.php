@@ -81,6 +81,12 @@ class CandidateController extends Controller
 
         if (count($data) > 0) {
             foreach ($data as $row) {
+
+                $totalVotes = DB::table('candidate_votes')
+                    ->where('candidate_votes.vpID', $votingPeriodID)
+                    ->where('candidate_votes.cID', $row->candidateID)
+                    ->count();
+
                 $candidates[] = array(
                     "isNoCandidateFound" => "false",
                     "subDiv" => $subDiv,
@@ -93,6 +99,7 @@ class CandidateController extends Controller
                     "information2" => $row->information2,
                     "candidateTypeID" => $row->candidateTypeID,
                     "candidateTypeName" => $row->candidateTypeName,
+                    "totalVotes" => $totalVotes,
                 );
             }
         } else 

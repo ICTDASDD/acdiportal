@@ -308,6 +308,7 @@
                           var middleName = myArr2[i2].middleName.toString();
                           var information1 = myArr2[i2].information1.toString();
                           var information2 = myArr2[i2].information2.toString();
+                          var totalVotes = myArr2[i2].totalVotes.toString();
                           
                           var imgPath = "{{ asset('material/img/candidate/')}}";
                           $("#" + subDiv).append("" +
@@ -319,7 +320,7 @@
                                   "</div> " +
                                   "<p class='card-category'>" + lastName + ", " + firstName + "</p> " +
                                   "<p class='card-category text-success small'>Total Votes</p>   " +
-                                  "<h3 class='card-title'>0</h3> " +
+                                  "<h3 class='card-title'>" + totalVotes + "</h3> " +
                                 "</div> " +
                                 "<div class='card-footer'> " +
                                   "<div class='stats'> " +                    
