@@ -13,7 +13,7 @@ use Validator;
 
 class AmendmentController extends Controller
 {
-    
+
     public function listAmendment(Request $request)
     {
         if ($request->ajax()) {
@@ -102,6 +102,75 @@ class AmendmentController extends Controller
 
         return response()->json($amendments);
     }
+
+    public function dashboardAmendment(Request $request)
+    {
+        $votingPeriodID = $request->get('votingPeriodID');
+
+    	$data = DB::table('amendments')
+                    ->leftJoin('amendment_votes', function($join) use ($votingPeriodID)
+                    {
+                        $join->on('amendment_votes.aID', '=', 'amendments.id');
+                        $join->where('amendment_votes.vpID','=', $votingPeriodID);
+                    })
+                    ->where('amendments.votingPeriodID', $votingPeriodID)
+                    ->orderBy('amendments.amendmentNo', 'asc')
+                    ->groupBy('amendments.id', 'amendments.amendmentNo', 'amendments.articleDetails') 
+                    ->select('amendments.id', 'amendments.amendmentNo', 'amendments.articleDetails', 
+
+                   DB::Raw('sum(case when amendment_votes.vote = 1 then 1 else 0 end) as yes'),  
+                   DB::Raw('sum(case when amendment_votes.vote = 0 then 1 else 0 end) as no')
+
+                  )
+                    ->get();
+
+        $migs = DB::table('GADATA')->get()->count();
+
+        $regMigs = DB::table('GAData')
+            ->join('member_registration', 'member_registration.afsn', '=', 'GAData.afsn')
+            ->count();
+        
+        $count1_reg = $regMigs / $migs;
+        $count2_reg = $count1_reg * 100;
+        $percentReg = number_format($count2_reg, 2);
+
+       $yes = 
+        
+       // $count1_yes = $yes / $regMigs;
+       // $count2_yes = $count1_yes * 100;
+       // $percentYes = number_format($count2_yes, 2);
+
+        $amendments = [];
+        
+
+        if (count($data) > 0) {
+            foreach ($data as $row) {
+
+                $amendments[] = array(
+                    "isNoAmendmentFound" => "false",
+                    "amendmentID" => $row->id,
+                    "amendmentNo" => $row->amendmentNo,
+                    "articleDetails" => $row->articleDetails,
+                    "migs" => $migs,
+                    "regMigs" => $regMigs,
+                    "percentReg" => $percentReg,    
+                    "yes" => $row->yes,  
+                    "no" => $row->no, 
+                    "percentYes" => number_format(($row->yes / $regMigs *  100),2 ),    
+                );
+            }
+        } else 
+        {
+            $amendments[] = array(
+                "isNoAmendmentFound" => "true",
+            );
+        }
+
+
+
+        return response()->json($amendments);
+    }
+
 
    public function editAmendment(Request $request)
     {

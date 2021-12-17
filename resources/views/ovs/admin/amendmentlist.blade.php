@@ -76,7 +76,7 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title text-info">Information of amendment</h4>
+                    <h4 class="modal-title text-info">Information of Amendment</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                       <i class="material-icons">clear</i>
                     </button>
