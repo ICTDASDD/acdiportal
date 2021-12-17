@@ -56,13 +56,14 @@ ACDIMPC OVS
     </a>
   </li>
 
-  
+  <!--
   <li class="nav-item {{ $title == 'User List' ? ' active' : '' }}">
     <a  class="nav-link" href="{{route('BAusers.layout')}}">
       <i class="material-icons">people</i>
       <p> Users </p>
     </a>
   </li>
+-->
 
   <hr>
 

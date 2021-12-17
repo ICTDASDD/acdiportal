@@ -139,6 +139,7 @@ ACDIMPC OVS
             <span class="sidebar-normal"> Branch Locking </span>
           </a>
         </li>
+        <!--
         <li class="nav-item {{ $title == 'Entry Blocking' ? ' active' : '' }}">
           <a class="nav-link" href="{{route('OVSAdminEntryBlocking')}}">
               <span class="sidebar-mini"><i class="material-icons">
@@ -147,6 +148,8 @@ ACDIMPC OVS
             <span class="sidebar-normal"> Entry Blocking </span>
           </a>
         </li>
+      -->
+
         <li class="nav-item {{ $title == 'Voting Configuration' ? ' active' : '' }}">
           <a class="nav-link" href="{{route('votingConfiguration.layout')}}">
               <span class="sidebar-mini"><i class="material-icons">
