@@ -566,7 +566,7 @@ $(document).ready(function() {
     if(isAmendment)
     {
       $("#summaryTable").append(
-        "<table id='amendmentTable'  class='table table-striped table-no-bordered table-hover border' cellspacing='0' width='100%' style='width:100%'> " + 
+        "<table id='amendmentTable' border='1' class='table table-striped table-no-bordered table-hover border' cellspacing='0' width='100%' style='width:100%'> " + 
           "<thead> " + 
             "<tr> " + 
               "<th colspan='2' style='text-align: center'><h3><b>Amendment</b></h3></th> " + 

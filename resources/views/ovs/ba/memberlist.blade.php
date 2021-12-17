@@ -73,9 +73,9 @@
           </div>
           <!-- end col-md-12 -->
         </div>
-        <button class="btn btn-danger btn-round" data-toggle="modal" data-target="#AddCandidate">
+        {{-- <button class="btn btn-danger btn-round" data-toggle="modal" data-target="#AddCandidate">
           <i class="material-icons">add</i> Late Registration Form
-        </button>
+        </button> --}}
         
         <!-- end row -->
       </div>
@@ -222,8 +222,8 @@
     });
 
     $('#memberTable').on('click','.registerButton',function(){
-      var afsn = this.value
-      var fullName = $(this).data('fullname'); 
+          afsn = this.value  //ginawang global for print function
+          fullName = $(this).data('fullname');  //ginawang global for print function
       var isaccumudating = $(this).data('isaccumudating'); 
       var votingPeriod = $('#selectVotingPeriod').select2('data');
       var votingPeriodID = votingPeriod[0].id;
@@ -292,25 +292,49 @@
                     var memberTable = $('#memberTable').DataTable();
                     memberTable.ajax.reload(null, false);
 
-                    var a = window.open('', '', 'height=500, width=500');
-                       a.document.write('<html>'); 
-                       a.document.write('<body > <h4>REGISTRATION DETAILS ');                     
-                       a.document.write('<br><body > <p>Name: ');
-                       a.document.write(fullName);
-                       a.document.write('<br><body > <p>AFSN: ');
-                       a.document.write(afsn);
-                       a.document.write('<br><body > <p>Code: ');
-                       a.document.write(data.code);
-                       a.document.write('<br>');
-                       a.document.write('</body></html>');                                     
-                       a.print();                      
-                       a.close();
+                     //printDetails function call
+                     code2 = data.code;
+                        printDetails();
                   }
               }
           });   
         }
       });
   }
+
+  //REPRINTING BUTTON
+  $('#memberTable').on('click','.reprintButton',function(){
+        afsn = this.value   //ginawang global
+        fullName = $(this).data('fullname');   //ginawang global
+        code2 = $(this).data('code');
+        printDetails();
+      });
+      //END
+
+      function printDetails(){
+
+         a = window.open('', '', 'height=500, width=500');
+                       a.document.write('<html>'); 
+                       a.document.write('<body><h4 style="text-align:center"> REGISTRATION DETAILS </h4>');
+                       a.document.write('<table name= "detailsTable" style="width:100%" border ="1" border-style= "solid" cellpadding = "10">'); 
+                       a.document.write('<tr>');                     
+                       a.document.write('<td> Name: </td>');
+                       a.document.write('<td>' + fullName + '</td>');
+                       a.document.write('</tr>'); 
+                       a.document.write('<tr>');   
+                       a.document.write('<td> AFSN: </td>');
+                       a.document.write('<td>' + afsn + '</td>');
+                       a.document.write('</tr>');
+                       a.document.write('<tr>'); 
+                       a.document.write('<td> Code: </td>');
+                       a.document.write('<td>' + code2 + '</td>');
+                       a.document.write('</tr>');
+                       a.document.write('<table>');
+                       a.document.write('</body></html>');                                                          
+                       a.print();                      
+                       a.close();
+      }
+      
 </script>
 
 @parent
