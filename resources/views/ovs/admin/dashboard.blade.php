@@ -48,10 +48,13 @@
                     <div class="toolbar">
                       <!--        Here you can write extra buttons/actions for the toolbar              -->
                     </div>
-                    <div class="material-datatables">
-                      <!--<table width="100%" border="1" cellspacing="3" cellpadding="3"> -->
-                        <table id="amendmentTable" class="table table-striped table-no-bordered" cellspacing="0" width="100%" style="width:100%">
-                        <tbody>
+                   
+
+                <!--   <div class="material-datatables"> -->
+                    
+                    <table id="amendmentTable" class="table table-striped table-no-bordered" cellspacing="0" width="100%" style="width:100%">       
+                      <tbody>
+                        <thead>
                           <tr>
                             <th>PARTICULAR</th>
                             <th style="text-align: center">ARTICLE DETAILS</th>
@@ -62,58 +65,10 @@
                             <th style="text-align: center">NO</th>
                             <th style="text-align: center">% YES VOTES</th>
                           </tr>
-                          <tr>
-                            <td  style="text-align: left; vertical-align: middle; font-size: 12px; font-weight:bold; color: #0B5AB9" >AMENDMENT 1</td>
-                            <td  style="text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold; " >1</td>
-                            <td style="text-align: center; vertical-align: middle; font-size: 16px; font-weight:bold;" rowspan="2">
-                              <?php  
-                                $migs = \DB::table('GAData')->count();
-                                echo $migs;
-                               ?>
-                            </td>
-                          <td style="text-align: center; vertical-align: middle;font-size: 16px; font-weight:bold;" rowspan="2">
-                            <?php
-                              $regMigs = DB::table('GAData')
-                              ->join('member_registration', 'member_registration.afsn', '=', 'GAData.afsn')
-                              ->count();
-                              echo $regMigs;
-                            ?>
-                          </td>
-                          
-                          <td style="text-align: center; vertical-align: middle;font-size: 16px; font-weight:bold;" rowspan="2">
-                          
-                               
-                          </td>
-                          
-                          
-                          
-                            <td style="text-align: center; color: #0B5AB9"></td>
-                            <td style="text-align: center; color: #0B5AB9"></td>
-                            <td style="text-align: center; vertical-align:middle; font-weight: bold; color: #0B5AB9">
-                          
-                         
-                          
-                          </td>
-                          
-                          
-                          
-                          </tr>
-                          
-                        <tr>
-                            <td  style="text-align: left; vertical-align: middle; font-size: 12px; font-weight:bold; color: #46BF0D" >AMENDMENT 2</td>
-                              <td  style="text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;" >  2</td>
-                            <td style="text-align: center; color: #46BF0D"></td>
-                            <td style="text-align: center; color: #46BF0D"></td>
-                            <td style="text-align: center; vertical-align:middle; font-weight: bold; color: #46BF0D">
-                         
-                          
-                          </td>
-                          
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                        </thead>   
+                    </table>
+
+               <!-- </div> -->
                   <!-- end content-->
                 </div>
                 <!--  end card  -->
@@ -164,10 +119,16 @@
 
 <script>
   $(document).ready(function() {
+
+ 
+ 
+
+
+  
     $.ajax({
         type: "GET",
         url: "{{ route('votingPeriod.default') }}",
-        //data: { votingPeriodID : votingPeriodID },
+        //data: { votingPeriodID : votingPeriodID },amendment
         contentType: "application/json; charset=utf-8",
         beforeSend:  function() {
           swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
@@ -184,18 +145,86 @@
           if(data.votingPeriodID)
           {
             $('#cy').html(data.cy);
-            /*
-            $('#votingPeriodID').val(data.votingPeriodID);
-            $('#startDate').val(data.startDate);
-            $('#endDate').val(data.endDate);
-            $('#isDefault').prop('checked', ((data.isDefault == 1) ? true : false));
 
-            $('#btnSaveVotingPeriod').removeClass('d-block').addClass('d-none');
-            $('#btnUpdateVotingPeriod').removeClass('d-none').addClass('d-block');
-            $('#btnRemoveVotingPeriod').removeClass('d-none').addClass('d-block');
+            
+  /*  var amendmentTable = $('#amendmentTable').DataTable({
+      processing: true,
+      serverSide: true,
+      cache: false,
+      ajax: {
+          url: "{{ route('amendment.db') }}",
+          //PASSING WITH DATA
+          dataType: 'json',
+          data: function (data) {
+                data.votingPeriodID 
+                //d.search = $('input[type="search"]').val(),
+            }
+          },
+      columns: [
+          {
+            data: 'amendmentNo',
+            name: 'amendmentNo'
+          },
+          {
+            data: 'articleDetails',
+            name: 'articleDetails'
+          },
+          
+         
+      ],
+    });
+          */
 
-            $('#modalVotingPeriod').modal('show');
-            */
+
+          $.ajax({
+      type: "GET",
+      url: "{{ route('amendment.dashboard') }}",
+      data: { votingPeriodID : data.votingPeriodID },
+      contentType: "application/json; charset=utf-8",
+      beforeSend:  function() {
+        swal({ title: 'Getting amendment list..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+      },
+      error: function (jqXHR, exception) {
+        swal.close();
+      
+        console.log(jqXHR.responseText);
+        swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+      },
+      success: function (dataAmendment) {
+        swal.close();
+
+        var dataAmendmentArray = JSON.parse(JSON.stringify(dataAmendment));
+        totalAmendment = $(dataAmendmentArray).toArray().length;
+        for (var amendRow = 0; amendRow < $(dataAmendmentArray).toArray().length; amendRow++) 
+        {
+            var amendmentNo = dataAmendmentArray[amendRow].amendmentNo.toString();
+            var articleDetails = dataAmendmentArray[amendRow].articleDetails.toString();
+            var migs = dataAmendmentArray[amendRow].migs.toString();
+            var regMigs = dataAmendmentArray[amendRow].regMigs.toString();
+            var percentReg = dataAmendmentArray[amendRow].percentReg.toString();
+            var yes = dataAmendmentArray[amendRow].yes.toString();
+            var no = dataAmendmentArray[amendRow].no.toString();
+            var percentYes = dataAmendmentArray[amendRow].percentYes.toString();
+
+            
+
+            $("#amendmentTable > tbody:last").append("" +
+          "<tr>" +
+            "<td style='text-align: left; vertical-align: middle; font-size: 12px; font-weight:bold; color: #0B5AB9'>" + amendmentNo + "</td>" +
+            "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + articleDetails + "</td>" +
+            "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;' rowspan = '"+ totalAmendment+"' class='" + ((amendRow != 0) ? 'd-none' : '') + "'>" + migs + "</td>" +
+            "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;' rowspan = '"+ totalAmendment+"' class='" + ((amendRow != 0) ? 'd-none' : '') + "'>" + regMigs + "</td>" +
+            "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;' rowspan = '"+ totalAmendment+"' class='" + ((amendRow != 0) ? 'd-none' : '') + "'>" + percentReg +'%'+ "</td>" +
+            "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + yes + "</td>" +
+            "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + no + "</td>" +
+            "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + percentYes +'%'+ "</td>" +
+          "</tr>"+
+          ""); 
+          
+          }
+        }
+      });
+
             $.ajax({
               type: "GET",
               url: "{{ route('candidateLimit.default') }}",

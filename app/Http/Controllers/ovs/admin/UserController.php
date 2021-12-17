@@ -112,6 +112,7 @@ class UserController extends Controller
         } 
         else 
         {
+            unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
             return Response::json(['success'=> true]);
         }
     }

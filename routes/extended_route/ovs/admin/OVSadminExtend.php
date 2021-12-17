@@ -68,6 +68,8 @@ use App\Http\Controllers\ovs\admin\AdminRequestController;
         Route::get('ovs/adm/amendmentlist/edit', [AmendmentController::class, 'editAmendment'])->name('amendment.edit');
         Route::post('ovs/adm/amendmentlist/update', [AmendmentController::class, 'updateAmendment'])->name('amendment.update');
         Route::get('ovs/adm/amendmentlist/delete', [AmendmentController::class, 'removeAmendment'])->name('amendment.delete');
+        Route::get('ovs/adm/amendmentlist/db', [AmendmentController::class, 'dbAmendment'])->name('amendment.db');
+        Route::get('ovs/adm/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('amendment.dashboard');
     
         Route::get('ovs/adm/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('branch.select2'); 
         Route::get('ovs/adm/branch/list', [BranchController::class, 'listBranch'])->name('branch.list');   
