@@ -334,6 +334,7 @@ $(document).ready(function() {
     ajax: {
         url: "{{ route('candidate.list') }}",
         //PASSING WITH DATA
+        type: 'POST',
         dataType: 'json',
         data: function (d) {
               d.votingPeriodID = $('#selectVotingPeriod').val() || ""

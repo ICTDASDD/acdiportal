@@ -10,7 +10,6 @@ use DataTables;
 use Response;
 use Validator;
 
-
 class AmendmentController extends Controller
 {
 
@@ -225,8 +224,9 @@ class AmendmentController extends Controller
             'rationale' => $request->get('rationale'),
             'question' => $request->get('question'),
         ]);
+
         $amendment->save();
-            
+          
         return Response::json(['success'=> true]);
     }
     

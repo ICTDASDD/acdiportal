@@ -6,6 +6,7 @@ use App\Http\Controllers\ovs\ba\BAUserController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\CandidateLimitController;
 use App\Http\Controllers\ovs\admin\CandidateController;
+use App\Http\Controllers\ovs\admin\AmendmentController;
 use App\Http\Controllers\ovs\MemberController; 
 
     Route::group(['middleware' => ['auth', 'role:branch-officer']], function() {
@@ -17,7 +18,7 @@ use App\Http\Controllers\ovs\MemberController;
         Route::get('ovs/ba/users', [OVSBranchAdminController::class, 'layoutUser'])->name('BAusers.layout');
         Route::get('ovs/ba/memlist', [OVSBranchAdminController::class, 'layoutMemlist'])->name('BAmemlist.layout');
 
-        Route::get('ovs/ba/request/list', [RequestController::class, 'requestList'])->name('request.list');
+        Route::POST('ovs/ba/request/list', [RequestController::class, 'requestList'])->name('request.list');
         Route::get('ovs/ba/request/add', [RequestController::class, 'addRequest'])->name('request.add');   
         Route::get('ovs/ba/request/edit', [RequestController::class, 'editRequest'])->name('request.edit');
         Route::get('ovs/ba/request/view', [RequestController::class, 'viewRequest'])->name('request.view');  
@@ -42,10 +43,11 @@ use App\Http\Controllers\ovs\MemberController;
         Route::get('ovs/ba/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('ba.candidate.default');
         Route::get('ovs/ba/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('ba.votingPeriod.default');
         Route::get('ovs/ba/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('ba.candidateLimit.default');
+        Route::get('ovs/ba/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('ba.amendment.dashboard');
     
         //for register migs
         Route::get('ovs/ba/votingperiod/select2', [VotingPeriodController::class, 'listVotingPeriodSelect2'])->name('ba.votingPeriod.select2');
-        Route::get('ovs/ba/member/list', [MemberController::class, 'listMember'])->name('ba.member.list');
+        Route::post('ovs/ba/member/list', [MemberController::class, 'listMember'])->name('ba.member.list');
         Route::get('ovs/ba/member/register', [MemberController::class, 'registerMember'])->name('ba.member.register');
     });
 

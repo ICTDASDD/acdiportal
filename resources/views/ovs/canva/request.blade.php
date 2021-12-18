@@ -245,7 +245,10 @@ var requestTable = $('#requestTable').DataTable({
       select: true,
   processing: true,
   serverSide: true,
-  ajax: "{{ route('canva.request.list') }}",
+  ajax: {
+            url: "{{ route('canva.request.list') }}",
+            type: "POST"
+        },
   columns: [
       {
         data: 'created_at',

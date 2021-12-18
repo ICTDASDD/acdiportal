@@ -276,9 +276,6 @@
       cache: false,
       responsive: true,
       ajax: {
-          headers: {
-            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-          },
           url: "{{ route('systemLog.votingLogs') }}",
           //PASSING WITH DATA
           type: 'POST',

@@ -40,3 +40,12 @@
 <script src="{{ asset('material/js/plugins/bootstrap-notify.js')}}"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('material/js/material-dashboard.js?v=2.2.2" type="text/javascript')}}"></script>
+
+<script>
+    //AJAX CONFIGURATION
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
