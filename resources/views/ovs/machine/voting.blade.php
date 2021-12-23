@@ -71,6 +71,10 @@
                 <div id="summaryTable" class="material-datatables">
                   
                 </div>
+
+                <div id="summaryTableForPrinting" class="material-datatables d-none">
+                  
+                </div>
               </div>
 
               <div class="modal-footer">
@@ -210,7 +214,7 @@ $(document).ready(function() {
         swal.close();
       
         console.log(jqXHR.responseText);
-        swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+        swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
       },
       success: function (data3) {
         swal.close();
@@ -255,7 +259,7 @@ $(document).ready(function() {
             var fullName = lastName +", " + firstName + " " + middleName ;
             $("#" + subDiv + "_sub").append("" +
               "<div class='col-md-3'>" +
-                "<div id='" + cardDiv + "' class='card card-profile voting-not-selected'>" +
+                "<div id='" + cardDiv + "' class='card card-profile voting-not-selected voting-data'>" +
                   "<div id='" + avatarDiv + "' class='card-avatar voting-not-selected-photo'>" +
                     "<img class='img' src='"+imgPath+"/" + profilePicture+ "' >" +
                   "</div>" +
@@ -268,7 +272,7 @@ $(document).ready(function() {
                       information1 +
                     "</p>" +
                     "<div id='" + btnDiv + "' class='validate_selected btn btn-default btn-round'>" +
-                      "<i class='material-icons'>star</i> VOTE" +
+                      "VOTE" +
                     "</div>" +
                   "</div>" +
                 "</div>" +
@@ -519,6 +523,7 @@ $(document).ready(function() {
   $("#btnFinish").on("click", function(e) {
 
     $("#summaryTable").html("");
+    $("#summaryTableForPrinting").html("");
 
     if(isCandidate)
     {
@@ -531,10 +536,10 @@ $(document).ready(function() {
         var tableDiv = split_id[0] + "_summaryTable";
         if($("#"+ tableDiv).length == 0) {
           $("#summaryTable").append(
-            "<table id='" + tableDiv + "' border='1' class='table table-striped table-no-bordered table-hover' cellspacing='0' width='100%' style='width:100%'> " + 
+            "<table id='" + tableDiv + "' class='table table-striped table-no-bordered table-hover' cellspacing='0' width='100%' style='width:100%'> " + 
               "<thead> " + 
                 "<tr> " + 
-                  "<th colspan='2' style='text-align: center'><h3><b>For " + tableNameDisplay + "</b></h3></th> " + 
+                  "<th colspan='2' style='text-align: center'><h4><b>For " + tableNameDisplay + "</b></h4></th> " + 
                 "</tr> " + 
               "</thead> " + 
 
@@ -558,18 +563,71 @@ $(document).ready(function() {
               candidateName +
             "</td>" +
           "</tr>"+
+          "");
+      });
+
+      $('.voting-data').each(function() {
+        var split_id = this.id.split("_");
+        //alert($("#"+split_id[0] + "_ctn").val());
+        //alert($("#"+split_id[0] + "_id_"+ split_id[2]).val());
+        //alert($("#"+split_id[0] + "_display_"+ split_id[2]).val());
+        var tableNameDisplay = $("#"+split_id[0] + "_ctn").val();
+        var tableDiv = split_id[0] + "_summaryTableForPrinting";
+        if($("#"+ tableDiv).length == 0) {
+          $("#summaryTableForPrinting").append(
+            "<br><center><table id='" + tableDiv + "' border='0' cellspacing='0' width='100%' style='width:100%'> " + 
+              "<thead> " + 
+                "<tr> " + 
+                  "<th colspan='2' style='text-align: center; vertical-align: middle; font-size:15px'><b>" + tableNameDisplay + "<b></th> " + 
+                "</tr> " + 
+              "</thead> " + 
+
+              "<tbody> " + 
+              "</tbody> " + 
+            "</table></center>" + 
+          "");
+        } 
+
+        var isSelected = $(this).hasClass("voting-selected");
+        //🗹☐
+        var selector = (isSelected == true) ? "🗹" : "☐";
+        var candidateName = $("#"+split_id[0] + "_display_"+ split_id[2]).val();
+        $("#" + tableDiv + " > tbody:last").append("" +
+          "<tr>" +
+            "<td width='10%' style='text-align:center'>" +
+              selector +
+            "</td>" +
+            "<td width='90%' style='font-size:10px'>" +
+              candidateName +
+            "</td>" +
+          "</tr>"+
           ""); 
 
       });
+
+      
     }
 
     if(isAmendment)
     {
       $("#summaryTable").append(
-        "<table id='amendmentTable' border='1' class='table table-striped table-no-bordered table-hover border' cellspacing='0' width='100%' style='width:100%'> " + 
+        "<table id='amendmentTable' class='table table-striped table-no-bordered table-hover' width='100%' style='width:100%'> " + 
           "<thead> " + 
             "<tr> " + 
-              "<th colspan='2' style='text-align: center'><h3><b>Amendment</b></h3></th> " + 
+              "<th colspan='2' style='text-align: center'><h4><b>Amendment</b></h4></th> " + 
+            "</tr> " + 
+          "</thead> " + 
+
+          "<tbody> " + 
+          "</tbody> " + 
+        "</table> " + 
+      "");
+
+      $("#summaryTableForPrinting").append(
+        "<br><table id='amendmentTableForPrinting' border='0' cellspacing='0' width='100%' style='width:100%'> " + 
+          "<thead> " + 
+            "<tr> " + 
+              "<th colspan='2' style='text-align: center; vertical-align: middle; font-size:15px'><b>Amendment<b></th> " + 
             "</tr> " + 
           "</thead> " + 
 
@@ -593,13 +651,21 @@ $(document).ready(function() {
 
         $("#amendmentTable > tbody:last").append("" +
           "<tr>" +
-            "<td width='1%'>" +
-              " " + 
-            "</td>" +
-            "<td width='69%' style='text-align: center'>" +
+            "<td width='70%' style='text-align: center'>" +
               question + 
             "</td>" +
             "<td width='30%'>" +
+              answered +
+            "</td>" +
+          "</tr>"+
+          ""); 
+
+          $("#amendmentTableForPrinting > tbody:last").append("" +
+          "<tr>" +
+            "<td width='80%' style='font-size:10px'>" +
+              question + 
+            "</td>" +
+            "<td width='20%' style='text-align: center; font-size:10px'>" +
               answered +
             "</td>" +
           "</tr>"+
@@ -688,11 +754,22 @@ $(document).ready(function() {
         
         if(data.success)
         {
-          //for ballot printing       
-          var divToPrint=document.getElementById("summaryTable");
-            newWin= window.open('', '', 'height=500, width=500');
+            //for ballot printing       
+            var divToPrint=document.getElementById("summaryTableForPrinting");
+            var height = $('#summaryTableForPrinting').height();
+            var hw = "height="+height + ", width=500";
+            var newWin= window.open('', '', hw);
+
+            newWin.document.write('<html><body>'); 
+            var branchName = "{{ session('mrBrRegistered') }}";
+            newWin.document.write("<center>ACDI MPC</center><br>");
+            newWin.document.write("<center>" + branchName + "</center><br>");
+            var code = "{{ session('mrCode') }}";
+            newWin.document.write("<p style='float:left;font-size:12px'><b>SECURITY CODE:<br>"+code+"</b></p><p style='float: right;font-size:12px'><b>BALLOT #</b></p>");
             newWin.document.write(divToPrint.outerHTML);
-            newWin.document.write("<style> td:nth-child(1){display:none;} </style>");
+            newWin.document.write('</body></html>');        
+
+            //newWin.document.write("<style> td:nth-child(1){display:none;} </style>");
             newWin.print();
             newWin.close();
             //end
@@ -789,6 +866,7 @@ $(document).ready(function() {
       mvlc++;
 
       $("#"+split_id[0] + "_btn_"+ split_id[2]).addClass("btn-default").removeClass("btn-success");
+      $("#"+split_id[0] + "_btn_"+ split_id[2]).html("VOTE");
       $("#"+split_id[0] + "_card_"+ split_id[2]).addClass("voting-not-selected").removeClass("voting-selected");
       $("#"+split_id[0] + "_avatar_"+ split_id[2]).addClass("voting-not-selected-photo").removeClass("voting-selected-photo");
       
@@ -803,6 +881,7 @@ $(document).ready(function() {
         mvlc--;
 
         $("#"+split_id[0] + "_btn_"+ split_id[2]).addClass("btn-success").removeClass("btn-default");
+        $("#"+split_id[0] + "_btn_"+ split_id[2]).html("<span class='material-icons'>verified</span>");
         $("#"+split_id[0] + "_card_"+ split_id[2]).addClass("voting-selected").removeClass("voting-not-selected");
         $("#"+split_id[0] + "_avatar_" + split_id[2]).addClass("voting-selected-photo").removeClass("voting-not-selected-photo");
 

@@ -56,6 +56,7 @@ use App\Http\Controllers\ovs\admin\SystemLogController;
         Route::POST('ovs/adm/candidatelist/update', [CandidateController::class, 'updateCandidate'])->name('candidate.update');
         Route::get('ovs/adm/candidatelist/delete', [CandidateController::class, 'removeCandidate'])->name('candidate.delete');
         Route::get('ovs/adm/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('candidate.default');
+        Route::get('ovs/adm/candidatelist/voted', [CandidateController::class, 'votedCandidate'])->name('candidate.voted');
         
         Route::get('ovs/adm/users/select2', [UserController::class, 'listBranchSelect2'])->name('users.select2'); 
         Route::post('ovs/adm/users/list', [UserController::class, 'listUser'])->name('users.list');   
@@ -71,6 +72,7 @@ use App\Http\Controllers\ovs\admin\SystemLogController;
         Route::get('ovs/adm/amendmentlist/delete', [AmendmentController::class, 'removeAmendment'])->name('amendment.delete');
         Route::get('ovs/adm/amendmentlist/db', [AmendmentController::class, 'dbAmendment'])->name('amendment.db');
         Route::get('ovs/adm/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('amendment.dashboard');
+        Route::get('ovs/adm/amendment/voted', [AmendmentController::class, 'votedAmendment'])->name('amendment.voted');
     
         Route::get('ovs/adm/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('branch.select2'); 
         Route::POST('ovs/adm/branch/list', [BranchController::class, 'listBranch'])->name('branch.list');   

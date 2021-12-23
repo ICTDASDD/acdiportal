@@ -113,6 +113,58 @@ class CandidateController extends Controller
         return response()->json($candidates);
     }
 
+    public function votedCandidate(Request $request)
+    {
+        $votingPeriodID = $request->get('votingPeriodID');
+        $candidateTypeID = $request->get('candidateTypeID');
+        $subDiv = $request->get('subDiv');
+        $mrID = $request->get('mrID');
+
+    	$data = DB::table('candidates')
+                    ->join('candidate_types', 'candidates.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+                    ->select('candidates.*','candidate_types.candidateTypeName')
+                    ->where('candidates.votingPeriodID', $votingPeriodID)
+                    ->where('candidates.candidateTypeID', $candidateTypeID)
+                    ->orderBy('candidate_types.candidateTypeID', 'asc')
+                    ->get();
+                
+        $candidates = [];
+
+        if (count($data) > 0) {
+            foreach ($data as $row) {
+
+                $totalVotes = DB::table('candidate_votes')
+                    ->where('candidate_votes.vpID', $votingPeriodID)
+                    ->where('candidate_votes.cID', $row->candidateID)
+                    ->where('candidate_votes.mrID', $mrID)
+                    ->count();
+
+                $candidates[] = array(
+                    "isNoCandidateFound" => "false",
+                    "subDiv" => $subDiv,
+                    "candidateID" => $row->candidateID,
+                    "profilePicture" => $row->profilePicture,
+                    "lastName" => $row->lastName,
+                    "firstName" => $row->firstName,
+                    "middleName" => $row->middleName,
+                    "information1" => $row->information1,
+                    "information2" => $row->information2,
+                    "candidateTypeID" => $row->candidateTypeID,
+                    "candidateTypeName" => $row->candidateTypeName,
+                    "totalVotes" => $totalVotes,
+                );
+            }
+        } else 
+        {
+            $candidates[] = array(
+                "isNoCandidateFound" => "true",
+                "subDiv" => $subDiv
+            );
+        }
+
+        return response()->json($candidates);
+    }
+
     public function editCandidate(Request $request)
     {
         $candidateID = $request->get('candidateID');

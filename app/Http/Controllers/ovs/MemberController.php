@@ -38,6 +38,7 @@ class MemberController extends Controller
                 3=> 'SCNO',
                 4=> 'brRegistered',
                 5=> 'code',
+                6=> 'isVoted',
             );
             
             $votingPeriodID = "";
@@ -76,7 +77,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-                    ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
+                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
                     ->get();
             }
             else 
@@ -100,7 +101,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-                    ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
+                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
                     ->get();
 
                 $totalFilteredRecord = DB::table('GAData')
@@ -117,7 +118,7 @@ class MemberController extends Controller
                 ->orWhere('membershipBranch.brName', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.AFSN', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%") 
-                ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
+                ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
                 ->get()->count();
             }
 
@@ -134,10 +135,11 @@ class MemberController extends Controller
                     $nestedData['fullName'] = $fullName;
                     $nestedData['AFSN'] = $post->AFSN;
                     $nestedData['SCNO'] = $post->SCNO;
+                    $brRegistered = $post->brRegistered;
                     $nestedData['brRegistered'] = $post->brRegistered;
                     $nestedData['code'] = $post->code;
-                    $nestedData['isVoted'] = ""; //$post->SCNO;
-                    
+
+                    $buttonVoted = "- - -";
                     $button = "- - -";
                     if($votingPeriodID != "")
                     {
@@ -163,12 +165,25 @@ class MemberController extends Controller
 
                     if($post->brRegistered != "")
                     {
-                        $button = "<div class='text-info'><b>Registered</b></div>
+                        $button = "<div class='text-success'><b>Registered</b></div>
                         <button class='btn btn-info btn-sm reprintButton' value='" . $post->AFSN . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
-                            "  Re-print " .
+                            "  Re-print Registration" .
                             "</button>";
-                    }
 
+                        if($post->isVoted == 0)
+                        {
+                            $buttonVoted = "<div class='text-danger'><b>Not Yet</b></div>";
+                        } 
+                        else 
+                        {
+                            $buttonVoted = "<div class='text-success'><b>Vote Submitted</b></div>
+                                            <button class='btn btn-info btn-sm viewVote' value='" . $post->mrID . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-brregistered='" . $brRegistered . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
+                                            "  Re-print Ballot " .
+                                            "</button>";
+                           
+                        }
+                    }
+                    $nestedData['isVoted'] = "<center>". $buttonVoted . "</center>";
                     $nestedData['actionButton'] = "<center>". $button . "</center>";
                 
                     $data[] = $nestedData;
@@ -189,7 +204,7 @@ class MemberController extends Controller
     public function registerMember(Request $request)
     {
         $afsn = $request->get('afsn');
-        $code = random_int(100000, 999999);
+        $code = random_int(1000, 9999);
         $votingPeriodID = $request->get('votingPeriodID');
         $logUser = Auth::user()->id;
         $logBr = Auth::user()->brCode;
