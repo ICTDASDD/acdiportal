@@ -24,7 +24,7 @@ Route::group(['middleware' => ['auth', 'role:canv-officer']], function() {
     Route::get('ovs/canva/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('canva.candidate.default');
     Route::get('ovs/canva/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('canva.votingPeriod.default');
     Route::get('ovs/canva/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('canva.candidateLimit.default');
-    Route::get('ovs/ba/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('canva.amendment.dashboard');
+    Route::get('ovs/canva/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('canva.amendment.dashboard');
     
     //for register migs
     Route::get('ovs/canva/votingperiod/select2', [VotingPeriodController::class, 'listVotingPeriodSelect2'])->name('canva.votingPeriod.select2');
