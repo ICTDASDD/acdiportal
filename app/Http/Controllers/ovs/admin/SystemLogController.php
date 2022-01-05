@@ -5,6 +5,10 @@ namespace App\Http\Controllers\ovs\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\ovs\admin\UserLog;
+use App\Models\ovs\admin\Branch;
 use Session;
 use DataTables;
 use Response;
@@ -107,6 +111,48 @@ class SystemLogController extends Controller
                 );
 
             echo json_encode($json_data);
+        }
+    }
+
+    public function userLogs(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = DB::table('user_logs')
+            ->join('users', 'user_logs.emp_id', '=', 'users.emp_id')
+            ->join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->join('branches', 'users.brCode', '=', 'branches.brCode')
+            ->select('user_logs.*', 'users.emp_id', 'users.lname', 'users.name','roles.description','branches.brName')
+            ->orderBy('user_logs.created_at', 'DESC')
+            ->get();
+            return Datatables::of($data) 
+            ->addIndexColumn()
+                ->addColumn('created_at', function($row){
+                    $actionBtn = "<center>". $row->created_at. "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('emp_id', function($row){
+                    $actionBtn = "<center>". $row->emp_id. "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('fullName', function($row){
+                    $actionBtn = "<center>". $row->lname. ", "  . $row->name . "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('description', function($row){
+                    $actionBtn = "<center>". $row->description. "</center>";
+                    return $actionBtn;
+                })
+                ->addColumn('brName', function($row){
+                    $actionBtn = "<center>". $row->brName. "</center>";
+                    return $actionBtn;
+                })         
+                ->addColumn('process', function($row){
+                    $actionBtn = "<center>". $row->process. "</center>";
+                    return $actionBtn;
+                }) 
+                ->rawColumns(['created_at','emp_id','fullName','description','brName','process'])
+            ->make(true);
         }
     }
     

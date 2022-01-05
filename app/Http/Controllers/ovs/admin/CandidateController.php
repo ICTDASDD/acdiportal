@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\Candidate;
 use Illuminate\Support\Facades\DB;
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 use Validator;
@@ -218,6 +220,10 @@ class CandidateController extends Controller
         $lastname = str_replace(' ', '_', $request->get('lastName'));
         $firstName = str_replace(' ', '_', $request->get('firstName'));
         $middleName = str_replace(' ', '_', $request->get('middleName'));
+
+        $surname = $request->get('lastName');
+        $firstname = $request->get('firstName');
+        $fullName = $surname . ', ' . $firstname;
         
         $profilePictureName = $lastname . '-' . $firstName . '-' . $middleName .'.'.request()->profilePicture->getClientOriginalExtension();
         
@@ -239,6 +245,19 @@ class CandidateController extends Controller
                 request()->profilePicture->move(public_path('material/img/candidate'), $profilePictureName);
             }
         }
+        
+        $c_id = $candidate->candidateID;
+        $candidate = DB::table('candidates')
+            ->join('candidate_types', 'candidates.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+            ->join('voting_periods', 'candidates.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('candidates.*','candidate_types.candidateTypeName','voting_periods.cy')
+            ->where('candidates.candidateID', '=', $c_id)
+            ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Added Candidate "' . $fullName . '" as candidate for ' . $candidate->candidateTypeName . ' during Voting Period ' . $candidate->cy;
+        $save_userlog->save();
         
         return Response::json(['success'=> true]);
     }

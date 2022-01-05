@@ -83,135 +83,38 @@
                       <!--        Here you can write extra buttons/actions for the toolbar              -->
                     </div>
                     <div class="material-datatables">
-                      <table id="datatables-user-log" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                      <!--<table id="datatables-user-log" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">-->
+                      <table id="userLogs" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                         <thead>
                           <tr>
                             <th style="text-align: center">Log Time</th>
+                            <th style="text-align: center">Employee ID</th>
+                            <th style="text-align: center">Name</th>
                             <th style="text-align: center">User Type</th>                            
                             <th style="text-align: center">Branch Designation</th>
                             <th style="text-align: center">Process/Description</th>
-                            <th style="text-align: center">Status</th>
                           </tr>
                         </thead>
 
                         <tbody>
-                          <tr>
+                         <!-- <tr>
                             <td style="text-align: center">10/21/2021 08:00:31</td>
+                            <td style="text-align: center">Mika Ellah Sampang</td>
                             <td style="text-align: center">Branch Admin</td>                            
                             <td style="text-align: center">GHQ Branch</td>
                             <td style="text-align: center">Registered MIGS for voting 'S-10001010'</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr class="text-warning">
-                            <td style="text-align: center">10/21/2021 08:03:15</td>
-                            <td style="text-align: center">Branch Admin</td>                            
-                            <td style="text-align: center">Lipa Branch</td>
-                            <td style="text-align: center">Request for MIGS Late Registration 'S-15364486'</td>
-                            <td style="text-align: center">Submited</td>  
-                          </tr>
-
-                          <tr class="text-info">
-                            <td style="text-align: center">10/21/2021 08:13:15</td>
-                            <td style="text-align: center">ICTD Admin</td>                            
-                            <td style="text-align: center">Head Office</td>
-                            <td style="text-align: center">Received request for MIGS Late Registration 'S-15364486'</td>
-                            <td style="text-align: center">Recieved</td>  
-                          </tr>
-
-                          <tr class="text-success">
-                            <td style="text-align: center">10/21/2021 08:25:00</td>
-                            <td style="text-align: center">ICTD Admin</td>                            
-                            <td style="text-align: center">Head Office</td>
-                            <td style="text-align: center">Encoded request for MIGS Late Registration 'S-15364486'</td>
-                            <td style="text-align: center">Complete</td>  
-                          </tr>
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:29:00</td>
-                            <td style="text-align: center">Branch Admin</td>                            
-                            <td style="text-align: center">Lipa Branch</td>
-                            <td style="text-align: center">Registered MIGS for voting 'S-15364486'</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:32:31</td>
-                            <td style="text-align: center">Branch Admin</td>                            
-                            <td style="text-align: center">CDO Branch</td>
-                            <td style="text-align: center">Registered MIGS for voting 'S-12345678'</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
-
-                          <tr class="text-danger">
-                            <td style="text-align: center">10/21/2021 08:35:18</td>
-                            <td style="text-align: center">Branch Admin</td>                            
-                            <td style="text-align: center">CDO Branch</td>
-                            <td style="text-align: center">Request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center">Submited</td>  
-                          </tr>
-
-                          <tr class="text-info">
-                            <td style="text-align: center">10/21/2021 08:37:55</td>
-                            <td style="text-align: center">ICTD Admin</td>                            
-                            <td style="text-align: center">Head Office</td>
-                            <td style="text-align: center">Received request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center">Received</td>  
-                          </tr>
-
-
-                          <tr class="text-danger">
-                            <td style="text-align: center">10/21/2021 08:37:55</td>
-                            <td style="text-align: center">ICTD Admin</td>                            
-                            <td style="text-align: center">Head Office</td>
-                            <td style="text-align: center">Received request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center">Denied</td>  
-                          </tr>
-
-                          <tr class="text-danger">
-                            <td style="text-align: center">10/21/2021 08:49:00</td>
-                            <td style="text-align: center">Branch Admin</td>                            
-                            <td style="text-align: center">CDO Branch</td>
-                            <td style="text-align: center">Request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center">Submited</td>  
-                          </tr>
-
-                          <tr class="text-info">
-                            <td style="text-align: center">10/21/2021 08:55:00</td>
-                            <td style="text-align: center">ICTD Admin</td>                            
-                            <td style="text-align: center">Head Office</td>
-                            <td style="text-align: center">Received request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center">Received</td>  
-                          </tr>
-
-                          <tr class="text-success">
-                            <td style="text-align: center">10/21/2021 09:00:00</td>
-                            <td style="text-align: center">ICTD Admin</td>                            
-                            <td style="text-align: center">Head Office</td>
-                            <td style="text-align: center">Encoded request for Vote Cancellation 'S-12345678'</td>
-                            <td style="text-align: center">Complete</td>  
-                          </tr>
-
-
-
-                          <tr>
-                            <td style="text-align: center">10/21/2021 08:07:31</td>
-                            <td style="text-align: center">Branch Admin</td>                            
-                            <td style="text-align: center">GHQ Branch</td>
-                            <td style="text-align: center">Registered MIGS for voting 'S-1555555'</td>
-                            <td style="text-align: center" class="text-success">Done</td>  
-                          </tr>
+                          </tr> -->
                         </tbody>
 
 
                         <tfoot>
                           <tr>
                             <th style="text-align: center">Log Time</th>
+                            <th style="text-align: center">Employee ID</th>
+                            <th style="text-align: center">Name</th>
                             <th style="text-align: center">User Type</th>                            
                             <th style="text-align: center">Branch Designation</th>
                             <th style="text-align: center">Process/Description</th>
-                            <th style="text-align: center">Status</th>
                           </tr>
                         </tfoot>
                         
@@ -268,8 +171,10 @@
 @section('pageplugin')
 @include('ovs.admin.layouts.plugins.dplugin')
 @include('ovs.admin.layouts.plugins.datatables')
+
 <script>
   $(document).ready(function() {
+    
     var votingLogsDataTables = $('#votingLogs').DataTable({
       processing: true,
       serverSide: true,
@@ -280,14 +185,7 @@
           //PASSING WITH DATA
           type: 'POST',
           dataType: 'json',
-          /*
-          data: function (d) {
-                d.votingPeriodID = $('#selectVotingPeriod').val() || ""
-                //d.search = $('input[type="search"]').val(),
-            }
-            */
-          },
-          
+          },         
       columns: [
           {
             data: 'logTime',
@@ -309,39 +207,53 @@
             data: 'status',
             name: 'status'
           } 
-         
-          /*
-          {
-            'data': null,
-            'render': function (data) {
-                var x = "";
-                var isLocked = "";
-                if(data.isLocked == "YES")
-                {
-                  isLocked ="checked";
-                }
-
-                x = "<td style='text-align: right; max-width:250px;'>" +
-                      "<div class='togglebutton'>" +
-                        "<label>" +
-                          "<input type='checkbox' class='branchLocking' value='" + data.brCode + "' " + isLocked + ">" +
-                          "<span class='toggle'></span>" +
-                        "</label>" +
-                      "</div>" +
-                    "</td>" ;
-                    
-                return "<center>"+ x + "</center>";
-            }
-          },
-          */
       ],
     });
-  });
+
+   var userLogsDataTables = $('#userLogs').DataTable({
+      processing: true,
+      serverSide: true,
+      cache: false,
+      responsive: true,
+      ajax: {
+          url: "{{ route('systemLog.userLogs') }}",
+          //PASSING WITH DATA
+          type: 'POST',
+          dataType: 'json',
+          },      
+      columns: [
+          {
+            data: 'created_at',
+            name: 'created_at'
+          },
+          {
+            data: 'emp_id',
+            name: 'emp_id'
+          },
+          {
+            data: 'fullName',
+            name: 'fullName'
+          }, 
+          {
+            data: 'description',
+            name: 'description'
+          },
+          {
+            data: 'brName',
+            name: 'brName'
+          }, 
+          {
+            data: 'process',
+            name: 'process'
+          } 
+      ],
+     order:[[1, 'desc']],
+    }); 
+}) 
+
+
 
 </script>
-
-
-
 @parent
 @endsection
 <!--   Script Plugins -->

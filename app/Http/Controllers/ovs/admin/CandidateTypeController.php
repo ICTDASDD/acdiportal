@@ -5,6 +5,8 @@ namespace App\Http\Controllers\ovs\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\CandidateType;
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 
@@ -60,6 +62,16 @@ class CandidateTypeController extends Controller
     public function removeCandidateType(Request $request)
     {
         $candidateTypeID = $request->get('candidateTypeID');
+
+        $ctype = CandidateType::where('candidateTypeID',$candidateTypeID)
+        ->select('candidate_types.*')
+        ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Deleted Candidate Type "' . $ctype->candidateTypeName . '"';
+        $save_userlog->save();
+
         $candidateType = CandidateType::where('candidateTypeID',$candidateTypeID)->delete();
 
         if(!$candidateType)
@@ -81,11 +93,19 @@ class CandidateTypeController extends Controller
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->errors()->all()]);
         }
+
+        $ctype = $request->get('candidateTypeName');
         
         $candidateType = new CandidateType([
             'candidateTypeName' => $request->get('candidateTypeName'),
         ]);
         $candidateType->save();    
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Added Candidate Type "' . $ctype . '"';
+        $save_userlog->save();
+
         return Response::json(['success'=> true]);
     }
 
@@ -106,6 +126,11 @@ class CandidateTypeController extends Controller
         $candidateType->save();
         //$candidate = Candidate::find($candidateID)->update($request->all());
         //$candidate->update($request->all());
+        
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Edited Candidate Type ID ' . $candidateTypeID;
+        $save_userlog->save();
         
         return Response::json(['success'=> true]);
     }
