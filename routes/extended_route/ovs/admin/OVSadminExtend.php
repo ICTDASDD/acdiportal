@@ -103,6 +103,9 @@ use App\Http\Controllers\ovs\admin\SystemLogController;
     
         Route::get('ovs/adm/systemlog', [OVSAdminController::class, 'systemlog'])->name('OVSAdminSystemLog');
         Route::POST('ovs/adm/systemlog/votinglog', [SystemLogController::class, 'votingLogs'])->name('systemLog.votingLogs');   
+        Route::POST('ovs/adm/systemlog/userlog', [SystemLogController::class, 'userLogs'])->name('systemLog.userLogs');   
+
+
         Route::get('ovs/adm/request', [OVSAdminController::class, 'request'])->name('OVSAdminRequest');
     
         Route::get('ovs/adm/candidatelist', [OVSAdminController::class, 'layoutCandidate'])->name('candidate.layout');

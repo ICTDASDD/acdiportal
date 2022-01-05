@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ovs\admin\Branch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ovs\admin\UserLog;
 use DataTables;
 use Response;
 
@@ -79,6 +80,28 @@ class BranchController extends Controller
         $branches = DB::table('branches')
             ->where('brCode', $brCode)
             ->update(['isLocked' => $isLocked]);
+
+
+        $branch = DB::table('branches')
+            ->where('brCode', $brCode)
+            ->select('branches.*')
+            ->first();
+
+        $locked = $branch->isLocked;
+
+        if($locked == 1)
+        {
+            $process =  'Locked ' . $branch->brName . ' branch ';
+        }
+        else
+        {
+            $process =  'Unlocked ' . $branch->brName . ' branch ';
+        }
+        
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = $process;
+        $save_userlog->save();
 
         if($branches)
         {

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\ovs\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\VotingPeriod;
+use App\Models\ovs\admin\UserLog;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 
@@ -94,6 +96,16 @@ class VotingPeriodController extends Controller
     public function removeVotingPeriod(Request $request)
     {
         $votingPeriodID = $request->get('votingPeriodID');
+
+        $votingPeriod = VotingPeriod::where('votingPeriodID',$votingPeriodID)
+        ->select('voting_periods.*')
+        ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Deleted Voting Period ' .  $votingPeriod->cy . ' (' . $votingPeriod->startDate . ' - ' . $votingPeriod->endDate .')';
+        $save_userlog->save();
+
         $votingPeriod = VotingPeriod::where('votingPeriodID',$votingPeriodID)->delete();
 
         if(!$votingPeriod)
@@ -125,6 +137,10 @@ class VotingPeriodController extends Controller
             DB::table('voting_periods')->update(['isDefault' => "0"]);
             $isDefault = 1;
         } 
+
+        $cy = $request->get('cy');
+        $start = $request->get('startDate');
+        $end = $request->get('endDate');
         
         $votingPeriod = new VotingPeriod([
             'cy' => $request->get('cy'),
@@ -133,6 +149,11 @@ class VotingPeriodController extends Controller
             'isDefault' => $isDefault,
         ]);
         $votingPeriod->save();    
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Added Voting Period ' . $cy . ' (' . $start . ' - ' . $end .')';
+        $save_userlog->save();
 
         return Response::json(['success'=> true]);
     }
@@ -166,6 +187,12 @@ class VotingPeriodController extends Controller
         $votingPeriod->endDate = $request->get('endDate');
         $votingPeriod->isDefault = $isDefault;
         $votingPeriod->save();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Edited Information of Voting Period ' . $votingPeriod->cy;
+        $save_userlog->save();
+
         //$candidate = Candidate::find($candidateID)->update($request->all());
         //$candidate->update($request->all());
         
