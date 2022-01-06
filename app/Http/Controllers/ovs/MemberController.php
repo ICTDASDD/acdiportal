@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ovs\admin\UserLog;
 use DataTables;
 use Response;
 use Carbon\Carbon;
@@ -203,9 +204,23 @@ class MemberController extends Controller
                 'registeredOn' => Carbon::now()->timezone('Asia/Manila'),
                 'brRegistered' => $logBr,
             ]);
+
+        $member= DB::table('member_registration')
+            ->join('GAData', 'member_registration.afsn', '=', 'GAData.afsn')
+            ->join('voting_periods', 'member_registration.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('member_registration.*','GAData.*','voting_periods.cy')
+            ->where('member_registration.afsn', '=', $afsn)
+            ->first();
+        
+        $fullName = $member->FN . ', ' . $member->GN . ' ' . $member->MN;
             
         if($member_registration)
         {
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Registered "' . $fullName . '" with AFSN: ' . $member->afsn . ' as voter for ' . $member->cy ;
+            $save_userlog->save();
+
             return Response::json([
                 'success'=> true,
                 'code' => $code

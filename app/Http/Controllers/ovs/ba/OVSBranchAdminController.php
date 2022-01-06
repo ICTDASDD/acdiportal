@@ -32,6 +32,7 @@ class OVSBranchAdminController extends Controller
         public function layoutMemlist(){
             return view('ovs.ba.memberlist',['title' => 'Voting Member List', 'activeparents' => 'Memlist']);
         }
+        Route::get('ovs/ba/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('ba.amendment.dashboard');
 
         //------------- Navigation End-----------------//
 

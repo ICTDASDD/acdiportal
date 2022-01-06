@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\Amendment;
 use Illuminate\Support\Facades\DB;
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 use Validator;
@@ -185,6 +187,18 @@ class AmendmentController extends Controller
     public function removeAmendment(Request $request)
     {
         $id = $request->get('id');
+
+        $amendment= DB::table('amendments')
+        ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+        ->select('amendments.*','voting_periods.cy')
+        ->where('amendments.id', '=', $id)
+        ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Deleted Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
+
         $amendment = Amendment::where('id',$id)->delete();
 
         if(!$amendment)
@@ -226,6 +240,20 @@ class AmendmentController extends Controller
         ]);
 
         $amendment->save();
+
+        
+        $a_id = $amendment->id;
+
+        $amendment= DB::table('amendments')
+            ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('amendments.*','voting_periods.cy')
+            ->where('amendments.id', '=', $a_id)
+            ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Added Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
           
         return Response::json(['success'=> true]);
     }
@@ -260,6 +288,17 @@ class AmendmentController extends Controller
         $amendment->rationale = $request->get('rationale');
         $amendment->question = $request->get('question');
         $amendment->save();
+
+        $amendment= DB::table('amendments')
+            ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('amendments.*','voting_periods.cy')
+            ->where('amendments.id', '=', $id)
+            ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Edited Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
 
         return Response::json(['success'=> true]);
     } 
