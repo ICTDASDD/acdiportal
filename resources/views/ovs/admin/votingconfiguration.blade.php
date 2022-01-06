@@ -388,7 +388,10 @@ $(document).ready(function() {
   var candidateTypeTable = $('#candidateTypeTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('candidateType.list') }}",
+    ajax: { 
+      url: "{{ route('candidateType.list') }}",
+      type:"POST",
+    },
     columns: [
         {
           data: 'candidateTypeID',
@@ -439,7 +442,10 @@ $(document).ready(function() {
   var votingPeriodTable = $('#votingPeriodTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('votingPeriod.list') }}",
+    ajax: { 
+      url: "{{ route('votingPeriod.list') }}",
+      type:"POST",
+    },
     columns: [
         {
           data: 'votingPeriodID',
@@ -479,7 +485,10 @@ $(document).ready(function() {
   var candidateLimitTable = $('#candidateLimitTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('candidateLimit.list') }}",
+    ajax: { 
+      url: "{{ route('candidateLimit.list') }}",
+      type:"POST",
+    },
     columns: [
         {
           data: 'votingPeriodName',

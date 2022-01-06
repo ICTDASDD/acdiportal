@@ -234,7 +234,10 @@
     var requestTable = $('#requestTable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: "{{ route('request.list') }}",
+      ajax: {
+          url: "{{ route('request.list') }}",
+          type: "POST"
+      },
       columns: [
           {
             data: 'created_at',

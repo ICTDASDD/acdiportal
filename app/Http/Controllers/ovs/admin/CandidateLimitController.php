@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\CandidateLimit;
 use Illuminate\Support\Facades\DB;
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 
@@ -79,6 +81,19 @@ class CandidateLimitController extends Controller
     public function removeCandidateLimit(Request $request)
     {
         $candidateLimitID = $request->get('candidateLimitID');
+
+        $candidate = DB::table('candidate_limits')
+        ->join('voting_periods', 'candidate_limits.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+        ->join('candidate_types', 'candidate_limits.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+        ->select('candidate_limits.*','voting_periods.cy', 'candidate_types.candidateTypeName')
+        ->where('candidate_limits.candidateLimitID', '=', $candidateLimitID)
+        ->first();
+
+      $save_userlog = new UserLog();
+      $save_userlog->emp_id = Auth::user()->emp_id; 
+      $save_userlog->process = 'Deleted Limit for ' . $candidate->candidateTypeName . ' during voting period ' . $candidate->cy ;
+      $save_userlog->save();
+
         $candidateLimit = CandidateLimit::where('candidateLimitID',$candidateLimitID)->delete();
 
         if(!$candidateLimit)
@@ -113,6 +128,20 @@ class CandidateLimitController extends Controller
         ]);
 
         $candidateLimit->save();    
+
+        $c_id = $candidateLimit->candidateLimitID;
+        $candidate = DB::table('candidate_limits')
+            ->join('voting_periods', 'candidate_limits.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->join('candidate_types', 'candidate_limits.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+            ->select('candidate_limits.*','voting_periods.cy', 'candidate_types.candidateTypeName')
+            ->where('candidate_limits.candidateLimitID', '=', $c_id)
+            ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Set ' . $candidate->candidateLimitCount . ' as maximum number of Candidates for ' . $candidate->candidateTypeName . ' during voting period ' . $candidate->cy . ', where voters can only pick ' . $candidate->memberVotingLimitCount ;
+        $save_userlog->save();
+        
         return Response::json(['success'=> true]);
     }
 
@@ -140,6 +169,18 @@ class CandidateLimitController extends Controller
         //$candidate = Candidate::find($candidateID)->update($request->all());
         //$candidate->update($request->all());
         
+        $candidate = DB::table('candidate_limits')
+          ->join('voting_periods', 'candidate_limits.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+          ->join('candidate_types', 'candidate_limits.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+          ->select('candidate_limits.*','voting_periods.cy', 'candidate_types.candidateTypeName')
+          ->where('candidate_limits.candidateLimitID', '=', $candidateLimitID)
+          ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Set ' . $candidateLimit->candidateLimitCount . ' as maximum number of Candidates for ' . $candidate->candidateTypeName . ' during voting period ' . $candidate->cy . ', where voters can only pick ' . $candidateLimit->memberVotingLimitCount ;
+        $save_userlog->save();
+
         return Response::json(['success'=> true]);
     }
 }

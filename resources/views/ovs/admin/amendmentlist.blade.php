@@ -300,6 +300,7 @@
       ajax: {
           url: "{{ route('amendment.list') }}",
           //PASSING WITH DATA
+          type: 'POST',
           dataType: 'json',
           data: function (d) {
                 d.votingPeriodID = $('#selectVotingPeriod').val() || ""

@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Role_User;
 use App\Models\ovs\admin\Branch;
+use App\Models\ovs\admin\UserLog;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use Response;
 use Illuminate\Support\Facades\Hash;
 use Validator;
-
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -100,6 +102,23 @@ class UserController extends Controller
     public function removeUser(Request $request)
     {
         $id = $request->get('id');
+  
+        $user = User::where('id',$id)
+            ->join('branches', 'users.brCode', '=', 'branches.brCode')
+            ->select('users.*','branches.brName')
+            ->first();
+        
+        $surname = $user->lname;
+        $firstname = $user->name;
+        $fullName = $surname . ', ' . $firstname;
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Deleted User "' . $fullName . '" of ' . $user->brName . ' branch';
+        $save_userlog->save();
+        
+
+
         $user = User::where('id',$id)->delete();
 
         $user = DB::table('role_user')
@@ -131,6 +150,8 @@ class UserController extends Controller
             'role_id' => 'required',
 
         ]);
+
+        $id = $request->get('id');
         
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->errors()->all()]);
@@ -139,7 +160,11 @@ class UserController extends Controller
         $lname = str_replace(' ', '_', $request->get('lname'));
         $name = str_replace(' ', '_', $request->get('name'));
         $mname = str_replace(' ', '_', $request->get('mname'));
+        $surname = $request->get('lname');
+        $firstname = $request->get('name');
         $profilePictureName = $lname . '-' . $name . '-' . $mname .'.'.request()->avatar->getClientOriginalExtension();
+        $fullName = $surname . ', ' . $firstname;
+ 
 
         $user = new User([
             'avatar' => $profilePictureName,
@@ -161,6 +186,19 @@ class UserController extends Controller
         }
             
         $user->attachRole($request->role_id);
+        $user_id = $user->id;
+
+     $role = DB::table('users')
+        ->join('role_user', 'users.id', '=', 'role_user.user_id')
+        ->join('roles', 'roles.id', '=', 'role_user.role_id')
+        ->select('roles.description')
+        ->where('role_user.user_id', '=', $user_id)
+        ->first(); 
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Created User "' . $fullName . '" with "' . $role->description . '" access';
+        $save_userlog->save();
             
         return Response::json(['success'=> true]);
     }
@@ -205,6 +243,9 @@ class UserController extends Controller
         $lname = str_replace(' ', '_', $request->get('lname'));
         $name = str_replace(' ', '_', $request->get('name'));
         $mname = str_replace(' ', '_', $request->get('mname'));
+        $surname = $request->get('lname');
+        $firstname = $request->get('name');
+        $fullName = $surname . ', ' . $firstname;
        
         $id = $request->get('id');
         $user = User::find($id);
@@ -223,6 +264,11 @@ class UserController extends Controller
         $user->email = $request->get('email');
         $user->password = Hash::make($request->get('password'));
         $user->save();
+   
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Edited Information of User "' . $fullName . '"';
+        $save_userlog->save();
 
         if($user)
         {

@@ -35,66 +35,34 @@
             </div>
 
 
-            <div class="row d-none">
+            <div class="row">
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header card-header-primary card-header-icon">
                     <div class="card-icon">
                       <i class="material-icons">assignment</i>
                     </div>
-                    <h4 class="card-title">Sample Table for Amenment Monitoring</h4>
+                    <h4 class="card-title">Consolidated</h4>
                   </div>
                   <div class="card-body">
                     <div class="toolbar">
                       <!--        Here you can write extra buttons/actions for the toolbar              -->
                     </div>
                     <div class="material-datatables">
-                      <table class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-                        <thead>
-                          <tr>
-                            <th style="text-align: center">MIGS</th>
-                            <th style="text-align: center">REGISTERED MIGS</th>
-                            <th style="text-align: center">% REGISTERED</th>
-                            <th style="text-align: center">Amendment No.</th>
-                            <th style="text-align: center">Total YES</th>
-                            <th style="text-align: center">Total NO</th>
-                            <th style="text-align: center">% YES VOTES</th>
-                          </tr>
-                        </thead>
-                        <tfoot>
-                          <tr>
-                            <th style="text-align: center" >MIGS</th>
-                            <th style="text-align: center">REGISTERED MIGS</th>
-                            <th style="text-align: center">% REGISTERED</th>
-                            <th style="text-align: center">Amendment No.</th>
-                            <th style="text-align: center">Total YES</th>
-                            <th style="text-align: center">Total NO</th>
-                            <th style="text-align: center">% YES VOTES</th>
-                          </tr>
-                        </tfoot>
+                      <table id="amendmentTable" class="table table-striped table-no-bordered" cellspacing="0" width="100%" style="width:100%">       
                         <tbody>
-                          <tr>
-                            <td style="text-align: center"  rowspan="3">4775</th>
-                            <td style="text-align: center" rowspan="3">4075</th>
-                            <td style="text-align: center" rowspan="3">98%</th>
-                            <td style="text-align: center">Amendment 1 - Article I</th>
-                            <td style="text-align: center">4050</th>
-                            <td style="text-align: center">25</th>
-                            <td style="text-align: center">95%</th>
-                          </tr>
-                          <tr>
-                            <td style="text-align: center">Amendment 2 - Article II</th>
-                            <td style="text-align: center">4050</th>
-                            <td style="text-align: center">25</th>
-                            <td style="text-align: center">95%</th>
-                          </tr>
-                          <tr>
-                            <td style="text-align: center">Amendment 3 - Article III</th>
-                            <td style="text-align: center">4050</th>
-                            <td style="text-align: center">25</th>
-                            <td style="text-align: center">95%</th>
-                          </tr>
-                        </tbody>
+                          <thead>
+                            <tr>
+                              <th>PARTICULAR</th>
+                              <th style="text-align: center">ARTICLE DETAILS</th>
+                              <th style="text-align: center">MIGS</th>
+                              <th style="text-align: center">REGISTERED MIGS</th>
+                              <th style="text-align: center">% REGISTERED</th>
+                              <th style="text-align: center">YES</th>
+                              <th style="text-align: center">NO</th>
+                              <th style="text-align: center">% YES VOTES</th>
+                            </tr>
+                          </thead>   
                       </table>
                     </div>
                   </div>
@@ -181,6 +149,55 @@
 
             $('#modalVotingPeriod').modal('show');
             */
+            $.ajax({
+              type: "GET",
+              url: "{{ route('canva.amendment.dashboard') }}",
+              data: { votingPeriodID : data.votingPeriodID },
+              contentType: "application/json; charset=utf-8",
+              beforeSend:  function() {
+                swal({ title: 'Getting amendment list..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+              },
+              error: function (jqXHR, exception) {
+                swal.close();
+              
+                console.log(jqXHR.responseText);
+                swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+              },
+              success: function (dataAmendment) {
+                swal.close();
+
+                var dataAmendmentArray = JSON.parse(JSON.stringify(dataAmendment));
+                totalAmendment = $(dataAmendmentArray).toArray().length;
+                for (var amendRow = 0; amendRow < $(dataAmendmentArray).toArray().length; amendRow++) 
+                {
+                    var amendmentNo = dataAmendmentArray[amendRow].amendmentNo.toString();
+                    var articleDetails = dataAmendmentArray[amendRow].articleDetails.toString();
+                    var migs = dataAmendmentArray[amendRow].migs.toString();
+                    var regMigs = dataAmendmentArray[amendRow].regMigs.toString();
+                    var percentReg = dataAmendmentArray[amendRow].percentReg.toString();
+                    var yes = dataAmendmentArray[amendRow].yes.toString();
+                    var no = dataAmendmentArray[amendRow].no.toString();
+                    var percentYes = dataAmendmentArray[amendRow].percentYes.toString();
+
+                    
+
+                    $("#amendmentTable > tbody:last").append("" +
+                  "<tr>" +
+                    "<td style='text-align: left; vertical-align: middle; font-size: 12px; font-weight:bold; color: #0B5AB9'>" + amendmentNo + "</td>" +
+                    "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + articleDetails + "</td>" +
+                    "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;' rowspan = '"+ totalAmendment+"' class='" + ((amendRow != 0) ? 'd-none' : '') + "'>" + migs + "</td>" +
+                    "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;' rowspan = '"+ totalAmendment+"' class='" + ((amendRow != 0) ? 'd-none' : '') + "'>" + regMigs + "</td>" +
+                    "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;' rowspan = '"+ totalAmendment+"' class='" + ((amendRow != 0) ? 'd-none' : '') + "'>" + percentReg +'%'+ "</td>" +
+                    "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + yes + "</td>" +
+                    "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + no + "</td>" +
+                    "<td style='text-align: center; vertical-align: middle; font-size: 12px; font-weight:bold;'>" + percentYes +'%'+ "</td>" +
+                  "</tr>"+
+                  ""); 
+                  
+                  }
+                }
+              });
+
             $.ajax({
               type: "GET",
               url: "{{ route('canva.candidateLimit.default') }}",

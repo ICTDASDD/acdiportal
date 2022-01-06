@@ -157,6 +157,7 @@
           url: "{{ route('ba.member.list') }}",
           //PASSING WITH DATA
           dataType: 'json',
+          type: "POST",
           data: function (d) {
                 d.votingPeriodID = $('#selectVotingPeriod').val() || ""
                 //d.search = $('input[type="search"]').val(),

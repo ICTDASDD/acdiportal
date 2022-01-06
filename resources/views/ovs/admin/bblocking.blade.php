@@ -127,6 +127,7 @@
       cache: false,
       ajax: {
           url: "{{ route('branch.list') }}",
+          type: 'POST',
           //PASSING WITH DATA
           /*dataType: 'json',
           data: function (d) {

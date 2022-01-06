@@ -22,7 +22,7 @@
 
             <div class="header text-center ml-auto mr-auto">
               <h2 class="title" id="cy"></h2>
-              <p class="category">Data as of: {{ Carbon\Carbon::now()->timezone('Asia/Manila') }}</p>
+              <p class="category">Data as of: {{ Carbon\Carbon::now() }}</p>
             </div>
 
             <div id="mainDiv">
@@ -357,18 +357,6 @@
         }
     });   
 
-    $('#datatables').DataTable({
-      "pagingType": "full_numbers",
-      "lengthMenu": [
-        [10, 25, 50, -1],
-        [10, 25, 50, "All"]
-      ],
-      responsive: true,
-      language: {
-        search: "INPUT",
-        searchPlaceholder: "Search records",
-      }
-    });
   });
 
   

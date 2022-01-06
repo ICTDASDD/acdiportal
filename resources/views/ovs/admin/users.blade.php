@@ -267,7 +267,10 @@
       processing: true,
       serverSide: true,
       cache: false,
-      ajax: "{{ route('users.list') }}",
+      ajax: {
+            url: "{{ route('users.list') }}",
+            type: "POST"
+      },
       columns: [
         {
           'data': null,
