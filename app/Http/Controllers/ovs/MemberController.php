@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ovs\admin\UserLog;
 use DataTables;
 use Response;
 use Carbon\Carbon;
@@ -38,7 +39,6 @@ class MemberController extends Controller
                 3=> 'SCNO',
                 4=> 'brRegistered',
                 5=> 'code',
-                6=> 'isVoted',
             );
             
             $votingPeriodID = "";
@@ -77,7 +77,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
+                    ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
                     ->get();
             }
             else 
@@ -101,7 +101,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
+                    ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
                     ->get();
 
                 $totalFilteredRecord = DB::table('GAData')
@@ -118,7 +118,7 @@ class MemberController extends Controller
                 ->orWhere('membershipBranch.brName', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.AFSN', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%") 
-                ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
+                ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
                 ->get()->count();
             }
 
@@ -135,11 +135,10 @@ class MemberController extends Controller
                     $nestedData['fullName'] = $fullName;
                     $nestedData['AFSN'] = $post->AFSN;
                     $nestedData['SCNO'] = $post->SCNO;
-                    $brRegistered = $post->brRegistered;
                     $nestedData['brRegistered'] = $post->brRegistered;
                     $nestedData['code'] = $post->code;
-
-                    $buttonVoted = "- - -";
+                    $nestedData['isVoted'] = ""; //$post->SCNO;
+                    
                     $button = "- - -";
                     if($votingPeriodID != "")
                     {
@@ -165,25 +164,12 @@ class MemberController extends Controller
 
                     if($post->brRegistered != "")
                     {
-                        $button = "<div class='text-success'><b>Registered</b></div>
+                        $button = "<div class='text-info'><b>Registered</b></div>
                         <button class='btn btn-info btn-sm reprintButton' value='" . $post->AFSN . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
-                            "  Re-print Registration" .
+                            "  Re-print " .
                             "</button>";
-
-                        if($post->isVoted == 0)
-                        {
-                            $buttonVoted = "<div class='text-danger'><b>Not Yet</b></div>";
-                        } 
-                        else 
-                        {
-                            $buttonVoted = "<div class='text-success'><b>Vote Submitted</b></div>
-                                            <button class='btn btn-info btn-sm viewVote' value='" . $post->mrID . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-brregistered='" . $brRegistered . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
-                                            "  Re-print Ballot " .
-                                            "</button>";
-                           
-                        }
                     }
-                    $nestedData['isVoted'] = "<center>". $buttonVoted . "</center>";
+
                     $nestedData['actionButton'] = "<center>". $button . "</center>";
                 
                     $data[] = $nestedData;
@@ -204,7 +190,7 @@ class MemberController extends Controller
     public function registerMember(Request $request)
     {
         $afsn = $request->get('afsn');
-        $code = random_int(1000, 9999);
+        $code = random_int(100000, 999999);
         $votingPeriodID = $request->get('votingPeriodID');
         $logUser = Auth::user()->id;
         $logBr = Auth::user()->brCode;
@@ -218,9 +204,23 @@ class MemberController extends Controller
                 'registeredOn' => Carbon::now()->timezone('Asia/Manila'),
                 'brRegistered' => $logBr,
             ]);
+
+        $member= DB::table('member_registration')
+            ->join('GAData', 'member_registration.afsn', '=', 'GAData.afsn')
+            ->join('voting_periods', 'member_registration.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('member_registration.*','GAData.*','voting_periods.cy')
+            ->where('member_registration.afsn', '=', $afsn)
+            ->first();
+        
+        $fullName = $member->FN . ', ' . $member->GN . ' ' . $member->MN;
             
         if($member_registration)
         {
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Registered "' . $fullName . '" with AFSN: ' . $member->afsn . ' as voter for ' . $member->cy ;
+            $save_userlog->save();
+
             return Response::json([
                 'success'=> true,
                 'code' => $code

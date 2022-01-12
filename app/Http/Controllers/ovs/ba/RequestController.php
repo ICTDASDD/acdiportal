@@ -10,6 +10,7 @@ use App\Models\ovs\ba\Branch_Request;
 use App\Models\ovs\admin\Branch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ovs\admin\UserLog;
 use DataTables;
 use Response;
 
@@ -132,6 +133,26 @@ class RequestController extends Controller
             ]);
             // dd($br_req);
             $br_req->save();
+
+            $req = $br_req->request_type;
+
+            if($req == 'Late Registration')
+            {
+                $process = 'Requested "' . $br_req->request_type . '" for "' . $br_req->request_info . '"';
+            }
+            elseif($req == 'Vote Cancellation')
+            {
+                $process = 'Requested "' . $br_req->request_type . '" of "' . $br_req->request_info . '"';
+            }
+            else
+            {
+                $process = 'Requested "' . $br_req->request_type . '" , Info: "' . $br_req->request_info . '"';
+            }
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = $process;
+            $save_userlog->save();
             
             return Response::json(['success'=> true]);    
 
@@ -188,6 +209,11 @@ class RequestController extends Controller
           
             $br_req->save();
 
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Edited Request ID ' . $id;
+            $save_userlog->save();
+
             return Response::json(['success'=> true]);
     
     
@@ -196,6 +222,17 @@ class RequestController extends Controller
         public function removeRequest(Request $request){
 
             $id = $request->get('id');
+
+
+            $req= Branch_Request::where('id',$id)
+            ->select('branch_request.*')
+            ->first();
+    
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Deleted Request "' . $req->request_type . '" of "' . $req->request_info . '"';
+            $save_userlog->save();
+
             $br_req = Branch_Request::where('id',$id)->delete();
     
             // $br_req = DB::table('branch_request')

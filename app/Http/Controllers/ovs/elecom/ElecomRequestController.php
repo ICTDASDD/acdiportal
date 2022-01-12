@@ -128,6 +128,7 @@ class ElecomRequestController extends Controller
           
             if ($request->elecom_status == 2 && $br_req->canvas_status == 2){
                 $br_req->status = 2 ;
+                $process = 'Denied "' . $br_req->request_type . '" of "' . $br_req->request_info . '"';
             }
             elseif ($request->elecom_status == 0 && $br_req->canvas_status == 0){
                 $br_req->status = 0 ;
