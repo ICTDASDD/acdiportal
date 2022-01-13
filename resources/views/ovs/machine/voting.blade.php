@@ -61,7 +61,11 @@
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title text-info">Detailed Summary</h4>
+                <h4 class="modal-title text-info">
+                  
+                <img class="img" src="{{ asset('material/img/')}}/acdimpc.png" alt='No Image' style="display:none">
+                
+                  Detailed Summary</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   <i class="material-icons">clear</i>
                 </button>
@@ -261,7 +265,7 @@ $(document).ready(function() {
               "<div class='col-md-3'>" +
                 "<div id='" + cardDiv + "' class='card card-profile voting-not-selected voting-data'>" +
                   "<div id='" + avatarDiv + "' class='card-avatar voting-not-selected-photo'>" +
-                    "<img class='img' src='"+imgPath+"/" + profilePicture+ "' >" +
+                    "<img class='img' src='"+imgPath+"/" + profilePicture+ "' alt='No Image' >" +
                   "</div>" +
                   "<div class='card-body'>" +
                     "<input type='hidden' id='" + idDiv + "' value='" + candidateID + "'>" +
@@ -539,7 +543,7 @@ $(document).ready(function() {
             "<table id='" + tableDiv + "' class='table table-striped table-no-bordered table-hover' cellspacing='0' width='100%' style='width:100%'> " + 
               "<thead> " + 
                 "<tr> " + 
-                  "<th colspan='2' style='text-align: center'><h4><b>For " + tableNameDisplay + "</b></h4></th> " + 
+                  "<th colspan='2' style='text-align: center'><h5><b>For " + tableNameDisplay + "</b></h5></th> " + 
                 "</tr> " + 
               "</thead> " + 
 
@@ -556,10 +560,10 @@ $(document).ready(function() {
           "<tr>" +
             "<td width='35%' style='text-align: center'>" +
               "<div class='card-avatar'>" +
-                "<img class='img' src='"+imgPath+"/" + profilePicture + "' height='35px' >" +
+                "<img class='img' src='"+imgPath+"/" + profilePicture + "' height='35px' alt='No Image'>" +
               "</div>" +
             "</td>" +
-            "<td width='65%'>" +
+            "<td width='65%' style='font-size:14px'>" +
               candidateName +
             "</td>" +
           "</tr>"+
@@ -614,7 +618,9 @@ $(document).ready(function() {
         "<table id='amendmentTable' class='table table-striped table-no-bordered table-hover' width='100%' style='width:100%'> " + 
           "<thead> " + 
             "<tr> " + 
-              "<th colspan='2' style='text-align: center'><h4><b>Amendment</b></h4></th> " + 
+              "<th colspan='1' style='text-align: center'><h5><b>Amendment</b></h5></th> " + 
+              "<th colspan='1' style='text-align: center'><h5><b>YES</b></h5></th> " + 
+              "<th colspan='1' style='text-align: center'><h5><b>NO</b></h5></th> " + 
             "</tr> " + 
           "</thead> " + 
 
@@ -656,20 +662,29 @@ $(document).ready(function() {
             
           return;
         }
+          
+        var x1 = (answered == "YES") ? "🗹" : "☐";
+        var x2 = (answered == "YES") ? "☐" : "🗹";
 
         $("#amendmentTable > tbody:last").append("" +
           "<tr>" +
             "<td width='70%' style='text-align: center'>" +
               question + 
             "</td>" +
+            /*
             "<td width='30%'>" +
               answered +
+            "</td>" +
+            */
+            "<td width='15%' style='text-align: center; font-size:15px'>" +
+              x1 +
+            "</td>" +
+            "<td width='15%' style='text-align: center; font-size:15px'>" +
+              x2 +
             "</td>" +
           "</tr>"+
           ""); 
 
-          var x1 = (answered == "YES") ? "🗹" : "☐";
-          var x2 = (answered == "YES") ? "☐" : "🗹";
           $("#amendmentTableForPrinting > tbody:last").append("" +
           "<tr>" +
             "<td width='70%' style='font-size:10px'>" +
@@ -736,7 +751,7 @@ $(document).ready(function() {
       counterAmendment++
     }
 
-    console.log(listOfSelectedAmendment);
+    //console.log(listOfSelectedAmendment);
 
     $.ajax({
       type: "GET",
@@ -774,7 +789,13 @@ $(document).ready(function() {
             var newWin= window.open('', '', hw);
 
             
-            newWin.document.write('<html><body>'); 
+            newWin.document.write('<html>' +
+              '<head>' +
+              '<meta charset="utf-8" />' +
+              '<title>ACDI MPC Ballot Print</title>' +
+              '<style type="text/css">body {-webkit-print-color-adjust: exact; font-family: Arial; }</style>' +
+              '</head>' +
+              '<body>'); 
                   /*
               <center><img src="https://www.acdicoop.com/images/acdimpc.png" alt="ACDI MPC" height="20px" weight="300px"></center>
                   <br>
@@ -782,22 +803,34 @@ $(document).ready(function() {
                   <p style='float:left;font-size:12px'><b>SECURITY CODE:<br> {{ session('mrCode') }} </b></p><p style='float: right;font-size:12px'><b>BALLOT #</b></p>
                   <br>
                   */
-            
+            var imglogo = "{{ asset('material/img/')}}/acdimpc.png";
             var branchName = "{{ session('mrBrRegistered') }}";
-            newWin.document.write("<center>ACDI MPC</center><br>");
+            newWin.document.write("<center><img src='" + imglogo + "' alt='ACDI MPC' stlye='max-width: 100%; height: auto;'></center><br>");
             var cy = "{{ session('cy') }}";
             newWin.document.write("<center>" + cy + "</center><br>");
             newWin.document.write("<center>" + branchName + "</center><br>");
             var code = "{{ session('mrCode') }}";
-            newWin.document.write("<p style='float:left;font-size:12px'><b>SECURITY CODE:<br>" + code + "</b></p><p style='float: right;font-size:12px'><b>BALLOT #</b></p>");
-            
-
+            var ballotNo = "{{ session('mrBallotNo') }}";
+            newWin.document.write("<p style='float:left;font-size:12px'><b>SECURITY CODE:<br>" + code + "</b></p><p style='float: right;font-size:12px; text-align: right;'><b>BALLOT #:<br>" + ballotNo + "</b></p>");
             newWin.document.write(divToPrint.outerHTML);
             newWin.document.write('</body></html>');        
+            newWin.document.close();
 
+            newWin.onload = function()
+            {
+              newWin.print();
+              newWin.close();
+            };
+            /*
+            $(newWin.window).on("load", function () {
+              alert("x");
+              newWin.print();
+              newWin.close();
+            });
+            */
             //newWin.document.write("<style> td:nth-child(1){display:none;} </style>");
-            newWin.print();
-            newWin.close();
+            //newWin.print();
+            //newWin.close();
             //end
 
           swal({ 

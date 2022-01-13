@@ -49,7 +49,7 @@ class OVSMachineController extends Controller
                 $join->where('member_registration.votingPeriodID','=', $votingPeriodID);
             }) 
             ->leftJoin('branches AS registeredBranch', 'member_registration.brRegistered', '=', 'registeredBranch.brCode')
-            ->select('GAData.*', 'member_registration.id', 'member_registration.isVoted', 'member_registration.code', 'membershipBranch.brName' , 'registeredBranch.brName as brRegistered')    
+            ->select('GAData.*', 'member_registration.id', 'member_registration.isVoted', 'member_registration.code', 'membershipBranch.brName' , 'registeredBranch.brName as brRegistered', 'member_registration.ballotNo')    
             ->where($where)
             ->first();
 
@@ -71,6 +71,7 @@ class OVSMachineController extends Controller
                                 'mrAFSN' => $member_registration->AFSN,
                                 'mrFULLNAME' => $fullName,
                                 'mrCode' => $member_registration->code,
+                                'mrBallotNo' => $member_registration->ballotNo,
                             ]);
 
                             $voting_logs = DB::table('voting_logs')
@@ -160,10 +161,11 @@ class OVSMachineController extends Controller
             }
 
             $votingPeriodID = session("votingPeriodID");
-            $afsn =session("mrAFSN");
-            $brRegistered =session("mrBrRegistered");
-            $mrID =session("mrID");
-            $code =session("mrCode");
+            $afsn = session("mrAFSN");
+            $brRegistered = session("mrBrRegistered");
+            $mrID = session("mrID");
+            $code = session("mrCode");
+            $ballotNo = session("mrBallotNo");
 
             $where = array(
                 'GAData.AFSN' => $afsn,

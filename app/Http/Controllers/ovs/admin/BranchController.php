@@ -105,11 +105,13 @@ class BranchController extends Controller
 
         if($branches)
         {
-            return Response::json(['success'=> true]);
+            return Response::json([
+                'success'=> true]);
         } 
         else 
         {
-            return Response::json(['success'=> false]);
+            return Response::json([
+                'success'=> false]);
         }
     }
 
@@ -119,17 +121,20 @@ class BranchController extends Controller
         $where = array('brCode' => $candidateID);
         //$candidate  = Candidate::where($where)->first();
         $branches = DB::table('branches')
-            ->select('branches.isLocked')
+            ->select('isLocked','brName')
             ->where($where)
             ->first();
 
         if($branches->isLocked == "1")
         {
-            return Response::json(['success'=> true]);
+            return Response::json([
+                'success'=> true]);
         } 
         else 
         {
-            return Response::json(['success'=> false]);
+            return Response::json([
+                'branchName' => $branches->brName,
+                'success'=> false]);
         }
     }
 }

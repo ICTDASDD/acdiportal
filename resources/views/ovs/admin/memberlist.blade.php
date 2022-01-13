@@ -326,13 +326,18 @@
         printDetails();
       });
       var brRegistered = "";
+      var code2 = "";
+      var ballotNo = "";
+      var cy = "";
       $('#memberTable').on('click','.viewVote',function(){
         var mrID = this.value   //ginawang global
         //fullName = $(this).data('fullname');   //ginawang global
         code2 = $(this).data('code');
         brRegistered = $(this).data('brregistered');
+        ballotNo = $(this).data('ballotno');
         var votingPeriod = $('#selectVotingPeriod').select2('data');
         var votingPeriodID = votingPeriod[0].id;
+        cy = votingPeriod[0].cy;
         
         $("#summaryTableForPrinting").html("");
 
@@ -487,12 +492,20 @@
               "<br><table id='amendmentTableForPrinting' border='0' cellspacing='0' width='100%' style='width:100%'> " + 
                 "<thead> " + 
                   "<tr> " + 
-                    "<th colspan='2' style='text-align: center; vertical-align: middle; font-size:15px'><b>Amendment<b></th> " + 
+                    "<th colspan='1' style='text-align: center; vertical-align: middle; font-size:15px'><b>Amendment<b></th> " + 
+                    "<th colspan='1' style='text-align: center; vertical-align: middle; font-size:15px'><b>Yes<b></th> " + 
+                    "<th colspan='1' style='text-align: center; vertical-align: middle; font-size:15px'><b>No<b></th> " + 
                   "</tr> " + 
                 "</thead> " + 
 
                 "<tbody> " + 
                 "</tbody> " + 
+                
+                "<tfoot> " + 
+                  "<tr> " + 
+                    "<th colspan='3' style='text-align: center; vertical-align: middle; font-size:15px;padding-top: 25px;'><b>Thank you for voting!<b></th> " + 
+                  "</tr> " + 
+                "</tfoot> " + 
               "</table> " + 
             "");
 
@@ -522,14 +535,23 @@
 
                 var amendmentDiv = "amendmentDiv" + amendRow;
                 var answered = (vote == "1") ? "YES" : "NO";
+                
+                var x1 = (answered == "YES") ? "🗹" : "☐";
+                var x2 = (answered == "YES") ? "☐" : "🗹";
 
                 $("#amendmentTableForPrinting > tbody:last").append("" +
                 "<tr>" +
-                  "<td width='80%' style='font-size:10px'>" +
+                  "<td width='70%' style='font-size:10px'>" +
                     question + 
                   "</td>" +
-                  "<td width='20%' style='text-align: center; font-size:10px'>" +
+                  /*"<td width='20%' style='text-align: center; font-size:10px'>" +
                     answered +
+                  "</td>" +*/
+                  "<td width='15%' style='text-align: center; font-size:10px'>" +
+                    x1 +
+                  "</td>" +
+                  "<td width='15%' style='text-align: center; font-size:10px'>" +
+                    x2 +
                   "</td>" +
                 "</tr>"+
                 ""); 
@@ -555,7 +577,7 @@
         var height = $('#summaryTableForPrinting').height();
         var hw = "height="+height + ", width=500";
         var newWin= window.open('', '', hw);
-
+        /*
         newWin.document.write('<html><body>'); 
         newWin.document.write("<center>ACDI MPC</center><br>");
         newWin.document.write("<center>" + brRegistered + "</center><br>");
@@ -566,6 +588,46 @@
         //newWin.document.write("<style> td:nth-child(1){display:none;} </style>");
         newWin.print();
         newWin.close();
+        */
+       
+            
+        newWin.document.write('<html>' +
+              '<head>' +
+              '<meta charset="utf-8" />' +
+              '<title>ACDI MPC Ballot Print</title>' +
+              '<style type="text/css">body {-webkit-print-color-adjust: exact; font-family: Arial; }</style>' +
+              '</head>' +
+              '<body>'); 
+                  /*
+              <center><img src="https://www.acdicoop.com/images/acdimpc.png" alt="ACDI MPC" height="20px" weight="300px"></center>
+                  <br>
+                  <center> {{ session('mrBrRegistered') }} </center><br>
+                  <p style='float:left;font-size:12px'><b>SECURITY CODE:<br> {{ session('mrCode') }} </b></p><p style='float: right;font-size:12px'><b>BALLOT #</b></p>
+                  <br>
+                  */
+            var imglogo = "{{ asset('material/img/')}}/acdimpc.png";
+            newWin.document.write("<center><img src='" + imglogo + "' alt='ACDI MPC' stlye='max-width: 100%; height: auto;'></center><br>");
+           
+            newWin.document.write("<center>" + cy + "</center><br>");
+            newWin.document.write("<center>" + brRegistered + "</center><br>");
+           
+            newWin.document.write("<p style='float:left;font-size:12px'><b>SECURITY CODE:<br>" + code2 + "</b></p><p style='float: right;font-size:12px; text-align: right;'><b>BALLOT #:<br>" + ballotNo + "</b></p>");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.document.write('</body></html>');        
+            newWin.document.close();
+
+            newWin.onload = function()
+            {
+              newWin.print();
+              newWin.close();
+            };
+            /*
+            $(newWin.window).on("load", function () {
+              alert("x");
+              newWin.print();
+              newWin.close();
+            });
+            */
       }
       
       $('#testPrint').on('click',function(){

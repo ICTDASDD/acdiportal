@@ -23,6 +23,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{{ asset('material/css/material-dashboard.css?v=2.2.2') }}" rel="stylesheet" />
+    <link href="{{ asset('material/css/jqbtk.css') }}" rel="stylesheet" />
     
     <title>ACDIMPC EPORTAL</title>
 

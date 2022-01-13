@@ -669,23 +669,31 @@ function validateCandidateForm(action)
               console.log(data);
               swal.close();
 
-              if(data.errors)
+              if(data.limitexceed)
               {
-                var errorMessage= "";
-                $.each(data.errors, function(key, value) {
-                  errorMessage = errorMessage + value + "\n";
-                });
-
-                swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
-              } 
+                swal({ title:"Unable to Save!", text: "Candidate Limit Exceed", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                return;
+              }
               else 
               {
-                swal({ title:"Successfully Saved!", text: "You add new candidate!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                if(data.errors)
+                {
+                  var errorMessage= "";
+                  $.each(data.errors, function(key, value) {
+                    errorMessage = errorMessage + value + "\n";
+                  });
 
-                var candidateTable = $('#candidateTable').DataTable();
-                candidateTable.ajax.reload();  
+                  swal({ title:"Unable to Save!", text: errorMessage, type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
+                } 
+                else 
+                {
+                  swal({ title:"Successfully Saved!", text: "You add new candidate!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"})
 
-                $('#modalCandidate').modal('hide');
+                  var candidateTable = $('#candidateTable').DataTable();
+                  candidateTable.ajax.reload();  
+
+                  $('#modalCandidate').modal('hide');
+                }
               }
           }
       });    

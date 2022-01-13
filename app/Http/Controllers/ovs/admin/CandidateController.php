@@ -213,6 +213,28 @@ class CandidateController extends Controller
             'information2' => 'required',
         ]);
 
+        $votingPeriodID = $request->get('votingPeriodID');
+        $candidateTypeID = $request->get('candidateTypeID');
+
+        $totalCandidate = DB::table('candidates')
+        ->where([ 
+            'candidateTypeID' => $candidateTypeID, 
+            'votingPeriodID' => $votingPeriodID
+        ])
+        ->count();
+
+        $where = array('votingPeriodID' => $votingPeriodID, 'candidateTypeID' => $candidateTypeID);
+        //$candidate  = Candidate::where($where)->first();
+        $totalCandidateLimit = DB::table('candidate_limits')
+            ->select(DB::raw('ISNULL(candidateLimitCount, 0) as climit'))
+            ->where($where)
+            ->first()->climit;
+
+        if($totalCandidateLimit == $totalCandidate)
+        {
+            return Response::json(['limitexceed' => true]);
+        }
+
         if ($validator->fails()) {
             return Response::json(['errors' => $validator->errors()->all()]);
         }

@@ -77,7 +77,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
+                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted', 'member_registration.ballotNo')    
                     ->get();
             }
             else 
@@ -101,7 +101,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
+                    ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted', 'member_registration.ballotNo')    
                     ->get();
 
                 $totalFilteredRecord = DB::table('GAData')
@@ -118,7 +118,6 @@ class MemberController extends Controller
                 ->orWhere('membershipBranch.brName', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.AFSN', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%") 
-                ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted')    
                 ->get()->count();
             }
 
@@ -138,6 +137,7 @@ class MemberController extends Controller
                     $brRegistered = $post->brRegistered;
                     $nestedData['brRegistered'] = $post->brRegistered;
                     $nestedData['code'] = $post->code;
+                    $nestedData['ballotNo'] = $post->ballotNo;
 
                     $buttonVoted = "- - -";
                     $button = "- - -";
@@ -177,7 +177,7 @@ class MemberController extends Controller
                         else 
                         {
                             $buttonVoted = "<div class='text-success'><b>Vote Submitted</b></div>
-                                            <button class='btn btn-info btn-sm viewVote' value='" . $post->mrID . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-brregistered='" . $brRegistered . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
+                                            <button class='btn btn-info btn-sm viewVote' value='" . $post->mrID . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-brregistered='" . $brRegistered . "' data-isaccumudating='" . $isFromOtherBranch . "' data-ballotno='" . $post->ballotNo ."'> " .
                                             "  Re-print Ballot " .
                                             "</button>";
                            
@@ -208,6 +208,15 @@ class MemberController extends Controller
         $votingPeriodID = $request->get('votingPeriodID');
         $logUser = Auth::user()->id;
         $logBr = Auth::user()->brCode;
+
+        $ballotNo = DB::table('member_registration')
+        ->where([ 
+            'brRegistered' => $logBr, 
+            'votingPeriodID' => $votingPeriodID
+        ])
+        ->max('ballotNo');
+
+        $ballotNo = $ballotNo + 1;
         
         $member_registration = DB::table('member_registration')
             ->insertGetId([
@@ -217,6 +226,7 @@ class MemberController extends Controller
                 'registeredBy' => $logUser,
                 'registeredOn' => Carbon::now()->timezone('Asia/Manila'),
                 'brRegistered' => $logBr,
+                'ballotNo' => $ballotNo,
             ]);
             
         if($member_registration)
