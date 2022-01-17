@@ -59,45 +59,45 @@ class RequestController extends Controller
                     })
                     ->addColumn('elecom_status2', function($data){
                         if($data->elecom_status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
                         elseif($data->elecom_status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
                     })
                     ->addColumn('canvas_status2', function($data){
                         if($data->canvas_status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
                         elseif($data->canvas_status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
                     })
-                    ->addColumn('status2', function($data){
-                        if($data->status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                    ->addColumn('ict_status2', function($data){
+                        if($data->ict_status == 1){
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
-                        elseif($data->status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                        elseif($data->ict_status == 2){
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
@@ -106,7 +106,7 @@ class RequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','canvas_status2','status2','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','canvas_status2','ict_status2','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
@@ -191,6 +191,20 @@ class RequestController extends Controller
             return Response::json(['success'=> true]);
     
     
+        }
+
+        public function validateRequest(Request $request){
+
+            $id = $request->get('id');
+            $brStat = Branch_Request::find($id);
+
+            $brStat->br_status = '1';
+
+            $brStat->save();
+
+            return Response::json(['success'=> true]);
+
+
         }
 
         public function removeRequest(Request $request){
