@@ -65,6 +65,13 @@ ACDIMPC OVS
     </a>
   </li>
 
+  <li class="nav-item {{ $title == 'Reports' ? ' active' : '' }}">
+    <a  class="nav-link" href="{{route('ElecomReports.layout')}}">
+      <i class="material-icons">question_answer</i>
+      <p class="small"> Reports </p>
+    </a>
+  </li>
+
 
 </ul>
 </div>

@@ -38,7 +38,8 @@
                             <th style="text-align: center">R. Date</th>
                             <th style="text-align: center">R. Branch</th>
                             <th style="text-align: center">User Type</th>
-                            <th style="text-align: center">Request Type</th>                                                        
+                            <th style="text-align: center">Request Type</th>
+                            <th style="text-align: center">Canva Status</th>                                                        
                             <th style="text-align: center">Status</th>
                             <th style="text-align: center">Last Update</th>
                             <th style="text-align: center">Action</th>
@@ -50,7 +51,8 @@
                             <th style="text-align: center">R. Date</th>
                             <th style="text-align: center">R. Branch</th>
                             <th style="text-align: center">User Type</th>
-                            <th style="text-align: center">Request Type</th>                                                   
+                            <th style="text-align: center">Request Type</th> 
+                            <th style="text-align: center">Canva Status</th>                                                 
                             <th style="text-align: center">Status</th>
                             <th style="text-align: center">Last Update</th>
                             <th style="text-align: center">Action</th>
@@ -247,6 +249,10 @@
           {
             data: 'request_type',
             name: 'request_type'
+          },
+          {
+            data: 'canvas_status2',
+            name: 'canvas_status2'
           },
           {
             data: 'elecom_status2',

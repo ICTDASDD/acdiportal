@@ -25,6 +25,10 @@ class OVSElecomAdminController extends Controller
             return view('ovs.elecom.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
         }
 
+        public function layoutReports(){
+            return view('ovs.elecom.reports',['title' => 'Reports', 'activeparents' => 'Monitoring']);
+        }
+
         public function bstatus(){
             return view('ovs.elecom.bstatus',['title' => 'Branch Status', 'activeparents' => 'User']);
         }

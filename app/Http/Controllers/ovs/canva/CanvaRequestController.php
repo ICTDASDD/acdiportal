@@ -57,6 +57,21 @@ class CanvaRequestController extends Controller
                         $actionBtn = "<center>". $row->request_info. "</center>";
                         return $actionBtn;
                     })
+                    ->addColumn('elecom_status2', function($data){
+                        if($data->elecom_status == 1){
+                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                            return $actionBtn;
+                        }
+                        elseif($data->elecom_status == 2){
+                            $actionBtn = "<center>".'DENIED'. "</center>";
+                            return $actionBtn;
+                        }
+                        else{
+                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            return $actionBtn;
+                        }
+                            
+                    })
                     ->addColumn('canvas_status2', function($data){
                         if($data->canvas_status == 1){
                             $actionBtn = "<center>".'APPROVED'. "</center>";
@@ -76,7 +91,7 @@ class CanvaRequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','canvas_status2','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','canvas_status2','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
@@ -127,16 +142,16 @@ class CanvaRequestController extends Controller
             $br_req->canvas_status = $request->get('canvas_status');
           
             if ($request->canvas_status == 2 && $br_req->elecom_status == 2){
-                $br_req->status = 2 ;
+                $br_req->ict_status = 2 ;
             }
             elseif ($request->canvas_status == 0 && $br_req->elecom_status == 0){
-                $br_req->status = 0 ;
+                $br_req->ict_status = 0 ;
             }
             // elseif ($request->canvas_status == 1 && $br_req->elecom_status == 1){
             //     $br_req->status = 1 ;
             // }
             else{
-                $br_req->status = 0 ;
+                $br_req->ict_status = 0 ;
             }
             $br_req->save();
 

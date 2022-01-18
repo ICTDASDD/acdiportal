@@ -262,8 +262,8 @@ var requestTable = $('#requestTable').DataTable({
         name: 'elecom_status2'
       },
       {
-        data: 'status2',
-        name: 'status2'
+        data: 'ict_status2',
+        name: 'ict_status2'
       },
       {
         data: 'updated_at',
@@ -273,7 +273,7 @@ var requestTable = $('#requestTable').DataTable({
       {
         'data': null,
         'render': function (data) {
-          if(data.status == 0){
+          if(data.ict_status == 0){
             var x = "";
             x = 
                     "<button class='btn btn-success btn-sm editRequest' value='" + data.id + "'> " +
@@ -329,7 +329,7 @@ $('#requestTable').on('click','.viewRequest',function(){
         //   var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
         // $('#brCode').append($option).trigger('change');
 
-        $('#status').val(data.status);
+        $('#ict_status').val(data.ict_status);
         $('#request_info2').val(data.request_info);
         $('#request_type2').val(data.request_type);
         
@@ -374,7 +374,7 @@ $('#requestTable').on('click','.editRequest',function(){
         //   var $option = $("<option selected></option>").val(data.brCode).text(data.brName);
         // $('#brCode').append($option).trigger('change');
 
-        $('#status').val(data.status);
+        $('#ict_status').val(data.ict_status);
         $('#request_info').val(data.request_info);
         $('#request_type').val(data.request_type);
         
@@ -405,14 +405,14 @@ $(document).on("click", "#btnUpdateRequest", function (e) {
         }).then((result) => {
             if (result.value) {
 
-              var status = $("#status").val();
+              var ict_status = $("#ict_status").val();
         var id = $("#id").val();
         $.ajax({
             type: "GET",
             url: "{{ route('adm.request.update') }}",
             data: { 
               id : id,
-              status : status,
+              ict_status : ict_status,
               
             
             },
