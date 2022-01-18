@@ -62,7 +62,7 @@ class SystemLogController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-                    ->select('voting_logs.*')    
+                    ->select('voting_logs.*', )    
                     ->get();
                 /*
                 $totalFilteredRecord = DB::table('voting_logs')
@@ -82,7 +82,7 @@ class SystemLogController extends Controller
                 {
                     //$show =  route('posts.show',$post->id);
                     //$edit =  route('posts.edit',$post->id);
-                    $nestedData['logTime'] =  "<center>" .$post->created_at."</center>" ;
+                    $nestedData['logTime'] =  "<center>" . date('Y/m/d h:i:s',strtotime($post->created_at))."</center>" ;
                     $nestedData['brRegistered'] =  "<center>" .$post->brRegistered."</center>";
                     $nestedData['afsn'] =  "<center>" .$post->afsn."</center>";
                     $nestedData['description'] =  "<center>" . $post->description."</center>";
@@ -128,7 +128,7 @@ class SystemLogController extends Controller
             return Datatables::of($data) 
             ->addIndexColumn()
                 ->addColumn('created_at', function($row){
-                    $actionBtn = "<center>". $row->created_at. "</center>";
+                    $actionBtn = "<center>". date('Y/m/d h:i:s',strtotime($row->created_at)). "</center>";
                     return $actionBtn;
                 })
                 ->addColumn('emp_id', function($row){

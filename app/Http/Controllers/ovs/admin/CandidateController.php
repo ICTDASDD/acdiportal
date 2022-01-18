@@ -69,6 +69,7 @@ class CandidateController extends Controller
     {
         $votingPeriodID = $request->get('votingPeriodID');
         $candidateTypeID = $request->get('candidateTypeID');
+        $branchCode = $request->get('branchCode');
         $subDiv = $request->get('subDiv');
 
     	$data = DB::table('candidates')
@@ -84,10 +85,23 @@ class CandidateController extends Controller
         if (count($data) > 0) {
             foreach ($data as $row) {
 
-                $totalVotes = DB::table('candidate_votes')
+                $totalVotes = 0;
+                if($branchCode != "0" && $branchCode != "09")
+                {
+                    $totalVotes = DB::table('candidate_votes')
+                    ->join('member_registration', 'member_registration.id', '=', 'candidate_votes.mrID')
+                    ->where('candidate_votes.vpID', $votingPeriodID)
+                    ->where('candidate_votes.cID', $row->candidateID)
+                    ->where('member_registration.brRegistered', $branchCode)
+                    ->count();
+                } 
+                else 
+                { 
+                    $totalVotes = DB::table('candidate_votes')
                     ->where('candidate_votes.vpID', $votingPeriodID)
                     ->where('candidate_votes.cID', $row->candidateID)
                     ->count();
+                }
 
                 $candidates[] = array(
                     "isNoCandidateFound" => "false",

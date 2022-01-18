@@ -55,7 +55,7 @@
                           <tr>
                             <th style="text-align: center">Log Time</th>
                             <th style="text-align: center">User Type</th>                            
-                            <th style="text-align: center">Branch Designation</th>
+                            <th style="text-align: center">AFSN</th>
                             <th style="text-align: center">Process/Description</th>
                             <th style="text-align: center">Status</th>
                           </tr>

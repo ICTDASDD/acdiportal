@@ -56,6 +56,17 @@ class BranchController extends Controller
         $branches = [];
 
         if (count($data) > 0) {
+            
+            if(!empty($input['isAllShow']))
+            {
+                if($input['isAllShow'] == "true")
+                {
+                    $branches[] = array(
+                        "id" => "0",
+                        "text" => "All Branch",
+                    );     
+                }
+            }
 
             foreach ($data as $branch) {
                 $branches[] = array(
