@@ -268,8 +268,8 @@
             name: 'canvas_status2'
           },
           {
-            data: 'status2',
-            name: 'status2'
+            data: 'ict_status2',
+            name: 'ict_status2'
           },
           {
             data: 'updated_at',
@@ -280,7 +280,7 @@
             'data': null,
             'render': function (data) {
 
-              if(data.status == 0 && data.elecom_status == 0 && data.canvas_status == 0){
+              if(data.ict_status == 0 && data.elecom_status == 0 && data.canvas_status == 0){
                 var x = "";
                 x = 
                         "<button class='btn btn-success btn-sm editRequest' value='" + data.id + "'> " +
@@ -290,9 +290,31 @@
                 return "<center>"+ x + "</center>";
               }
 
+              else if (data.ict_status == 1 && data.elecom_status == 1 && data.canvas_status == 1 && data.br_status == 0){
+
+                var z = "";
+                z = 
+                        "<button class='btn btn-primary btn-sm validateRequest' value='" + data.id + "'> " +
+                        "  Validate " +
+                        "</button> "  ;
+                    
+                return "<center>"+ z + "</center>";
+
+              }
+
+              else if (data.br_status == 1){
+
+              var w = "";
+              w = 
+              "<div class='text-success'><b>VALIDATED</b></div>";
+    
+              return "<center>"+ w + "</center>";
+
+                }
+
               else {
                 var y = "";
-            y = 
+              y = 
                     "<button class='btn btn-info btn-sm viewRequest' value='" + data.id + "'> " +
                     "  VIEW " +
                     "</button> " ;
@@ -305,6 +327,55 @@
          
       ]
     });
+  });
+
+  $('#requestTable').on('click','.validateRequest',function(){
+   id = this.value;
+   
+   swal({
+        title: 'Validate this request',
+        text: "Are you sure?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+              type: "GET",
+              url: "{{ route('request.validate') }}",
+              data: { id : id },
+              contentType: "application/json; charset=utf-8",
+              beforeSend:  function() {
+                  swal({ title: 'Loading..', onOpen: () => swal.showLoading(), allowOutsideClick: () => !swal.isLoading() });
+              },
+              error: function (jqXHR, exception) {
+                  swal.close();
+
+                  console.log(jqXHR.responseText);
+                  swal({ title: "Error " + jqXHR.status, text: "Please try again later.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+              },
+              success: function (data) {
+                  swal.close();
+
+                  if(!data.success)
+                  {
+                    swal({ title:"Unable to Validate!", text: "Please try again.", type: "error", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+                  } 
+                  else 
+                  {
+                    swal({ title:"Validated!", text: "Request successfully validated!", type: "success", buttonsStyling: false, confirmButtonClass: "btn btn-success"});
+
+                    var requestTable = $('#requestTable').DataTable();
+                    requestTable.ajax.reload(null, false);
+
+                  }
+              }
+          });   
+        }
+      });
+
   });
 
 

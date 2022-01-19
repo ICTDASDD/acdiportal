@@ -10,6 +10,7 @@ use App\Models\ovs\ba\Branch_Request;
 use App\Models\ovs\admin\Branch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ovs\admin\UserLog;
 use DataTables;
 use Response;
 
@@ -53,12 +54,12 @@ class AdminRequestController extends Controller
                         $actionBtn = "<center>". $row->request_type. "</center>";
                         return $actionBtn;
                     })                   
-                    ->addColumn('status2', function($data){
-                        if($data->status == 1){
+                    ->addColumn('ict_status2', function($data){
+                        if($data->ict_status == 1){
                             $actionBtn = "<center>".'APPROVED'. "</center>";
                             return $actionBtn;
                         }
-                        elseif($data->status == 2){
+                        elseif($data->ict_status == 2){
                             $actionBtn = "<center>".'DENIED'. "</center>";
                             return $actionBtn;
                         }
@@ -102,7 +103,7 @@ class AdminRequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','canvas_status2','status2','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','canvas_status2','ict_status2','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
@@ -116,6 +117,13 @@ class AdminRequestController extends Controller
             ->select('branch_request.*','branches.brName')
             ->where($where)
             ->first();
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed ' . $br_req->request_type . ' (' . $br_req->request_info . ') request from ' . $br_req->brName . ' branch';
+            $save_userlog->save();
+
+
             return Response::json($br_req);
 
         }
@@ -129,6 +137,12 @@ class AdminRequestController extends Controller
             ->select('branch_request.*','branches.brName')
             ->where($where)
             ->first();
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed ' . $br_req->request_type . ' (' . $br_req->request_info . ') request from ' . $br_req->brName . ' branch';
+            $save_userlog->save();
+
             return Response::json($br_req);
 
         }
@@ -137,7 +151,7 @@ class AdminRequestController extends Controller
 
             $validator = \Validator::make($request->all(), [
                 
-                'status' => 'required',
+                'ict_status' => 'required',
                 
             ]);
             
@@ -148,9 +162,32 @@ class AdminRequestController extends Controller
             $id = $request->get('id');
             $br_req = Branch_Request::find($id);
 
-            $br_req->status = $request->get('status');
+            $br_req->ict_status = $request->get('ict_status');
            
             $br_req->save();
+
+            $where = array('id' => $id);
+            $br_req = DB::table('branch_request')
+            ->join('branches', 'branch_request.brCode', '=', 'branches.brCode')
+            ->select('branch_request.*','branches.brName')
+            ->where($where)
+            ->first();
+
+            if( $br_req->ict_status == 1){
+                $action = 'APPROVED';
+            }
+            elseif( $br_req->ict_status == 2){
+                $action = 'DENIED';
+            }
+            else{
+                $action = 'VIEWED BUT DID NOT APPROVE OR DENY';
+            }
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = $action . ' ' . $br_req->request_type . ' (' . $br_req->request_info . ') request from ' . $br_req->brName . ' branch';;
+            $save_userlog->save();
+
 
             return Response::json(['success'=> true]);
     

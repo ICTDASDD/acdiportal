@@ -42,6 +42,7 @@
                             <th style="text-align: center">User Type</th>
                             <th style="text-align: center">Request Type</th>                            
                             <th style="text-align: center">Request Info</th>
+                            <th style="text-align: center">Elecom Status</th>
                             <th style="text-align: center">Status</th>
                             <th style="text-align: center">Last Update</th>
                             <th style="text-align: center">Action</th>
@@ -55,6 +56,7 @@
                             <th style="text-align: center">User Type</th>
                             <th style="text-align: center">Request Type</th>                            
                             <th style="text-align: center">Request Info</th>
+                            <th style="text-align: center">Elecom Status</th>
                             <th style="text-align: center">Status</th>
                             <th style="text-align: center">Last Update</th>
                             <th style="text-align: center">Action</th>
@@ -269,6 +271,10 @@ var requestTable = $('#requestTable').DataTable({
       {
         data: 'request_info',
         name: 'request_info'
+      },
+      {
+        data: 'elecom_status2',
+        name: 'elecom_status2'
       },
       {
         data: 'canvas_status2',

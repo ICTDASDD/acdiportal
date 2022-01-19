@@ -26,7 +26,7 @@ class OVSCanvaAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Request" Tab';
+            $save_userlog->process = 'Viewed "Request" Tab';
             $save_userlog->save();
 
             return view('ovs.canva.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
@@ -40,7 +40,7 @@ class OVSCanvaAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Branch Status" Tab';
+            $save_userlog->process = 'Viewed "Branch Status" Tab';
             $save_userlog->save();
 
             return view('ovs.canva.bstatus',['title' => 'Branch Status', 'activeparents' => 'User']);

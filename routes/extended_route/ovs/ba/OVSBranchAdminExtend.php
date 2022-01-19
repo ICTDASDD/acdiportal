@@ -24,6 +24,7 @@ use App\Http\Controllers\ovs\MemberController;
         Route::get('ovs/ba/request/view', [RequestController::class, 'viewRequest'])->name('request.view');  
         Route::get('ovs/ba/request/update', [RequestController::class, 'updateRequest'])->name('request.update');   
         Route::get('ovs/ba/request/delete', [RequestController::class, 'removeRequest'])->name('request.delete'); 
+        Route::get('ovs/ba/request/validate', [RequestController::class, 'updateRequest'])->name('request.validate');   
         //for approve(elecom) 
         // Route::get('ovs/ba/request/editStatus', [RequestController::class, 'editStatus'])->name('request.edit.status');
         // Route::get('ovs/ba/request/updateStatus', [RequestController::class, 'updateStatus'])->name('request.update.status');

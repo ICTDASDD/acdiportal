@@ -90,6 +90,11 @@ class VotingPeriodController extends Controller
         $where = array('votingPeriodID' => $votingPeriodID);
         $votingPeriod  = VotingPeriod::where($where)->first();
 
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'View Information of Voting Period ' . $votingPeriod->cy;
+        $save_userlog->save();
+
         return Response::json($votingPeriod);
     }
 

@@ -35,7 +35,7 @@ class DashboardController extends Controller
 
                 $save_userlog = new UserLog();
                 $save_userlog->emp_id = Auth::user()->emp_id; 
-                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->process = 'Viewed "Dashboard" Tab';
                 $save_userlog->save();
 
                 return view('ovs.admin.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
@@ -46,7 +46,7 @@ class DashboardController extends Controller
 
                 $save_userlog = new UserLog();
                 $save_userlog->emp_id = Auth::user()->emp_id; 
-                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->process = 'Viewed "Dashboard" Tab';
                 $save_userlog->save();
 
                 return view('ovs.elecom.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
@@ -57,7 +57,7 @@ class DashboardController extends Controller
 
                 $save_userlog = new UserLog();
                 $save_userlog->emp_id = Auth::user()->emp_id; 
-                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->process = 'Viewed "Dashboard" Tab';
                 $save_userlog->save();
 
                 return view('ovs.ba.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
@@ -68,7 +68,7 @@ class DashboardController extends Controller
 
                 $save_userlog = new UserLog();
                 $save_userlog->emp_id = Auth::user()->emp_id; 
-                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->process = 'Viewed "Dashboard" Tab';
                 $save_userlog->save();
 
                 return view('ovs.canva.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);

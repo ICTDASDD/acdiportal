@@ -174,9 +174,21 @@ class CandidateController extends Controller
         //$candidate  = Candidate::where($where)->first();
         $candidate = DB::table('candidates')
             ->join('candidate_types', 'candidates.candidateTypeID', '=', 'candidate_types.candidateTypeID')
-            ->select('candidates.*','candidate_types.candidateTypeName')
+            ->join('voting_periods', 'candidates.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('candidates.*','candidate_types.candidateTypeName','voting_periods.cy')
             ->where($where)
             ->first();
+
+
+        $surname = $candidate->lastName;
+        $firstname = $candidate->firstName;
+        $fullName = $surname . ', ' . $firstname;
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'View Information of Canidate "' . $fullName . '" (' . $candidate->candidateTypeName . '/Voting Period ' . $candidate->cy . ')';
+        $save_userlog->save();
+    
 
         return Response::json($candidate);
     }
@@ -184,6 +196,23 @@ class CandidateController extends Controller
     public function removeCandidate(Request $request)
     {
         $candidateID = $request->get('candidateID');
+
+        $candidate = Candidate::where('candidateID',$candidateID)
+        ->join('candidate_types', 'candidates.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+        ->join('voting_periods', 'candidates.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+        ->select('candidates.*','candidate_types.candidateTypeName','voting_periods.cy')
+        ->first();
+
+        $surname = $candidate->lastName;
+        $firstname = $candidate->firstName;
+        $fullName = $surname . ', ' . $firstname;
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Removed "' . $fullName . '" from candidates for ' . $candidate->candidateTypeName . ' during Voting Period ' . $candidate->cy;
+        $save_userlog->save();
+
+
         $candidate = Candidate::where('candidateID',$candidateID)->delete();
 
         if(!$candidate)
@@ -303,6 +332,12 @@ class CandidateController extends Controller
         $firstName = str_replace(' ', '_', $request->get('firstName'));
         $middleName = str_replace(' ', '_', $request->get('middleName'));
         
+        
+        $surname = $request->get('lastName');
+        $firstname = $request->get('firstName');
+        $fullName = $surname . ', ' . $firstname;
+
+
         $candidateID = $request->get('candidateID');
 
         $candidate = Candidate::find($candidateID);
@@ -321,6 +356,20 @@ class CandidateController extends Controller
         $candidate->information1 = $request->get('information1');
         $candidate->information2 = $request->get('information2');
         $candidate->save();  
+
+        $c_id = $candidate->candidateID;
+        $candidate = DB::table('candidates')
+            ->join('candidate_types', 'candidates.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+            ->join('voting_periods', 'candidates.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('candidates.*','candidate_types.candidateTypeName','voting_periods.cy')
+            ->where('candidates.candidateID', '=', $c_id)
+            ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Edited Information of "' . $fullName . '" , candidate for ' . $candidate->candidateTypeName . ' during Voting Period ' . $candidate->cy;
+        $save_userlog->save();
+
         
         if($candidate)
         {

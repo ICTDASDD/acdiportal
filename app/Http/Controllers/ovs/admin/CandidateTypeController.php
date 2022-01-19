@@ -56,6 +56,11 @@ class CandidateTypeController extends Controller
         $where = array('candidateTypeID' => $candidateTypeID);
         $candidateType  = CandidateType::where($where)->first();
 
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'View Information of Candidate Type ID ' . $candidateTypeID;
+        $save_userlog->save();
+
         return Response::json($candidateType);
     }
 

@@ -178,9 +178,16 @@ class AmendmentController extends Controller
         $id = $request->get('id');
         $where = array('id' => $id);
         $amendment = DB::table('amendments')
-        ->select('amendments.*')
+        ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+        ->select('amendments.*','voting_periods.cy')
         ->where($where)
         ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'View Information of Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
+
         return Response::json($amendment);
     }
 

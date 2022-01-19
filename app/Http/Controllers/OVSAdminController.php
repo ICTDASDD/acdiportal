@@ -42,7 +42,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "System Log" Tab';
+            $save_userlog->process = 'Viewed "System Log" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.systemlog',['title' => 'System Log', 'activeparents' => 'Monitoring']);
@@ -52,7 +52,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Request" Tab';
+            $save_userlog->process = 'Viewed "Request" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
@@ -62,7 +62,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Amendment List" Tab';
+            $save_userlog->process = 'Viewed "Amendment List" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.amendmentlist',['title' => 'Amendment List', 'activeparents' => 'BODs & Amendments']);
@@ -72,7 +72,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Branch Locking" Tab';
+            $save_userlog->process = 'Viewed "Branch Locking" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.bblocking',['title' => 'Branch Blocking', 'activeparents' => 'Voting Tools']);
@@ -86,7 +86,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Candidate List" Tab';
+            $save_userlog->process = 'Viewed "Candidate List" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.candidatelist',['title' => 'Candidate List', 'activeparents' => 'BODs & Amendments']);
@@ -96,7 +96,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Voting Configuration" Tab';
+            $save_userlog->process = 'Viewed "Voting Configuration" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.votingConfiguration',['title' => 'Voting Configuration', 'activeparents' => 'Voting Tools']);
@@ -106,7 +106,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Users" Tab';
+            $save_userlog->process = 'Viewed "Users" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.users',['title' => 'User List', 'activeparents' => 'User']);
@@ -116,7 +116,7 @@ class OVSAdminController extends Controller
 
             $save_userlog = new UserLog();
             $save_userlog->emp_id = Auth::user()->emp_id; 
-            $save_userlog->process = 'View "Voting Member List" Tab';
+            $save_userlog->process = 'Viewed "Voting Member List" Tab';
             $save_userlog->save();
 
             return view('ovs.admin.memberlist',['title' => 'Voting Member List', 'activeparents' => 'Memlist']);
