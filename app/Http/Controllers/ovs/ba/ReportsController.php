@@ -19,13 +19,19 @@ class ReportsController extends Controller
         public function votedList(Request $request){
 
             if ($request->ajax()) {
+
+                $votingPeriodID = "";
+                if (!empty($request->get('votingPeriodID'))) {
+                    $votingPeriodID = $request->get('votingPeriodID');
+                    }
+
                 $data = DB::table('GAData as A')
                 ->join('member_registration as B', 'A.AFSN', '=', 'B.afsn')            
                 ->select([
                     'B.ballotNo','B.afsn','B.code',
                     DB::raw("CONCAT(FN,', ' ,GN, ' ' ,MN) as fullName"),
                 ])
-                ->where('B.votingPeriodID','=', 1)
+                ->where('B.votingPeriodID','=',  $votingPeriodID)
                 ->where('A.MYBR','=', Auth::user()->brCode)
                 ->where('isVoted', '=', 1)
                 ->get();
@@ -55,13 +61,19 @@ class ReportsController extends Controller
 
         public function registeredList(Request $request){
             if ($request->ajax()) {
+
+                $votingPeriodID2 = "";
+                    if (!empty($request->get('votingPeriodID2'))) {
+                        $votingPeriodID2 = $request->get('votingPeriodID2');
+                    }
+
                 $data = DB::table('GAData as A')
                 ->join('member_registration as B', 'A.AFSN', '=', 'B.afsn')            
                 ->select([
                     'B.ballotNo','B.afsn','B.code',
                     DB::raw("CONCAT(FN,', ' ,GN, ' ' ,MN) as fullName"),
                 ])
-                ->where('B.votingPeriodID','=', 1)
+                ->where('B.votingPeriodID','=', $votingPeriodID2)
                 ->where('A.MYBR','=', Auth::user()->brCode)
                 ->get();
                 return Datatables::of($data) 

@@ -18,15 +18,34 @@ class ElecomReportsController extends Controller
     public function summaryList(Request $request){
 
         if ($request->ajax()) {
-            $data = DB::table('branches as A')            
-            ->leftJoin('candidatesVotes','candidatesVotes.brRegistered', '=', 'A.brCode') 
-            ->select(array(DB::raw('COUNT(MR.id) as followers')))
-            ->select('A.brName','totalRegistered','totalVoted')
-            ->where('WHERE votingPeriodID = 1')
-            ->whereNull('totalRegistered')
-            ->whereNull('totalVoted')
-            ->orderBy('A.brname')           
+
+            $votingPeriodID = "";
+            if (!empty($request->get('votingPeriodID'))) {
+                $votingPeriodID = $request->get('votingPeriodID');
+            }
+
+            $data = DB::table('branches AS A')
+            ->select(
+                'A.brName',
+                DB::raw('ISNULL(candidateVotes.totalRegistered, 0) AS totalRegistered'),
+                DB::raw('ISNULL(candidateVotes.totalVote, 0) AS totalVoted')
+                )
+            ->leftJoin(
+                DB::raw("
+                    (SELECT COUNT(MR.id) AS totalRegistered, 
+                    SUM(CASE WHEN MR.isVoted = 1 THEN 1 ELSE 0 END) AS totalVote, 
+                    MR.brRegistered FROM member_registration AS MR WHERE votingPeriodID = '". $votingPeriodID ."'
+                    GROUP BY MR.brRegistered) AS candidateVotes
+                    "
+                ), function($join) //use ($votingPeriodID)
+                {
+                    $join->on('candidateVotes.brRegistered', '=', 'A.brCode');
+                    //$join->where('votingPeriodID', '=', $votingPeriodID);
+                })
+                ->orderBy('A.brName')
             ->get();
+
+           // dd($votingPeriodID);
             return Datatables::of($data) 
             ->addIndexColumn()                
                 ->addColumn('brName', function($row){

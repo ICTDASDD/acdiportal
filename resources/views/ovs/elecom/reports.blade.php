@@ -32,8 +32,8 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                           <div class="form-group">
                             <h4 class="card-title">Summary Report
-                              {{-- <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
-                              </select>   --}}
+                              <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
+                              </select>  
                             </h4>
                           </div>
                         </div>
@@ -119,6 +119,36 @@
     
     $(document).ready(function() {
 
+      var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
+      placeholder: "Choose year",
+      //dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+      minimumInputLength: -1,
+      allowClear: true,
+      ajax: {
+          url: "{{ route('elecom.votingPeriod.select2') }}",
+          delay: 250,
+          dataType: 'json',
+          data: function(params) {
+              return {
+                  query: params.term, // search term
+              };
+          },
+          processResults: function(response) {
+              return {
+                  results: response
+              };
+          },
+          cache: true
+      }
+    }).on('change', function () {
+      
+      var votingPeriod = $('#selectVotingPeriod').select2('data');
+      var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+      $('#selectVotingPeriod2').append($option).trigger('change');
+    
+      summaryTable.ajax.reload();  
+    });
+
 var summaryTable = $('#summaryTable').DataTable({
     dom: 'Bfrtip',
           buttons: [
@@ -144,8 +174,14 @@ var summaryTable = $('#summaryTable').DataTable({
     ajax: {
 
     url: "{{ route('summary.report') }}",
+    dataType: 'json',
         type: "POST",
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
+        data: function (d) {
+                d.votingPeriodID = $('#selectVotingPeriod').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }
+            //,
+       // headers: {'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')},
       },
 
       columns: [

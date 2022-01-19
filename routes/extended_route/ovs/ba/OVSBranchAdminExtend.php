@@ -33,6 +33,7 @@ use App\Http\Controllers\ovs\MemberController;
         // Route::get('ovs/ba/request/updateStatus', [RequestController::class, 'updateStatus'])->name('request.update.status');
 
         //reports
+       // Route::get('ovs/ba/reports/select2', [VotingPeriodController::class, 'listVotingPeriodSelect2'])->name('ba.reports.VP.select2');
         Route::POST('ovs/ba/reports/voted', [ReportsController::class, 'votedList'])->name('voted.list');
         Route::POST('ovs/ba/reports/registered', [ReportsController::class, 'registeredList'])->name('registered.list');
 

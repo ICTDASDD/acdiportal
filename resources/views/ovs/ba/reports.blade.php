@@ -31,8 +31,8 @@
                       <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="form-group">
                           <h4 class="card-title">List of Registered Members
-                            {{-- <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
-                            </select>   --}}
+                            <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
+                            </select>  
                           </h4>
                         </div>
                       </div>
@@ -82,8 +82,8 @@
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="form-group">
                       <h4 class="card-title">List of Voted Members
-                        {{-- <select id="selectVotingPeriod" class="form-control" style="width: 25%"  required="true">
-                        </select>   --}}
+                        <select id="selectVotingPeriodV" class="form-control" style="width: 25%"  required="true">
+                        </select>  
                       </h4>
                     </div>
                   </div>
@@ -178,6 +178,67 @@
 
 $(document).ready(function() {
 
+
+var votingPeriodSelect2 = $('#selectVotingPeriodV').select2({
+placeholder: "Choose year",
+//dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+minimumInputLength: -1,
+allowClear: true,
+ajax: {
+    url: "{{ route('ba.votingPeriod.select2') }}",
+    delay: 250,
+    dataType: 'json',
+    data: function(params) {
+        return {
+            query: params.term, // search term
+        };
+    },
+    processResults: function(response) {
+        return {
+            results: response
+        };
+    },
+    cache: true
+}
+}).on('change', function () {
+
+var votingPeriod = $('#selectVotingPeriod').select2('data');
+var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+$('#selectVotingPeriod2').append($option).trigger('change');
+
+votedTable.ajax.reload();  
+});
+
+var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
+placeholder: "Choose year",
+//dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+minimumInputLength: -1,
+allowClear: true,
+ajax: {
+    url: "{{ route('ba.votingPeriod.select2') }}",
+    delay: 250,
+    dataType: 'json',
+    data: function(params) {
+        return {
+            query: params.term, // search term
+        };
+    },
+    processResults: function(response) {
+        return {
+            results: response
+        };
+    },
+    cache: true
+}
+}).on('change', function () {
+
+var votingPeriod = $('#selectVotingPeriod').select2('data');
+var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+$('#selectVotingPeriod2').append($option).trigger('change');
+
+registeredTable.ajax.reload();  
+});
+
   var votedTable = $('#votedTable').DataTable({
       dom: 'Bfrtip',
 			buttons: [
@@ -203,7 +264,11 @@ $(document).ready(function() {
       ajax: {
 
       url: "{{ route('voted.list') }}",
-          type: "POST"
+          type: "POST",
+          data: function (d) {
+                d.votingPeriodID = $('#selectVotingPeriodV').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }
         },
 
         columns: [
@@ -253,7 +318,11 @@ $(document).ready(function() {
           ajax: {
 
           url: "{{ route('registered.list') }}",
-          type: "POST"
+          type: "POST",
+          data: function (d) {
+                d.votingPeriodID2 = $('#selectVotingPeriod').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }
         },
 
         columns: [
