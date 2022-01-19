@@ -96,6 +96,16 @@ class UserController extends Controller
         ->select('users.*','branches.brName')
         ->where($where)
         ->first();
+
+        $surname = $user->lname;
+        $firstname = $user->name;
+        $fullName = $surname . ', ' . $firstname;
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Viewed User Information of "' . $fullName . '" of ' . $user->brName . ' branch';
+        $save_userlog->save();
+
         return Response::json($user);
     }
 

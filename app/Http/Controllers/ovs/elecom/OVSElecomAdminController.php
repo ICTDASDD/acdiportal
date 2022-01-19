@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\ovs\elecom;
-
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
@@ -22,10 +23,22 @@ class OVSElecomAdminController extends Controller
         }
 
         public function layoutRequest(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'View "Request" Tab';
+            $save_userlog->save();
+
             return view('ovs.elecom.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
         }
 
         public function bstatus(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'View "Branch Status" Tab';
+            $save_userlog->save();
+
             return view('ovs.elecom.bstatus',['title' => 'Branch Status', 'activeparents' => 'User']);
         }
 

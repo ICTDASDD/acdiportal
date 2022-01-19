@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\ovs\admin\UserLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -32,26 +32,57 @@ class DashboardController extends Controller
 
             // Online Voting System ICTD-Admin
             elseif(Auth::user()->hasRole('ictd-admin')){
+
+                $save_userlog = new UserLog();
+                $save_userlog->emp_id = Auth::user()->emp_id; 
+                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->save();
+
                 return view('ovs.admin.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
             // Online Voting SystemElecom
             elseif(Auth::user()->hasRole('elecom-admin')){
+
+                $save_userlog = new UserLog();
+                $save_userlog->emp_id = Auth::user()->emp_id; 
+                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->save();
+
                 return view('ovs.elecom.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
             // Online Voting System Branch Admin
             elseif(Auth::user()->hasRole('branch-officer')){
+
+                $save_userlog = new UserLog();
+                $save_userlog->emp_id = Auth::user()->emp_id; 
+                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->save();
+
                 return view('ovs.ba.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
             // Online Voting System Branch Admin
             elseif(Auth::user()->hasRole('canv-officer')){
+
+                $save_userlog = new UserLog();
+                $save_userlog->emp_id = Auth::user()->emp_id; 
+                $save_userlog->process = 'View "Dashboard" Tab';
+                $save_userlog->save();
+
                 return view('ovs.canva.dashboard',['title' => 'Dashboard', 'activeparents' => 'Dashboard']);
             }
 
             // Online Voting System Machine
             elseif(Auth::user()->hasRole('branch-machine')){
+
+                $save_userlog = new UserLog();
+                $save_userlog->emp_id = Auth::user()->emp_id; 
+                $save_userlog->process = 'Logged In';
+                $save_userlog->save();
+
+
                 return view('ovs.machine.dashboard',['title' => 'Onine Voting System', 'activeparents' => 'Dashboard']);
             }
 
