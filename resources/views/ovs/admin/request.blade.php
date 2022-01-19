@@ -109,7 +109,7 @@
                  
                                       <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="form-group">
-                                        <select id="status" name="status" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Grant/Deny Request">
+                                        <select id="ict_status" name="ict_status" class="selectpicker" data-size="7" data-style="btn btn-primary btn-round btn-sm" title="Grant/Deny Request">
                                           <option value="0" >PENDING</option>
                                           <option value="1" >APPROVED</option>
                                           <option value="2" >DENIED</option>

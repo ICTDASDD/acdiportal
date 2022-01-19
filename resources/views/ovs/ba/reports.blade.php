@@ -122,6 +122,58 @@
               <!-- end content-->
             </div>
 
+
+            {{-- ELECTION RESULT ON CURRENT VENUE --}}
+
+            <div class="card">
+              <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">assignment</i>
+                </div>
+               
+                
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                      <h4 class="card-title">ELECTION RESULT ON CURRENT VENUE
+                        <select id="selectVotingPeriodE" class="form-control" style="width: 25%"  required="true">
+                        </select>  
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="toolbar">
+                  <!--        Here you can write extra buttons/actions for the toolbar              -->
+                </div>
+                <div class="material-datatables">
+                  <table id="eResultTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                    <thead>
+                      <tr>                       
+                        <th style="text-align: center">NAME</th>
+                        <th style="text-align: center">CANDIDATE TYPE</th> 
+                        <th style="text-align: center">TOTAL VOTES</th>                                                                         
+                      </tr>
+                    </thead>
+
+                    <tfoot>
+                      <tr>
+                        <th style="text-align: center">NAME</th>
+                        <th style="text-align: center">CANDIDATE TYPE</th> 
+                        <th style="text-align: center">TOTAL VOTES</th>                       
+                      </tr>
+                    </tfoot>
+
+                    <tbody>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- end content-->
+            </div>
+
             
 
             
@@ -178,7 +230,7 @@
 
 $(document).ready(function() {
 
-
+//VOTED select 2
 var votingPeriodSelect2 = $('#selectVotingPeriodV').select2({
 placeholder: "Choose year",
 //dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
@@ -202,13 +254,14 @@ ajax: {
 }
 }).on('change', function () {
 
-var votingPeriod = $('#selectVotingPeriod').select2('data');
+var votingPeriod = $('#selectVotingPeriodV').select2('data');
 var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
 $('#selectVotingPeriod2').append($option).trigger('change');
 
 votedTable.ajax.reload();  
 });
 
+//REGISTERED SELECT2
 var votingPeriodSelect2 = $('#selectVotingPeriod').select2({
 placeholder: "Choose year",
 //dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
@@ -239,6 +292,38 @@ $('#selectVotingPeriod2').append($option).trigger('change');
 registeredTable.ajax.reload();  
 });
 
+//ELECTION RESULT SELECT2
+var votingPeriodSelect2 = $('#selectVotingPeriodE').select2({
+placeholder: "Choose year",
+//dropdownParent: "#modalCandidateLimit", //UNCOMMENT WHEN IN MODAL
+minimumInputLength: -1,
+allowClear: true,
+ajax: {
+    url: "{{ route('ba.votingPeriod.select2') }}",
+    delay: 250,
+    dataType: 'json',
+    data: function(params) {
+        return {
+            query: params.term, // search term
+        };
+    },
+    processResults: function(response) {
+        return {
+            results: response
+        };
+    },
+    cache: true
+}
+}).on('change', function () {
+
+var votingPeriod = $('#selectVotingPeriodE').select2('data');
+var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
+$('#selectVotingPeriod2').append($option).trigger('change');
+
+eResultTable.ajax.reload();  
+});
+
+//VOTED TABLE
   var votedTable = $('#votedTable').DataTable({
       dom: 'Bfrtip',
 			buttons: [
@@ -293,6 +378,7 @@ registeredTable.ajax.reload();
         });
 
 
+        //REGISTERED TABLE
         var registeredTable = $('#registeredTable').DataTable({
       dom: 'Bfrtip',
 			buttons: [
@@ -342,6 +428,58 @@ registeredTable.ajax.reload();
             data: 'code',
             name: 'code'
           }, 
+          
+          ]
+        });
+
+
+        //ELECTION RESULT ON CURRENT VENUE TABLE
+        var eResultTable = $('#eResultTable').DataTable({
+      dom: 'Bfrtip',
+			buttons: [
+
+        'copy', 'csv', 'pdf',
+            {              
+						  extend: 'print',
+              title: 'Election Result on Current Venue',
+              messageTop: 'This print was produced using the Print button for DataTables'
+            },
+
+            {
+            extend: 'excelHtml5',
+            autoFilter: true,
+            title: 'Election Result on Current Venue',
+            sheetName: 'Election Result on Current Venue'
+            
+            }
+          ],
+          processing: true,
+          serverSide: true,
+          cache: false,
+          ajax: {
+
+          url: "{{ route('election.result.current') }}",
+          type: "POST",
+          data: function (d) {
+                d.votingPeriodID3 = $('#selectVotingPeriodE').val() || ""
+                //d.search = $('input[type="search"]').val(),
+            }
+        },
+
+        columns: [
+          {
+            data: 'lastname',
+            name: 'lastname'
+          },
+          {
+            data: 'cID',
+            name: 'cID'
+          },
+          {
+            data: 'totalVote',
+            name: 'totalVote'
+          },
+          
           
           ]
         });

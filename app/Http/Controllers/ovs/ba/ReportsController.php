@@ -101,6 +101,60 @@ class ReportsController extends Controller
 
 
         }
+
+        public function currentResult(Request $request){
+
+            if ($request->ajax()) {
+
+                $votingPeriodID3 = "";
+                    if (!empty($request->get('votingPeriodID3'))) {
+                        $votingPeriodID3 = $request->get('votingPeriodID3');
+                    }
+
+                    $data = DB::table('candidatesVotes')
+                    ->select(                       
+                        'candidatesVotes.cID','candidatesVotes.totalVote', 'can.lastName','can.firstName','can.middleName','can.candidateTypeID',
+                        DB::raw("
+                            (SELECT CV.cID, COUNT(CV.cID) AS totalVote  
+                            FROM candidate_votes AS CV
+                              JOIN member_registration AS MR ON CV.mrID = MR.id
+                               WHERE votingPeriodID = '". $votingPeriodID3 ."'                           
+                             GROUP BY CV.cID) AS candidateVotes
+                             "
+                         ), 
+                        // function($join) //use ($votingPeriodID)
+                        // {
+                        //     $join->on('CV.mrID', '=', 'MR.id');
+                        //     //$join->where('votingPeriodID', '=', $votingPeriodID);
+                        //    // $join->where('MR.brRegistered', '=', Auth::user()->brCode);
+                        // }
+                        )
+                        
+                                       
+                         
+                        //->orderBy('A.brName')
+                    ->get();
+        
+                return Datatables::of($data) 
+                ->addIndexColumn()                
+                    ->addColumn('lastname', function($row){
+                        $actionBtn = "<center>". $row->lastname . "</center>";
+                        return $actionBtn;
+                    })
+                    ->addColumn('cID', function($row){
+                        $actionBtn = "<center>". $row->afsn ."</center>";
+                        return $actionBtn;
+                    }) 
+                    ->addColumn('totalVote', function($row){
+                        $actionBtn = "<center>". $row->totalVote ."</center>";
+                        return $actionBtn;
+                    })                                                         
+                   
+                     ->rawColumns(['lastname','cID','totalVote'])
+                ->addIndexColumn()->make(true);
+            }
+
+        }
         
 
        
