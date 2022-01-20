@@ -111,38 +111,32 @@ class ReportsController extends Controller
                         $votingPeriodID3 = $request->get('votingPeriodID3');
                     }
 
-                    $data = DB::table('candidatesVotes')
-                    ->select(                       
-                        'candidatesVotes.cID','candidatesVotes.totalVote', 'can.lastName','can.firstName','can.middleName','can.candidateTypeID',
-                        DB::raw("
-                            (SELECT CV.cID, COUNT(CV.cID) AS totalVote  
-                            FROM candidate_votes AS CV
-                              JOIN member_registration AS MR ON CV.mrID = MR.id
-                               WHERE votingPeriodID = '". $votingPeriodID3 ."'                           
-                             GROUP BY CV.cID) AS candidateVotes
-                             "
-                         ), 
-                        // function($join) //use ($votingPeriodID)
-                        // {
-                        //     $join->on('CV.mrID', '=', 'MR.id');
-                        //     //$join->where('votingPeriodID', '=', $votingPeriodID);
-                        //    // $join->where('MR.brRegistered', '=', Auth::user()->brCode);
-                        // }
-                        )
-                        
-                                       
-                         
-                        //->orderBy('A.brName')
-                    ->get();
+                    $data = DB::table( DB::raw("
+                    (SELECT CV.cID, COUNT(CV.cID) AS totalVote  
+                    FROM candidate_votes AS CV
+                      JOIN member_registration AS MR ON CV.mrID = MR.id
+                       WHERE votingPeriodID = '". $votingPeriodID3 ."' 
+                       AND MR.brRegistered = '". Auth::user()->brCode ."'                          
+                     GROUP BY CV.cID) AS candidatesVotes
+                     "
+                 ))
+                 ->leftJoin('candidates AS can', 'candidatesVotes.cID', '=', 'can.candidateID')
+                 ->join('candidate_types', 'can.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+                 ->select(['candidatesVotes.cID','candidatesVotes.totalVote', 'candidate_types.candidateTypeName',
+                            DB::raw("CONCAT(can.lastName,', ',can.firstName,' ',can.middleName) as fullName")                                      
+                          ])
+                                    
+                ->orderBy('candidate_types.candidateTypeName')
+                ->get();
         
                 return Datatables::of($data) 
                 ->addIndexColumn()                
-                    ->addColumn('lastname', function($row){
-                        $actionBtn = "<center>". $row->lastname . "</center>";
+                    ->addColumn('fullName', function($row){
+                        $actionBtn = "<center>". $row->fullName . "</center>";
                         return $actionBtn;
                     })
-                    ->addColumn('cID', function($row){
-                        $actionBtn = "<center>". $row->afsn ."</center>";
+                    ->addColumn('candidateTypeName', function($row){
+                        $actionBtn = "<center>". $row->candidateTypeName ."</center>";
                         return $actionBtn;
                     }) 
                     ->addColumn('totalVote', function($row){
@@ -150,8 +144,9 @@ class ReportsController extends Controller
                         return $actionBtn;
                     })                                                         
                    
-                     ->rawColumns(['lastname','cID','totalVote'])
+                     ->rawColumns(['fullName','candidateTypeName','totalVote'])
                 ->addIndexColumn()->make(true);
+                
             }
 
         }

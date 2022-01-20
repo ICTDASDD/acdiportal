@@ -151,7 +151,7 @@
                   <table id="eResultTable" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                     <thead>
                       <tr>                       
-                        <th style="text-align: center">NAME</th>
+                        <th style="text-align: center">CANDIDATE NAME</th>
                         <th style="text-align: center">CANDIDATE TYPE</th> 
                         <th style="text-align: center">TOTAL VOTES</th>                                                                         
                       </tr>
@@ -159,7 +159,7 @@
 
                     <tfoot>
                       <tr>
-                        <th style="text-align: center">NAME</th>
+                        <th style="text-align: center">CANDIDATE NAME</th>
                         <th style="text-align: center">CANDIDATE TYPE</th> 
                         <th style="text-align: center">TOTAL VOTES</th>                       
                       </tr>
@@ -433,6 +433,7 @@ eResultTable.ajax.reload();
         });
 
 
+        
         //ELECTION RESULT ON CURRENT VENUE TABLE
         var eResultTable = $('#eResultTable').DataTable({
       dom: 'Bfrtip',
@@ -468,12 +469,12 @@ eResultTable.ajax.reload();
 
         columns: [
           {
-            data: 'lastname',
-            name: 'lastname'
+            data: 'fullName',
+            name: 'fullName'
           },
           {
-            data: 'cID',
-            name: 'cID'
+            data: 'candidateTypeName',
+            name: 'candidateTypeName'
           },
           {
             data: 'totalVote',
