@@ -16,6 +16,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('material/img/apple-icon.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('material/img/favicon.png') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -23,6 +24,7 @@ The above copyright notice and this permission notice shall be included in all c
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{{ asset('material/css/material-dashboard.css?v=2.2.2') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('material/css/select2.min.css') }}">
     
     <title>ACDIMPC EPORTAL</title>
     </head>

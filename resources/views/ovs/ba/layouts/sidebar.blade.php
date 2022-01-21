@@ -56,6 +56,13 @@ ACDIMPC OVS
     </a>
   </li>
 
+  <li class="nav-item {{ $title == 'Reports' ? ' active' : '' }}">
+    <a  class="nav-link" href="{{route('BAreports.layout')}}">
+      <i class="material-icons">question_answer</i>
+      <p> Reports </p>
+    </a>
+  </li>
+
   <!--
   <li class="nav-item {{ $title == 'User List' ? ' active' : '' }}">
     <a  class="nav-link" href="{{route('BAusers.layout')}}">

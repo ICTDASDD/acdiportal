@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ovs\ba\OVSBranchAdminController;
 use App\Http\Controllers\ovs\ba\RequestController;
+use App\Http\Controllers\ovs\ba\ReportsController;
 use App\Http\Controllers\ovs\ba\BAUserController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\CandidateLimitController;
@@ -15,20 +16,32 @@ use App\Http\Controllers\ovs\admin\BranchController;
         //Page Link and Layout
         Route::get('ovs/ba/profile', [OVSBranchAdminController::class, 'layoutProfile'])->name('BAprofile.layout');
         Route::get('ovs/ba/settings', [OVSBranchAdminController::class, 'layoutSettings'])->name('BAsetting.layout');
-        Route::get('ovs/ba/request', [OVSBranchAdminController::class, 'layoutRequest'])->name('BArequest.layout');   
+        Route::get('ovs/ba/request', [OVSBranchAdminController::class, 'layoutRequest'])->name('BArequest.layout');
+        Route::get('ovs/ba/reports', [OVSBranchAdminController::class, 'layoutReports'])->name('BAreports.layout');    
         Route::get('ovs/ba/users', [OVSBranchAdminController::class, 'layoutUser'])->name('BAusers.layout');
         Route::get('ovs/ba/memlist', [OVSBranchAdminController::class, 'layoutMemlist'])->name('BAmemlist.layout');
 
+        //request
         Route::POST('ovs/ba/request/list', [RequestController::class, 'requestList'])->name('request.list');
         Route::get('ovs/ba/request/add', [RequestController::class, 'addRequest'])->name('request.add');   
         Route::get('ovs/ba/request/edit', [RequestController::class, 'editRequest'])->name('request.edit');
         Route::get('ovs/ba/request/view', [RequestController::class, 'viewRequest'])->name('request.view');  
         Route::get('ovs/ba/request/update', [RequestController::class, 'updateRequest'])->name('request.update');   
+<<<<<<< HEAD
         Route::get('ovs/ba/request/delete', [RequestController::class, 'removeRequest'])->name('request.delete'); 
         Route::get('ovs/ba/request/validate', [RequestController::class, 'updateRequest'])->name('request.validate');   
+=======
+        Route::get('ovs/ba/request/delete', [RequestController::class, 'removeRequest'])->name('request.delete');
+        Route::get('ovs/ba/validate', [RequestController::class, 'validateRequest'])->name('request.validate'); 
+>>>>>>> ESbranch
         //for approve(elecom) 
         // Route::get('ovs/ba/request/editStatus', [RequestController::class, 'editStatus'])->name('request.edit.status');
         // Route::get('ovs/ba/request/updateStatus', [RequestController::class, 'updateStatus'])->name('request.update.status');
+
+        //reports
+        Route::POST('ovs/ba/reports/voted', [ReportsController::class, 'votedList'])->name('voted.list');
+        Route::POST('ovs/ba/reports/registered', [ReportsController::class, 'registeredList'])->name('registered.list');
+        Route::POST('ovs/ba/reports/result', [ReportsController::class, 'currentResult'])->name('election.result.current');
 
         Route::get('ovs/ba/users/select2', [BAUserController::class, 'listBranchSelect2'])->name('ba.users.select2'); 
         Route::get('ovs/ba/users/list', [BAUserController::class, 'listUser'])->name('ba.users.list');   

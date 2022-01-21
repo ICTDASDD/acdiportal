@@ -34,6 +34,10 @@ class OVSBranchAdminController extends Controller
             return view('ovs.ba.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
         }
 
+        public function layoutReports(){
+            return view('ovs.ba.reports',['title' => 'Reports', 'activeparents' => 'Monitoring']);
+        }
+
         public function layoutUser(){
             return view('ovs.ba.users',['title' => 'User List', 'activeparents' => 'User']);
         }
