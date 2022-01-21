@@ -15,6 +15,7 @@ use Response;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use Illuminate\Support\Facades\Auth;
+use File;
 
 class UserController extends Controller
 {
@@ -127,8 +128,6 @@ class UserController extends Controller
         $save_userlog->process = 'Deleted User "' . $fullName . '" of ' . $user->brName . ' branch';
         $save_userlog->save();
         
-
-
         $user = User::where('id',$id)->delete();
 
         $user = DB::table('role_user')
@@ -141,7 +140,14 @@ class UserController extends Controller
         } 
         else 
         {
-            unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
+            $oldFile = public_path('material\\img\\user\\'. $request->get('fileNameFromEdit'));
+                    
+            $isExists = File::exists($oldFile);
+            if($isExists)
+            {
+                unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
+            }
+            
             return Response::json(['success'=> true]);
         }
     }
@@ -149,7 +155,7 @@ class UserController extends Controller
     public function addUser(Request $request)
     { 
         $validator = \Validator::make($request->all(), [
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=350,max_height=600',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=500,max_height=500',
             'brCode' => 'required',
             'name' => 'required',
             'mname' => 'required',
@@ -158,7 +164,6 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required',
             'role_id' => 'required',
-
         ]);
 
         $id = $request->get('id');
@@ -198,7 +203,7 @@ class UserController extends Controller
         $user->attachRole($request->role_id);
         $user_id = $user->id;
 
-     $role = DB::table('users')
+        $role = DB::table('users')
         ->join('role_user', 'users.id', '=', 'role_user.user_id')
         ->join('roles', 'roles.id', '=', 'role_user.role_id')
         ->select('roles.description')
@@ -235,6 +240,7 @@ class UserController extends Controller
         {
             $isChanged = true;
             $validator = Validator::make($request->all(), [
+                'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=500,max_height=500',
                 'brCode' => 'required',
                 'name' => 'required',
                 'mname' => 'required',
@@ -288,7 +294,13 @@ class UserController extends Controller
                 {
                     if($request->get('fileNameFromEdit') != "default-avatar.png")
                     {
-                        unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
+                        $oldFile = public_path('material\\img\\user\\'. $request->get('fileNameFromEdit'));
+                    
+                        $isExists = File::exists($oldFile);
+                        if($isExists)
+                        {
+                            unlink(public_path('material\\img\\user\\'. $request->get('fileNameFromEdit')));
+                        }
                     }
                     
                     request()->avatar->move(public_path('material/img/user'), $profilePictureName);
@@ -296,8 +308,7 @@ class UserController extends Controller
             }
         }
 
-
-      $user->syncRoles([$request->input('role_id')], $id);
+        $user->syncRoles([$request->input('role_id')], $id);
         return Response::json(['success'=> true]);
     } 
 

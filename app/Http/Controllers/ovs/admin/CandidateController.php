@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 use Validator;
+use File;
 
 class CandidateController extends Controller
 {
@@ -235,8 +236,14 @@ class CandidateController extends Controller
         } 
         else 
         {
-            unlink(public_path('material\\img\\candidate\\'. $request->get('fileNameFromEdit')));
+            $oldFile = public_path('material\\img\\candidate\\'. $request->get('fileNameFromEdit'));
                     
+            $isExists = File::exists($oldFile);
+            if($isExists)
+            {
+                unlink(public_path('material\\img\\candidate\\'. $request->get('fileNameFromEdit')));
+            }
+
             return Response::json(['success'=> true]);
         }
     }
@@ -246,7 +253,7 @@ class CandidateController extends Controller
         //$input = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'profilePicture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=350,max_height=600',
+            'profilePicture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=500,max_height=500',
             'votingPeriodID' => 'required',
             'candidateTypeID' => 'required',
             'lastName' => 'required',
@@ -349,7 +356,7 @@ class CandidateController extends Controller
         {
             $isChanged = true;
             $validator = Validator::make($request->all(), [
-                //'profilePicture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=350,max_height=600',
+                'profilePicture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:max_width=500,max_height=500',
                 'votingPeriodID' => 'required',
                 'candidateTypeID' => 'required',
                 'lastName' => 'required',
@@ -413,42 +420,20 @@ class CandidateController extends Controller
             {
                 if($isChanged)
                 {
-                    unlink(public_path('material\\img\\candidate\\'. $request->get('fileNameFromEdit')));
                     
+                    $oldFile = public_path('material\\img\\candidate\\'. $request->get('fileNameFromEdit'));
+                            
+                    $isExists = File::exists($oldFile);
+                    if($isExists)
+                    {
+                        unlink(public_path('material\\img\\candidate\\'. $request->get('fileNameFromEdit')));
+                    }
+
                     request()->profilePicture->move(public_path('material/img/candidate'), $profilePictureName);
                 }
             }
         }
         
         return Response::json(['success'=> true]);
-        /*
-        $validator = \Validator::make($request->all(), [
-            'votingPeriodID' => 'required',
-            'candidateTypeID' => 'required',
-            'lastName' => 'required',
-            'firstName' => 'required',
-            'middleName' => 'required',
-            'information1' => 'required',
-            'information2' => 'required',
-        ]);
-        
-        if ($validator->fails()) {
-            return Response::json(['errors' => $validator->errors()->all()]);
-        }
-
-        $candidateID = $request->get('candidateID');
-
-        $candidate = Candidate::find($candidateID);
-        //$candidate->votingPeriodID = $request->get('votingPeriodID');
-        $candidate->candidateTypeID = $request->get('candidateTypeID');
-        $candidate->lastName = $request->get('lastName');
-        $candidate->firstName = $request->get('firstName');
-        $candidate->middleName = $request->get('middleName');
-        $candidate->information1 = $request->get('information1');
-        $candidate->information2 = $request->get('information2');
-        $candidate->save();
-        
-        return Response::json(['success'=> true]);
-        */
     }
 }
