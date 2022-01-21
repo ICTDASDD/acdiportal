@@ -44,12 +44,12 @@ use App\Http\Controllers\ovs\admin\BranchController;
         Route::get('ovs/ba/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('ba.candidate.default');
         Route::get('ovs/ba/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('ba.votingPeriod.default');
         Route::get('ovs/ba/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('ba.candidateLimit.default');
-        Route::get('ovs/ba/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('amendment.dashboard');
+        Route::get('ovs/ba/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('ba.amendment.dashboard');
         
-        Route::get('ovs/ba/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('branch.select2'); 
-        Route::get('ovs/ba/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('votingPeriod.default');
-        Route::get('ovs/ba/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('candidateLimit.default');
-        Route::get('ovs/ba/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('candidate.default');
+        Route::get('ovs/ba/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('ba.branch.select2'); 
+        Route::get('ovs/ba/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('ba.votingPeriod.default');
+        Route::get('ovs/ba/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('ba.candidateLimit.default');
+        Route::get('ovs/ba/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('ba.andidate.default');
        
         //for register migs
         Route::get('ovs/ba/votingperiod/select2', [VotingPeriodController::class, 'listVotingPeriodSelect2'])->name('ba.votingPeriod.select2');

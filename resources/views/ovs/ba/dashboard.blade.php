@@ -125,7 +125,7 @@
     
     $.ajax({
         type: "GET",
-        url: "{{ route('votingPeriod.default') }}",
+        url: "{{ route('ba.votingPeriod.default') }}",
         //data: { votingPeriodID : votingPeriodID },amendment
         contentType: "application/json; charset=utf-8",
         beforeSend:  function() {
@@ -168,7 +168,7 @@
   {
     $.ajax({
       type: "GET",
-      url: "{{ route('candidateLimit.default') }}",
+      url: "{{ route('ba.candidateLimit.default') }}",
       data: { votingPeriodID : votingPeriodID },
       contentType: "application/json; charset=utf-8",
       beforeSend:  function() {
@@ -205,7 +205,7 @@
           
           $.ajax({
             type: "GET",
-            url: "{{ route('candidate.default') }}",
+            url: "{{ route('ba.candidate.default') }}",
             data: { 
               subDiv : subDiv, //FOR DESIGN
               votingPeriodID : votingPeriodID, 
@@ -281,7 +281,7 @@
 
         $.ajax({
           type: "GET",
-          url: "{{ route('amendment.dashboard') }}",
+          url: "{{ route('ba.amendment.dashboard') }}",
           data: { votingPeriodID : votingPeriodID, branchCode : branchCode },
           contentType: "application/json; charset=utf-8",
           beforeSend:  function() {
