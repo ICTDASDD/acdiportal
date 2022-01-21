@@ -74,6 +74,12 @@ class CandidateLimitController extends Controller
             ->select('candidate_limits.*','voting_periods.cy','voting_periods.startDate', 'voting_periods.endDate', 'candidate_types.candidateTypeName')
             ->where($where)
             ->first();
+  
+          $save_userlog = new UserLog();
+          $save_userlog->emp_id = Auth::user()->emp_id; 
+          $save_userlog->process = 'View Information of Limits for ' . $candidate->candidateTypeName . ' during voting period ' . $candidate->cy ;
+          $save_userlog->save();
+
 
         return Response::json($candidate);
     }

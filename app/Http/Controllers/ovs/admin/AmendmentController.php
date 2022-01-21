@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ovs\admin\Amendment;
 use Illuminate\Support\Facades\DB;
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Response;
 use Validator;
-use Exceptions;
 
 class AmendmentController extends Controller
 {
@@ -91,50 +92,6 @@ class AmendmentController extends Controller
                     "proposedProvision" => $row->proposedProvision,
                     "rationale" => $row->rationale,
                     "question" => $row->question,
-                );
-            }
-        } else 
-        {
-            $amendments[] = array(
-                "isNoAmendmentFound" => "true",
-            );
-        }
-
-        return response()->json($amendments);
-    }
-
-    public function votedAmendment(Request $request)
-    {
-        $votingPeriodID = $request->get('votingPeriodID');
-        $mrID = $request->get('mrID');
-
-    	$data = DB::table('amendments')
-                    ->join('amendment_votes', function($join) use ($votingPeriodID, $mrID)
-                            {
-                                $join->on('amendment_votes.aID', '=', 'amendments.id');
-                                $join->where('amendment_votes.vpID','=', $votingPeriodID);
-                                $join->where('amendment_votes.mrID','=', $mrID);
-                            })
-                    ->select('amendments.*', 'amendment_votes.vote')
-                    ->where('amendments.votingPeriodID', $votingPeriodID)
-                    ->orderBy('amendments.amendmentNo', 'asc')
-                    ->get();
-                
-        $amendments = [];
-
-        if (count($data) > 0) {
-            foreach ($data as $row) {
-                $amendments[] = array(
-                    "isNoAmendmentFound" => "false",
-                    "amendmentID" => $row->id,
-                    "amendmentNo" => $row->amendmentNo,
-                    "articleDetails" => $row->articleDetails,
-                    "presentProvision" => $row->presentProvision,
-                    "proposedRevision" => $row->proposedRevision,
-                    "proposedProvision" => $row->proposedProvision,
-                    "rationale" => $row->rationale,
-                    "question" => $row->question,
-                    "vote" => $row->vote,
                 );
             }
         } else 
@@ -234,13 +191,26 @@ class AmendmentController extends Controller
                         DB::Raw('sum(case when amendment_votes.vote = 0 then 1 else 0 end) as no')
                     )
                     ->get();
+<<<<<<< HEAD
         }
 */
 
         
         
+=======
 
-       //$yes = 
+        $migs = DB::table('GADATA')->get()->count();
+
+        $regMigs = DB::table('GAData')
+            ->join('member_registration', 'member_registration.afsn', '=', 'GAData.afsn')
+            ->count();
+        
+        $count1_reg = $regMigs / $migs;
+        $count2_reg = $count1_reg * 100;
+        $percentReg = number_format($count2_reg, 2);
+>>>>>>> sam
+
+       $yes = 
         
        // $count1_yes = $yes / $regMigs;
        // $count2_yes = $count1_yes * 100;
@@ -251,6 +221,7 @@ class AmendmentController extends Controller
         if (count($data) > 0) 
         {
             foreach ($data as $row) {
+<<<<<<< HEAD
 
                 $totalVotesYes = 0;
                 if($branchCode != "0" && $branchCode != "09")
@@ -279,6 +250,8 @@ class AmendmentController extends Controller
                     $percentYes = number_format(($totalVotesYes/$regMigs * 100),2);
                 }
                 $totalVotesNo = $regMigs - $totalVotesYes;
+=======
+>>>>>>> sam
 
                 $amendments[] = array(
                     "isNoAmendmentFound" => "false",
@@ -288,9 +261,15 @@ class AmendmentController extends Controller
                     "migs" => $migs,
                     "regMigs" => $regMigs,
                     "percentReg" => $percentReg,    
+<<<<<<< HEAD
                     "yes" => $totalVotesYes,  
                     "no" => $totalVotesNo, 
                     "percentYes" => $percentYes,    
+=======
+                    "yes" => $row->yes,  
+                    "no" => $row->no, 
+                    "percentYes" => number_format(($row->yes / $regMigs *  100),2 ),    
+>>>>>>> sam
                 );
             }
         } 
@@ -310,15 +289,34 @@ class AmendmentController extends Controller
         $id = $request->get('id');
         $where = array('id' => $id);
         $amendment = DB::table('amendments')
-        ->select('amendments.*')
+        ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+        ->select('amendments.*','voting_periods.cy')
         ->where($where)
         ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'View Information of Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
+
         return Response::json($amendment);
     }
 
     public function removeAmendment(Request $request)
     {
         $id = $request->get('id');
+
+        $amendment= DB::table('amendments')
+        ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+        ->select('amendments.*','voting_periods.cy')
+        ->where('amendments.id', '=', $id)
+        ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Deleted Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
+
         $amendment = Amendment::where('id',$id)->delete();
 
         if(!$amendment)
@@ -360,6 +358,20 @@ class AmendmentController extends Controller
         ]);
 
         $amendment->save();
+
+        
+        $a_id = $amendment->id;
+
+        $amendment= DB::table('amendments')
+            ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('amendments.*','voting_periods.cy')
+            ->where('amendments.id', '=', $a_id)
+            ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Added Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
           
         return Response::json(['success'=> true]);
     }
@@ -394,6 +406,17 @@ class AmendmentController extends Controller
         $amendment->rationale = $request->get('rationale');
         $amendment->question = $request->get('question');
         $amendment->save();
+
+        $amendment= DB::table('amendments')
+            ->join('voting_periods', 'amendments.votingPeriodID', '=', 'voting_periods.votingPeriodID')
+            ->select('amendments.*','voting_periods.cy')
+            ->where('amendments.id', '=', $id)
+            ->first();
+
+        $save_userlog = new UserLog();
+        $save_userlog->emp_id = Auth::user()->emp_id; 
+        $save_userlog->process = 'Edited Amendment No. ' . $amendment->amendmentNo . ' for Voting Period ' . $amendment->cy;
+        $save_userlog->save();
 
         return Response::json(['success'=> true]);
     } 

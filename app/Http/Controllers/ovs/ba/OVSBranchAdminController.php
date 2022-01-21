@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\ovs\ba;
 
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DataTables;
@@ -22,6 +25,12 @@ class OVSBranchAdminController extends Controller
         }
 
         public function layoutRequest(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Request" Tab';
+            $save_userlog->save();
+
             return view('ovs.ba.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
         }
 
@@ -30,6 +39,12 @@ class OVSBranchAdminController extends Controller
         }
 
         public function layoutMemlist(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Registration" Tab';
+            $save_userlog->save();
+
             return view('ovs.ba.memberlist',['title' => 'Voting Member List', 'activeparents' => 'Memlist']);
         }
 

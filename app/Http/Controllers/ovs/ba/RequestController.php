@@ -10,6 +10,8 @@ use App\Models\ovs\ba\Branch_Request;
 use App\Models\ovs\admin\Branch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ovs\admin\UserLog;
+
 use DataTables;
 use Response;
 
@@ -59,45 +61,45 @@ class RequestController extends Controller
                     })
                     ->addColumn('elecom_status2', function($data){
                         if($data->elecom_status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
                         elseif($data->elecom_status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
                     })
                     ->addColumn('canvas_status2', function($data){
                         if($data->canvas_status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
                         elseif($data->canvas_status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
                     })
-                    ->addColumn('status2', function($data){
-                        if($data->status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                    ->addColumn('ict_status2', function($data){
+                        if($data->ict_status == 1){
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
-                        elseif($data->status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                        elseif($data->ict_status == 2){
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
@@ -106,7 +108,7 @@ class RequestController extends Controller
                         $actionBtn = "<center>". $row->updated_at. "</center>";
                         return $actionBtn;
                     })
-                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','canvas_status2','status2','updated_at','created_at'])
+                     ->rawColumns(['description','brName','request_type','request_info','elecom_status2','canvas_status2','ict_status2','updated_at','created_at'])
                 ->addIndexColumn()->make(true);
             }
         }
@@ -132,6 +134,27 @@ class RequestController extends Controller
             ]);
             // dd($br_req);
             $br_req->save();
+
+            $req = $br_req->request_type;
+
+            if($req == 'Late Registration')
+            {
+                $process = 'Requested "' . $br_req->request_type . '" for "' . $br_req->request_info . '"';
+            }
+            elseif($req == 'Vote Cancellation')
+            {
+                $process = 'Requested "' . $br_req->request_type . '" of "' . $br_req->request_info . '"';
+            }
+            else
+            {
+                $process = 'Requested "' . $br_req->request_type . '" , Info: "' . $br_req->request_info . '"';
+            }
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = $process;
+            $save_userlog->save();
+
             
             return Response::json(['success'=> true]);    
 
@@ -148,6 +171,11 @@ class RequestController extends Controller
             ->select('branch_request.*','branches.brName')
             ->where($where)
             ->first();
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed request ' . $br_req->request_type . ' (' . $br_req->request_info . ')';
+            $save_userlog->save();
             return Response::json($br_req);
 
         }
@@ -161,6 +189,12 @@ class RequestController extends Controller
             ->select('branch_request.*','branches.brName')
             ->where($where)
             ->first();
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed request ' . $br_req->request_type . ' (' . $br_req->request_info . ')';
+            $save_userlog->save();
+            return Response::json($br_req);
             return Response::json($br_req);
 
         }
@@ -188,14 +222,44 @@ class RequestController extends Controller
           
             $br_req->save();
 
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Edited Request ID ' . $id;
+            $save_userlog->save();
+
+
             return Response::json(['success'=> true]);
     
     
         }
 
+        public function validateRequest(Request $request){
+
+            $id = $request->get('id');
+            $brStat = Branch_Request::find($id);
+
+            $brStat->br_status = '1';
+
+            $brStat->save();
+
+            return Response::json(['success'=> true]);
+
+
+        }
+
         public function removeRequest(Request $request){
 
             $id = $request->get('id');
+
+            $req= Branch_Request::where('id',$id)
+            ->select('branch_request.*')
+            ->first();
+    
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Deleted Request "' . $req->request_type . '" of "' . $req->request_info . '"';
+            $save_userlog->save();
+
             $br_req = Branch_Request::where('id',$id)->delete();
     
             // $br_req = DB::table('branch_request')

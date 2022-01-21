@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\ovs\admin\UserLog;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\Candidate;
@@ -37,18 +39,42 @@ class OVSAdminController extends Controller
         }
 
         public function systemlog(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "System Log" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.systemlog',['title' => 'System Log', 'activeparents' => 'Monitoring']);
         }
 
         public function request(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Request" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.request',['title' => 'General Request', 'activeparents' => 'Monitoring']);
         }
 
         public function alist(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Amendment List" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.amendmentlist',['title' => 'Amendment List', 'activeparents' => 'BODs & Amendments']);
         }
 
         public function bblocking(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Branch Locking" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.bblocking',['title' => 'Branch Blocking', 'activeparents' => 'Voting Tools']);
         }
 
@@ -57,18 +83,42 @@ class OVSAdminController extends Controller
         }
 
         public function layoutCandidate(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Candidate List" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.candidatelist',['title' => 'Candidate List', 'activeparents' => 'BODs & Amendments']);
         }
 
         public function layoutVotingConfiguration(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Voting Configuration" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.votingConfiguration',['title' => 'Voting Configuration', 'activeparents' => 'Voting Tools']);
         }
 
         public function layoutUser(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Users" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.users',['title' => 'User List', 'activeparents' => 'User']);
         }
 
         public function memlist(){
+
+            $save_userlog = new UserLog();
+            $save_userlog->emp_id = Auth::user()->emp_id; 
+            $save_userlog->process = 'Viewed "Voting Member List" Tab';
+            $save_userlog->save();
+
             return view('ovs.admin.memberlist',['title' => 'Voting Member List', 'activeparents' => 'Memlist']);
         }
 

@@ -14,7 +14,8 @@ class Branch_Request extends Model
         'user_id',
         'request_type',
         'request_info',
-        'status',
+        'ict_status',
+        'br_status',
         'elecom_status',
         'canvas_status',
     ];
