@@ -104,6 +104,50 @@ class AmendmentController extends Controller
         return response()->json($amendments);
     }
 
+    public function votedAmendment(Request $request)
+    {
+        $votingPeriodID = $request->get('votingPeriodID');
+        $mrID = $request->get('mrID');
+
+    	$data = DB::table('amendments')
+                    ->join('amendment_votes', function($join) use ($votingPeriodID, $mrID)
+                            {
+                                $join->on('amendment_votes.aID', '=', 'amendments.id');
+                                $join->where('amendment_votes.vpID','=', $votingPeriodID);
+                                $join->where('amendment_votes.mrID','=', $mrID);
+                            })
+                    ->select('amendments.*', 'amendment_votes.vote')
+                    ->where('amendments.votingPeriodID', $votingPeriodID)
+                    ->orderBy('amendments.amendmentNo', 'asc')
+                    ->get();
+                
+        $amendments = [];
+
+        if (count($data) > 0) {
+            foreach ($data as $row) {
+                $amendments[] = array(
+                    "isNoAmendmentFound" => "false",
+                    "amendmentID" => $row->id,
+                    "amendmentNo" => $row->amendmentNo,
+                    "articleDetails" => $row->articleDetails,
+                    "presentProvision" => $row->presentProvision,
+                    "proposedRevision" => $row->proposedRevision,
+                    "proposedProvision" => $row->proposedProvision,
+                    "rationale" => $row->rationale,
+                    "question" => $row->question,
+                    "vote" => $row->vote,
+                );
+            }
+        } else 
+        {
+            $amendments[] = array(
+                "isNoAmendmentFound" => "true",
+            );
+        }
+
+        return response()->json($amendments);
+    }
+
     public function dashboardAmendment(Request $request)
     {
         $votingPeriodID = $request->get('votingPeriodID');
@@ -149,79 +193,11 @@ class AmendmentController extends Controller
         $count2_reg = $count1_reg * 100;
         $percentReg = number_format($count2_reg, 2);
 
-
-
-/*
-        if($branchCode != "0")
-        {      
-            $data = DB::table('amendments')
-            ->leftJoin('amendment_votes', function($join) use ($votingPeriodID)
-            {
-                $join->on('amendment_votes.aID', '=', 'amendments.id');
-                $join->where('amendment_votes.vpID','=', $votingPeriodID);
-            })
-            ->join('member_registration', function($join) use ($votingPeriodID)
-            {
-                $join->on('amendment_votes.mrID', '=', 'member_registration.id');
-            })
-            ->where('amendments.votingPeriodID', $votingPeriodID)
-            ->where('member_registration.brRegistered', $branchCode)
-            ->orderBy('amendments.amendmentNo', 'asc')
-            ->groupBy('amendments.id', 'amendments.amendmentNo', 'amendments.articleDetails') 
-            ->select('amendments.id', 'amendments.amendmentNo', 'amendments.articleDetails',
-                DB::Raw('sum(case when amendment_votes.vote = 1 then 1 else 0 end) as yes'),  
-                DB::Raw('sum(case when amendment_votes.vote = 0 then 1 else 0 end) as no')
-            )
-            ->get();
-        }
-        else 
-        {
-            
-            $data = DB::table('amendments')
-                    ->leftJoin('amendment_votes', function($join) use ($votingPeriodID)
-                    {
-                        $join->on('amendment_votes.aID', '=', 'amendments.id');
-                        $join->where('amendment_votes.vpID','=', $votingPeriodID);
-                    })
-                    ->where('amendments.votingPeriodID', $votingPeriodID)
-                    ->orderBy('amendments.amendmentNo', 'asc')
-                    ->groupBy('amendments.id', 'amendments.amendmentNo', 'amendments.articleDetails') 
-                    ->select('amendments.id', 'amendments.amendmentNo', 'amendments.articleDetails',
-                        DB::Raw('sum(case when amendment_votes.vote = 1 then 1 else 0 end) as yes'),  
-                        DB::Raw('sum(case when amendment_votes.vote = 0 then 1 else 0 end) as no')
-                    )
-                    ->get();
-<<<<<<< HEAD
-        }
-*/
-
-        
-        
-=======
-
-        $migs = DB::table('GADATA')->get()->count();
-
-        $regMigs = DB::table('GAData')
-            ->join('member_registration', 'member_registration.afsn', '=', 'GAData.afsn')
-            ->count();
-        
-        $count1_reg = $regMigs / $migs;
-        $count2_reg = $count1_reg * 100;
-        $percentReg = number_format($count2_reg, 2);
->>>>>>> sam
-
-       $yes = 
-        
-       // $count1_yes = $yes / $regMigs;
-       // $count2_yes = $count1_yes * 100;
-       // $percentYes = number_format($count2_yes, 2);
-
         $amendments = [];
         
         if (count($data) > 0) 
         {
             foreach ($data as $row) {
-<<<<<<< HEAD
 
                 $totalVotesYes = 0;
                 if($branchCode != "0" && $branchCode != "09")
@@ -250,8 +226,6 @@ class AmendmentController extends Controller
                     $percentYes = number_format(($totalVotesYes/$regMigs * 100),2);
                 }
                 $totalVotesNo = $regMigs - $totalVotesYes;
-=======
->>>>>>> sam
 
                 $amendments[] = array(
                     "isNoAmendmentFound" => "false",
@@ -261,15 +235,9 @@ class AmendmentController extends Controller
                     "migs" => $migs,
                     "regMigs" => $regMigs,
                     "percentReg" => $percentReg,    
-<<<<<<< HEAD
                     "yes" => $totalVotesYes,  
                     "no" => $totalVotesNo, 
                     "percentYes" => $percentYes,    
-=======
-                    "yes" => $row->yes,  
-                    "no" => $row->no, 
-                    "percentYes" => number_format(($row->yes / $regMigs *  100),2 ),    
->>>>>>> sam
                 );
             }
         } 

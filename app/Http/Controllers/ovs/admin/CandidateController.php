@@ -119,7 +119,8 @@ class CandidateController extends Controller
                     "totalVotes" => $totalVotes,
                 );
             }
-        } else 
+        } 
+        else 
         {
             $candidates[] = array(
                 "isNoCandidateFound" => "true",

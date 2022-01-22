@@ -77,11 +77,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-<<<<<<< HEAD
                     ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted', 'member_registration.ballotNo')    
-=======
-                    ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
->>>>>>> sam
                     ->get();
             }
             else 
@@ -105,11 +101,7 @@ class MemberController extends Controller
                     ->skip($start)
                     ->take($limit)
                     ->orderBy($order,$dir)
-<<<<<<< HEAD
                     ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted', 'member_registration.ballotNo')    
-=======
-                    ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
->>>>>>> sam
                     ->get();
 
                 $totalFilteredRecord = DB::table('GAData')
@@ -126,10 +118,6 @@ class MemberController extends Controller
                 ->orWhere('membershipBranch.brName', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.AFSN', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%") 
-<<<<<<< HEAD
-=======
-                ->select('GAData.*','member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered')    
->>>>>>> sam
                 ->get()->count();
             }
 
@@ -148,14 +136,9 @@ class MemberController extends Controller
                     $nestedData['SCNO'] = $post->SCNO;
                     $nestedData['brRegistered'] = $post->brRegistered;
                     $nestedData['code'] = $post->code;
-<<<<<<< HEAD
                     $nestedData['ballotNo'] = $post->ballotNo;
 
                     $buttonVoted = "- - -";
-=======
-                    $nestedData['isVoted'] = ""; //$post->SCNO;
-                    
->>>>>>> sam
                     $button = "- - -";
                     if($votingPeriodID != "")
                     {
@@ -185,7 +168,6 @@ class MemberController extends Controller
                         <button class='btn btn-info btn-sm reprintButton' value='" . $post->AFSN . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-isaccumudating='" . $isFromOtherBranch . "'> " .
                             "  Re-print " .
                             "</button>";
-<<<<<<< HEAD
 
                         if($post->isVoted == 0)
                         {
@@ -194,15 +176,14 @@ class MemberController extends Controller
                         else 
                         {
                             $buttonVoted = "<div class='text-success'><b>Vote Submitted</b></div>
-                                            <button class='btn btn-info btn-sm viewVote' value='" . $post->mrID . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-brregistered='" . $brRegistered . "' data-isaccumudating='" . $isFromOtherBranch . "' data-ballotno='" . $post->ballotNo ."'> " .
+                                            <button class='btn btn-info btn-sm viewVote' value='" . $post->mrID . "' data-code= '" . $post->code . "' data-fullname='" . $fullName . "' data-brregistered='" . $post->brRegistered . "' data-isaccumudating='" . $isFromOtherBranch . "' data-ballotno='" . $post->ballotNo ."'> " .
                                             "  Re-print Ballot " .
                                             "</button>";
                            
                         }
-=======
->>>>>>> sam
                     }
 
+                    $nestedData['isVoted'] = "<center>". $buttonVoted . "</center>";
                     $nestedData['actionButton'] = "<center>". $button . "</center>";
                 
                     $data[] = $nestedData;
