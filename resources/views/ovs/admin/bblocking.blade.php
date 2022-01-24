@@ -145,12 +145,12 @@
             name: 'brName'
           },
           {
-            data: 'brName',
-            name: 'brName'
+            data: 'migs',
+            name: 'migs'
           }, 
           {
-            data: 'brName',
-            name: 'brName'
+            data: 'regmigs',
+            name: 'regmigs'
           },
           {
             data: 'brName',

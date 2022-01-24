@@ -204,7 +204,7 @@ class MemberController extends Controller
     public function registerMember(Request $request)
     {
         $afsn = $request->get('afsn');
-        $code = random_int(100000, 999999);
+        $code = random_int(1000, 9999);
         $votingPeriodID = $request->get('votingPeriodID');
         $logUser = Auth::user()->id;
         $logBr = Auth::user()->brCode;

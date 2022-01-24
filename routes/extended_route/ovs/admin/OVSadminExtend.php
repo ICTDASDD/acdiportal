@@ -75,7 +75,7 @@ use App\Http\Controllers\ovs\admin\SystemLogController;
         Route::get('ovs/adm/amendment/voted', [AmendmentController::class, 'votedAmendment'])->name('amendment.voted');
     
         Route::get('ovs/adm/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('branch.select2'); 
-        Route::POST('ovs/adm/branch/list', [BranchController::class, 'listBranch'])->name('branch.list');   
+        Route::POST('ovs/adm/branch/list', [BranchController::class, 'listBranch2'])->name('branch.list');   
         Route::get('ovs/adm/branch/locking', [BranchController::class, 'lockingBranch'])->name('branch.locking');   
 
       //  Route::get('ovs/adm/amendmentlist', [OVSAdminController::class, 'alist'])->name('OVSAdminAmendmentList');
