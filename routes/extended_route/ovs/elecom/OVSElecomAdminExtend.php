@@ -23,7 +23,9 @@ Route::group(['middleware' => ['auth', 'role:elecom-admin']], function() {
     Route::get('ovs/elecom/request/view', [ElecomRequestController::class, 'viewRequest'])->name('elecom.request.view');  
     Route::get('ovs/elecom/request/update', [ElecomRequestController::class, 'updateRequest'])->name('elecom.request.update');   
     Route::get('ovs/elecom/request/delete', [ElecomRequestController::class, 'removeRequest'])->name('elecom.request.delete'); 
-    
+     
+    Route::POST('ovs/elecom/reports/electionresultpervenue', [ElecomReportsController::class, 'electionresultpervenue'])->name('elecom.electionresultpervenue');   
+    Route::POST('ovs/elecom/reports/electionresultpervenuecolumn', [ElecomReportsController::class, 'electionresultpervenuecolumn'])->name('elecom.electionresultpervenuecolumn');   
 });
 
 

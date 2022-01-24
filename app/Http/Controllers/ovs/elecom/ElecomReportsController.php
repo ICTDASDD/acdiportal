@@ -15,7 +15,8 @@ use Response;
 
 class ElecomReportsController extends Controller
 {
-    public function summaryList(Request $request){
+    public function summaryList(Request $request)
+    {
 
         if ($request->ajax()) {
 
@@ -66,6 +67,105 @@ class ElecomReportsController extends Controller
         }
     }
 
+    public function electionresultpervenuecolumn(Request $request)
+    {
+        $branches = DB::table('branches AS can')->select('*')->get();
+       
+        $columns = array();
+        
+        $nestedDataC['data'] = "candidateTypeName";
+        $nestedDataC['name'] = "candidateTypeName";
+        $nestedDataC['title'] = "Candidate Type";
+
+        $columns[] = $nestedDataC;
+
+        $nestedDataC['data'] = "fullName";
+        $nestedDataC['name'] = "fullName";
+        $nestedDataC['title'] = "Full Name";
+
+        $columns[] = $nestedDataC;
+        
+        $i = 1;
+        foreach($branches as $branch)
+        {
+            $branchName = $branch->brName;
+            $branchCode = $branch->brCode;
+
+            $nestedDataC['data'] = "a" . $i;
+            $nestedDataC['name'] = "a" . $i;
+            $nestedDataC['title'] = "". $branchName;
+
+            $columns[] = $nestedDataC;
+            $i++;
+        }
+        
+        echo json_encode($columns);
+    }
+
+    public function electionresultpervenue(Request $request)
+    {
+        if ($request->ajax()) {
+            $votingPeriodID = "";
+            if (!empty($request->get('votingPeriodID'))) {
+                $votingPeriodID = $request->get('votingPeriodID');
+            }
+        
+            $branches = DB::table('branches AS can')->select('*')->get();
+           
+            $candidates = "";
+            if($votingPeriodID == "")
+            {
+
+                $candidates = DB::table('candidates AS can' )
+                ->join('candidate_types', 'can.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+                ->select(['can.candidateID', 'candidate_types.candidateTypeName', DB::raw("CONCAT(can.lastName,', ',can.firstName,' ',can.middleName) as fullName")])      
+                ->orderBy('candidate_types.candidateTypeName')
+                ->get();
+            } else 
+            {
+                $candidates = DB::table('candidates AS can' )
+                ->join('candidate_types', 'can.candidateTypeID', '=', 'candidate_types.candidateTypeID')
+                ->select(['can.candidateID', 'candidate_types.candidateTypeName', DB::raw("CONCAT(can.lastName,', ',can.firstName,' ',can.middleName) as fullName")])      
+                ->orderBy('candidate_types.candidateTypeName')
+                ->where('can.votingPeriodID' ,'=', $votingPeriodID)
+                ->get();
+            }
+
+            $data = array();
+           
+            foreach ($candidates as $candidate)
+            {
+                $candidateID = $candidate->candidateID;
+                $candidateTypeName = $candidate->candidateTypeName;
+                $fullName = $candidate->fullName;
+                //$nestedData['candidateID'] = $candidateID;
+                $nestedData['candidateTypeName'] = $candidateTypeName;
+                $nestedData['fullName'] = $fullName;
+                
+                $i = 1;
+                foreach($branches as $branch)
+                {
+                    $branchCode = $branch->brCode;
+                    $branchName = $branch->brName;
+                    
+                    $count = DB::table('candidate_votes')
+                        ->join('member_registration', 'member_registration.id', '=', 'candidate_votes.mrID')
+                        ->where('candidate_votes.cID','=', $candidateID)
+                        ->where('candidate_votes.vpID','=', $votingPeriodID)
+                        ->where('member_registration.brRegistered','=', $branchCode)
+                        ->count();
+
+                    $nestedData["a" . $i] = $count;
+                    $i++;
+                }
+                
+                $data[] = $nestedData;
+            }   
+
+            return Datatables::of($data)->addIndexColumn()->make(true);
+
+        }
+    }
        
  
         //------------- Navigation End-----------------//

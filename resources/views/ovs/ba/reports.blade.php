@@ -462,6 +462,7 @@ eResultTable.ajax.reload();
           url: "{{ route('election.result.current') }}",
           type: "POST",
           data: function (d) {
+            
                 d.votingPeriodID3 = $('#selectVotingPeriodE').val() || ""
                 //d.search = $('input[type="search"]').val(),
             }

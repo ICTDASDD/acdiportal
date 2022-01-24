@@ -145,37 +145,10 @@ $(document).ready(function() {
     }
   }).on('change', function () {
     
-    var votingPeriod = $('#selectVotingPeriod').select2('data');
-    var $option = $("<option selected></option>").val(votingPeriod[0].id).text(votingPeriod[0].text);
-    $('#selectVotingPeriod2').append($option).trigger('change');
-
+   
     candidateTable.ajax.reload();  
   });
 
-  var votingPeriodSelect2modal = $('#selectVotingPeriod2').select2({
-    placeholder: "Choose year",
-    dropdownParent: "#modalCandidate", //UNCOMMENT WHEN IN MODAL
-    minimumInputLength: -1,
-    allowClear: true,
-    ajax: {
-        url: "{{ route('canva.votingPeriod.select2') }}",
-        delay: 250,
-        dataType: 'json',
-        data: function(params) {
-            return {
-                query: params.term, // search term
-            };
-        },
-        processResults: function(response) {
-            return {
-                results: response
-            };
-        },
-        cache: true
-    }
-  }).on('change', function () {
-    //candidateTable.ajax.reload();  
-  });
 
   //DEFAULT SELECTED VALUE IN SELECT2
   //$('#selectVotingPeriod').select2().select2('val', $('.select2 option:eq(1)').val());
@@ -251,115 +224,10 @@ $(document).ready(function() {
 
 
 
-  function isValid()
-  {
-      var votingPeriod = $('#selectVotingPeriod').select2('data');
-      var isValid = false;
-      try 
-      {
-        var votingPeriodID = votingPeriod[0].id;
-        if(votingPeriodID == null || votingPeriodID == "" )
-        {
-          return true;
-        }
-      } catch (ex)
-      {
-          return true;
-      }
-
-      return false;
-  }
   
 
-
-  $("#candidateForm").bind("invalid-form.validate", function () {
-      // Do something useful e.g. display the Validation Summary in a popup dialog
-  });
-
-  $('#candidateForm').submit(function (evt) {
-      evt.preventDefault(); //prevents the default action
-  });
 });
 
-function validateCandidateForm(action)
-{
-  var isRequired = false
-  if("Saving" == $('#candidateForm').attr('action'))
-  {
-    isRequired = true;
-  }
-
-  $("#candidateForm").validate({
-    ignore: 'input[type=hidden]',
-    rules:{    
-      /*'profilePicture':{
-          required: isRequired, 
-          accept: "image/jpeg, image/pjpeg"
-      },
-      */
-      'selectVotingPeriod2':{
-          required: true
-      },  
-      'candidateTypeID':{
-          required: true
-      },   
-      'lastName':{
-          required: true
-      },   
-      'firstName':{
-          required: true
-      },   
-      'middleName':{
-          required: true
-      },   
-      'info1':{
-          required: true
-      },   
-      'info2':{
-          required: true
-      },    
-  },
-  errorPlacement: function (error, element) {
-    var name = $(element).attr("id");
-      if(name == "profilePicture")
-      {
-        error.addClass("text-danger");
-        error.appendTo($("#" + name + "_validate"));
-      } else 
-      {
-        error.insertAfter(element); 
-      }
-  },  
-  submitHandler: function(form){
-
-    var candidateID = $("#candidateID").val();
-
-    var votingPeriod = $('#selectVotingPeriod2').select2('data');
-    var votingPeriodIDD = votingPeriod[0].id;
-
-    var candidateType = $('#candidateTypeID').select2('data');
-    var candidateTypeID = candidateType[0].id;
-    var lastName = $("#lastName").val();
-    var firstName = $("#firstName").val();
-    var middleName = $("#middleName").val();
-    var info1 = $("#info1").val();
-    var info2 = $("#info2").val();
-
-    let formData = new FormData(document.getElementById("candidateForm"));
-    formData.append('isAdding', isRequired);
-    //formData.append('filename', filename);
-    formData.append('fileNameFromEdit', fileNameFromEdit);
-    formData.append('votingPeriodID', votingPeriodIDD);
-    formData.append('candidateTypeID', candidateTypeID);
-    formData.append('information1', info1);
-    formData.append('information2', info2);
-
-   
-    
-    return false;
-  }
-});
-}
 </script>
 @endsection
 

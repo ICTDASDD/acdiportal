@@ -102,7 +102,8 @@ class ReportsController extends Controller
 
         }
 
-        public function currentResult(Request $request){
+        public function currentResult(Request $request)
+        {
 
             if ($request->ajax()) {
 
@@ -111,21 +112,21 @@ class ReportsController extends Controller
                         $votingPeriodID3 = $request->get('votingPeriodID3');
                     }
 
-                    $data = DB::table( DB::raw("
-                    (SELECT CV.cID, COUNT(CV.cID) AS totalVote  
-                    FROM candidate_votes AS CV
-                      JOIN member_registration AS MR ON CV.mrID = MR.id
-                       WHERE votingPeriodID = '". $votingPeriodID3 ."' 
-                       AND MR.brRegistered = '". Auth::user()->brCode ."'                          
-                     GROUP BY CV.cID) AS candidatesVotes
-                     "
-                 ))
-                 ->leftJoin('candidates AS can', 'candidatesVotes.cID', '=', 'can.candidateID')
+                    $data = DB::table('candidates AS can' )
+                 ->leftJoin(DB::raw("
+                 (SELECT CV.cID, COUNT(CV.cID) AS totalVote  
+                 FROM candidate_votes AS CV
+                   JOIN member_registration AS MR ON CV.mrID = MR.id
+                    WHERE votingPeriodID = '". $votingPeriodID3 ."' 
+                    AND MR.brRegistered = '". Auth::user()->brCode ."'                          
+                  GROUP BY CV.cID) AS candidatesVotes
+                  "
+              ), 'candidatesVotes.cID', '=', 'can.candidateID')
                  ->join('candidate_types', 'can.candidateTypeID', '=', 'candidate_types.candidateTypeID')
-                 ->select(['candidatesVotes.cID','candidatesVotes.totalVote', 'candidate_types.candidateTypeName',
+                 ->select(['candidatesVotes.cID',DB::raw("ISNULL(candidatesVotes.totalVote,0) AS totalVote") , 'candidate_types.candidateTypeName',
                             DB::raw("CONCAT(can.lastName,', ',can.firstName,' ',can.middleName) as fullName")                                      
                           ])
-                                    
+                                ->where('votingPeriodID' ,'=',$votingPeriodID3 )    
                 ->orderBy('candidate_types.candidateTypeName')
                 ->get();
         
