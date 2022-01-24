@@ -443,7 +443,7 @@ eResultTable.ajax.reload();
             {              
 						  extend: 'print',
               title: 'Election Result on Current Venue',
-              messageTop: 'This print was produced using the Print button for DataTables'
+              messageTop: 'ACDI Multipurpose Cooperative'
             },
 
             {

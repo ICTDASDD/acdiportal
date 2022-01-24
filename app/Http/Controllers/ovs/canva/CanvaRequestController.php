@@ -60,30 +60,30 @@ class CanvaRequestController extends Controller
                     })
                     ->addColumn('elecom_status2', function($data){
                         if($data->elecom_status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
                         elseif($data->elecom_status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
                     })
                     ->addColumn('canvas_status2', function($data){
                         if($data->canvas_status == 1){
-                            $actionBtn = "<center>".'APPROVED'. "</center>";
+                            $actionBtn = "<center><div class='text-success'>".'APPROVED'. "</div></center>";
                             return $actionBtn;
                         }
                         elseif($data->canvas_status == 2){
-                            $actionBtn = "<center>".'DENIED'. "</center>";
+                            $actionBtn = "<center><div class='text-danger'>".'DENIED'. "</div></center>";
                             return $actionBtn;
                         }
                         else{
-                            $actionBtn = "<center>".'PENDING'. "</center>";
+                            $actionBtn = "<center><div class='text-primary'>".'PENDING'. "</div></center>";
                             return $actionBtn;
                         }
                             
