@@ -55,6 +55,10 @@ use App\Http\Controllers\ovs\admin\BranchController;
         Route::get('ovs/ba/votingperiod/select2', [VotingPeriodController::class, 'listVotingPeriodSelect2'])->name('ba.votingPeriod.select2');
         Route::post('ovs/ba/member/list', [MemberController::class, 'listMember'])->name('ba.member.list');
         Route::get('ovs/ba/member/register', [MemberController::class, 'registerMember'])->name('ba.member.register');
+        
+        Route::get('ovs/ba/candidatelist/voted', [CandidateController::class, 'votedCandidate'])->name('ba.candidate.voted');   
+        Route::get('ovs/ba/amendment/voted', [AmendmentController::class, 'votedAmendment'])->name('ba.amendment.voted');
+    
     });
 
 

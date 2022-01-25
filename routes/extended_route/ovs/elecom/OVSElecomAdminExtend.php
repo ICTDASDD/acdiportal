@@ -4,6 +4,10 @@ use App\Http\Controllers\ovs\elecom\OVSElecomAdminController;
 use App\Http\Controllers\ovs\elecom\ElecomRequestController;
 use App\Http\Controllers\ovs\elecom\ElecomReportsController;
 use App\Http\Controllers\ovs\admin\VotingPeriodController;
+use App\Http\Controllers\ovs\admin\CandidateLimitController;
+use App\Http\Controllers\ovs\admin\CandidateController;
+use App\Http\Controllers\ovs\admin\AmendmentController;
+use App\Http\Controllers\ovs\admin\BranchController;
     
 Route::group(['middleware' => ['auth', 'role:elecom-admin']], function() {
     Route::get('ovs/elecom/profile', [OVSElecomAdminController::class, 'layoutProfile'])->name('ElecomProfile.layout');
@@ -26,6 +30,14 @@ Route::group(['middleware' => ['auth', 'role:elecom-admin']], function() {
      
     Route::POST('ovs/elecom/reports/electionresultpervenue', [ElecomReportsController::class, 'electionresultpervenue'])->name('elecom.electionresultpervenue');   
     Route::POST('ovs/elecom/reports/electionresultpervenuecolumn', [ElecomReportsController::class, 'electionresultpervenuecolumn'])->name('elecom.electionresultpervenuecolumn');   
+    
+    //for dashboard
+    Route::get('ovs/elecom/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('elecom.branch.select2'); 
+    Route::get('ovs/elecom/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('elecom.candidate.default');
+    Route::get('ovs/elecom/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('elecom.votingPeriod.default');
+    Route::get('ovs/elecom/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('elecom.candidateLimit.default');
+    Route::get('ovs/elecom/amendmentlist/dashboard', [AmendmentController::class, 'dashboardAmendment'])->name('elecom.amendment.dashboard');
+    
 });
 
 

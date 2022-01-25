@@ -36,6 +36,40 @@ class BranchController extends Controller
             
         }
     }
+
+    public function listBranch2(Request $request)
+    {
+        if ($request->ajax()) {
+                $data = DB::table('branches')
+                ->select('branches.*', DB::raw('ISNULL(isLocked, 0) as isLocked'))
+                ->get();
+
+                return Datatables::of($data)
+                    ->addColumn('isLocked', function($row){
+                        if($row->isLocked == 0)
+                        {
+                            return "NO";
+                        } 
+                        else 
+                        {
+                            return "YES";
+                        }
+                    })
+                    ->addColumn('migs', function($row){
+                        return $migs = DB::table('GADATA')->where('GADATA.MYBR', $row->brCode)->count();
+                    })
+                    ->addColumn('regmigs', function($row){
+                        return  $regMigs = DB::table('GAData')
+                        ->join('member_registration', 'member_registration.afsn', '=', 'GAData.afsn')
+                        ->where('member_registration.brRegistered', $row->brCode)
+                        ->count();
+                    })
+                    ->rawColumns(['isDefault','migs','regmigs'])
+                    ->make(true);
+            
+        }
+    }
+
     public function listBranchSelect2(Request $request)
     {
     	$input = $request->all();

@@ -6,6 +6,7 @@ use App\Http\Controllers\ovs\admin\VotingPeriodController;
 use App\Http\Controllers\ovs\admin\CandidateLimitController;
 use App\Http\Controllers\ovs\admin\CandidateController;
 use App\Http\Controllers\ovs\admin\AmendmentController;
+use App\Http\Controllers\ovs\admin\BranchController;
 use App\Http\Controllers\ovs\MemberController; 
     
 Route::group(['middleware' => ['auth', 'role:canv-officer']], function() {
@@ -21,6 +22,7 @@ Route::group(['middleware' => ['auth', 'role:canv-officer']], function() {
     Route::get('ovs/canva/request/update', [CanvaRequestController::class, 'updateRequest'])->name('canva.request.update'); 
 
     //for dashboard
+    Route::get('ovs/canva/branch/select2', [BranchController::class, 'listBranchSelect2'])->name('canva.branch.select2'); 
     Route::get('ovs/canva/candidatelist/default', [CandidateController::class, 'defaultCandidate'])->name('canva.candidate.default');
     Route::get('ovs/canva/votingperiod/default', [VotingPeriodController::class, 'defaultVotingPeriod'])->name('canva.votingPeriod.default');
     Route::get('ovs/canva/candidatelimit/default', [CandidateLimitController::class, 'defaultCandidateLimit'])->name('canva.candidateLimit.default');
