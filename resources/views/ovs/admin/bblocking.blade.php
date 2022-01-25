@@ -153,12 +153,12 @@
             name: 'regmigs'
           },
           {
-            data: 'brName',
-            name: 'brName'
+            data: 'active_admin',
+            name: 'active_admin'
           },
           {
-            data: 'brName',
-            name: 'brName'
+            data: 'reg_unit',
+            name: 'reg_unit'
           },
           {
             data: 'isLocked',

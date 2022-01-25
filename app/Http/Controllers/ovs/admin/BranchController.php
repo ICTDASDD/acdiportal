@@ -64,7 +64,21 @@ class BranchController extends Controller
                         ->where('member_registration.brRegistered', $row->brCode)
                         ->count();
                     })
-                    ->rawColumns(['isDefault','migs','regmigs'])
+                    ->addColumn('active_admin', function($row){
+                        return  $active_admin = DB::table('users')
+                        ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                        ->where('users.brCode', $row->brCode)
+                        ->where('role_user.role_id', 20)
+                        ->count();
+                    })
+                    ->addColumn('reg_unit', function($row){
+                        return  $reg_unit = DB::table('users')
+                        ->join('role_user', 'role_user.user_id', '=', 'users.id')                
+                        ->where('users.brCode', $row->brCode)
+                        ->where('role_user.role_id', 19)
+                        ->count();
+                    })
+                    ->rawColumns(['isDefault','migs','regmigs','active_admin','reg_unit'])
                     ->make(true);
             
         }
