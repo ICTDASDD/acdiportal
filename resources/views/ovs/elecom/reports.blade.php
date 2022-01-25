@@ -282,6 +282,23 @@ $.ajax({
        elecomResultPerVenue = $('#elecomResultPerVenue').DataTable({
         processing: true,
         dom: 'Bfrtip', 
+        buttons: [
+
+                'copy', 'csv', 'pdf',
+              {              
+                  extend: 'print',
+                  title: 'Election Result Per Venue',
+                  messageTop: 'ACDI Multipurpose Cooperative'
+                },
+
+              {
+                  extend: 'excelHtml5',
+                  autoFilter: true,
+                  title: 'Election Result Per Venue',
+                  sheetName: 'Election Result Per Venue'
+    
+              }
+              ],
        
         "scrollX": true,
         serverSide: true,
