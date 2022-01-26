@@ -194,11 +194,15 @@
               }, 
               {
                 data: 'code',
-                name: 'code'
+                name: 'code',
+                orderable: false, 
+                searchable: false
               }, 
               {
                 data: 'isVoted',
                 name: 'isVoted',
+                orderable: false, 
+                searchable: false
               }, 
               {
                 data: 'actionButton',
