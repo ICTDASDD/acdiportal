@@ -47,14 +47,16 @@ class MemberController extends Controller
             }
             
             $totalData = DB::table('GAData')
-                            ->leftJoin('branches', 'GAData.MYBR', '=', 'branches.brCode')
-                            ->leftJoin('member_registration', function($join) use ($votingPeriodID)
-                            {
-                                $join->on('GAData.AFSN', '=', 'member_registration.afsn');
-                                $join->where('member_registration.votingPeriodID','=', $votingPeriodID);
-                            })
-                            ->leftJoin('branches AS registeredBranch', 'member_registration.brRegistered', '=', 'registeredBranch.brCode')
-                            ->count();
+                        /*
+                        ->leftJoin('branches', 'GAData.MYBR', '=', 'branches.brCode')
+                        ->leftJoin('member_registration', function($join) use ($votingPeriodID)
+                        {
+                            $join->on('GAData.AFSN', '=', 'member_registration.afsn');
+                            $join->where('member_registration.votingPeriodID','=', $votingPeriodID);
+                        })
+                        ->leftJoin('branches AS registeredBranch', 'member_registration.brRegistered', '=', 'registeredBranch.brCode')
+                        */
+                        ->count();
 
             $totalDataRecord = $totalData;
             $totalFilteredRecord = $totalData; 
@@ -104,6 +106,7 @@ class MemberController extends Controller
                     ->select('GAData.*', 'member_registration.id as mrID', 'member_registration.code', 'membershipBranch.brName', 'registeredBranch.brName as brRegistered', 'member_registration.isVoted', 'member_registration.ballotNo')    
                     ->get();
 
+                /*
                 $totalFilteredRecord = DB::table('GAData')
                 ->leftJoin('branches AS membershipBranch', 'GAData.MYBR', '=', 'membershipBranch.brCode')
                 ->leftJoin('member_registration', function($join) use ($votingPeriodID)
@@ -118,7 +121,10 @@ class MemberController extends Controller
                 ->orWhere('membershipBranch.brName', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.AFSN', 'LIKE',"%{$search}%")
                 ->orWhere('GAData.SCNO', 'LIKE',"%{$search}%") 
-                ->get()->count();
+                ->count();
+                */
+
+                //$totalFilteredRecord = $posts->COUNT();
             }
 
             $data = array();
